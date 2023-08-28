@@ -9,5 +9,32 @@
   "parserOptions": {
     "project": "./tsconfig.json"
   },
-  "plugins": ["@typescript-eslint"]
+  "plugins": ["@typescript-eslint"],
+  "rules": {
+    "import/order": [
+      "error",
+      {
+        "groups": ["type"],
+        "newlines-between": "always",
+        "pathGroupsExcludedImportTypes": [
+          "type",
+          "builtin",
+          "external",
+          "internal",
+          "sibling",
+          "index",
+          "parent",
+          "object"
+        ],
+        "alphabetize": { "order": "asc", "caseInsensitive": true }, // 大文字小文字関係なくアルファベット順にしたい
+        "pathGroups": [
+          {
+            "pattern": "src/components/**",
+            "group": "internal",
+            "position": "before"
+          }
+        ]
+      }
+    ]
+  }
 }
