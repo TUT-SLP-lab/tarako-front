@@ -1,5 +1,6 @@
 import { ChatInput } from './_components/ChatInput';
 import { ChatView } from './_components/ChatView';
+import { UserStatusList } from './_components/UserStatusList';
 import { BaseLayout } from '@/components/layouts/BaseLayout';
 import { Avatar } from '@mantine/core';
 
@@ -7,7 +8,9 @@ export default function Home() {
   return (
     <BaseLayout>
       <div className="flex divide-x divide-gray-200">
-        <div className="flex-[3_3_0%]"></div>
+        <div className="flex-[3_3_0%] px-8 pt-8">
+          <UserStatusList />
+        </div>
         <div className="h-[calc(100vh-100px)] flex-[2_2_0%] bg-slate-50">
           <div className="flex h-full flex-col divide-y divide-gray-200">
             <div className="flex items-center gap-1 px-2 py-2">
