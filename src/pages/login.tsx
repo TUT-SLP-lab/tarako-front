@@ -5,7 +5,7 @@ import Image from 'next/image';
 
 const LoginPage: NextPage = () => {
   return (
-    <div className="flex h-screen items-center justify-center bg-gradient-to-b from-white via-blue-100 to-blue-300 px-4">
+    <div className="flex h-screen items-center justify-center bg-gradient-to-b from-green-200 via-white to-blue-200 px-4">
       <div>
         <div className="flex items-center justify-between gap-8">
           <div>
