@@ -1,7 +1,9 @@
+import { BaseLayout } from '@/components/layouts/BaseLayout';
+
 export default function Home() {
   return (
-    <div>
-      <button>Flow Bite Button</button>
-    </div>
+    <BaseLayout>
+      <p>hello</p>
+    </BaseLayout>
   );
 }
