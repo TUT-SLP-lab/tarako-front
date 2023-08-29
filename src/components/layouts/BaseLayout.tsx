@@ -6,7 +6,7 @@ export const BaseLayout = ({ children }: { children: ReactNode }) => {
   return (
     <>
       <Header />
-      <main className="mt-[100px]">{children}</main>
+      <main className="mt-header">{children}</main>
     </>
   );
 };

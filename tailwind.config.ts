@@ -13,6 +13,12 @@ const config: Config = {
         base: '#334155',
         light: '#64748b',
       },
+      height: {
+        header: '100px',
+      },
+      margin: {
+        header: '100px',
+      },
     },
   },
   corePlugins: {
