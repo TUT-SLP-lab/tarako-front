@@ -1,5 +1,3 @@
-import { Avatar } from '@mantine/core';
-
 const CHAT_LOG = [
   {
     from: 'bot',
@@ -165,7 +163,6 @@ export const ChatView = () => {
           >
             <div>
               <div className="flex items-center gap-x-1">
-                {log.from === 'bot' && <Avatar radius="xl" />}
                 <div
                   className={`rounded-lg p-2 ${
                     log.from === 'bot' ? 'bg-gray-100' : 'bg-blue-100'
@@ -173,7 +170,6 @@ export const ChatView = () => {
                 >
                   {log.message}
                 </div>
-                {log.from === 'me' && <Avatar radius="xl" />}
               </div>
             </div>
           </div>
