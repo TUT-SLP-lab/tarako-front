@@ -11,6 +11,8 @@
   },
   "plugins": ["@typescript-eslint", "unused-imports"],
   "rules": {
+    "@typescript-eslint/consistent-type-exports": "error",
+    "@typescript-eslint/consistent-type-imports": "error",
     "unused-imports/no-unused-imports": "error",
     "import/order": [
       "error",
