@@ -2,14 +2,21 @@ import type { Config } from 'tailwindcss';
 
 const config: Config = {
   content: [
-    './node_modules/flowbite-react/**/*.js',
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        dark: '#0f172a',
+        base: '#334155',
+        light: '#64748b',
+      },
+    },
   },
-  plugins: [require('flowbite/plugin')],
+  corePlugins: {
+    preflight: false,
+  },
 };
 export default config;

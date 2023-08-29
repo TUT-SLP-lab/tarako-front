@@ -1,11 +1,11 @@
 import type { NextPage } from 'next';
 
-import { Button } from 'flowbite-react';
+import { Button } from '@mantine/core';
 import Image from 'next/image';
 
 const LoginPage: NextPage = () => {
   return (
-    <div className="flex h-screen items-center justify-center bg-gradient-to-b from-white via-blue-100 to-blue-400 px-4">
+    <div className="flex h-screen items-center justify-center bg-gradient-to-b from-white via-blue-100 to-blue-300 px-4">
       <div>
         <div className="flex items-center justify-between gap-8">
           <div>
@@ -17,7 +17,7 @@ const LoginPage: NextPage = () => {
                 <p>個人作業が多い組織のための</p>
                 <p>情報可視化ツール</p>
               </div>
-              <div className="space-y-1 text-xl text-slate-500">
+              <div className="space-y-1 text-xl text-light">
                 <p>
                   個人作業が多い組織は、誰が何をしているのかが見えにくいです。
                 </p>
@@ -38,9 +38,9 @@ const LoginPage: NextPage = () => {
         <div className="mt-12">
           <p className="text-2xl font-bold">アプリを体験する</p>
           <div className="mt-4 flex gap-x-4 text-white">
-            <Button size="xl">事務員1</Button>
-            <Button size="xl">事務員2</Button>
-            <Button size="xl">上司</Button>
+            <Button size="lg">事務員1</Button>
+            <Button size="lg">事務員2</Button>
+            <Button size="lg">上司</Button>
           </div>
         </div>
       </div>
