@@ -3,7 +3,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { useRouter } from 'next/router';
 import { useEffect, type ReactNode } from 'react';
 
-export const BaseLayout = ({ children }: { children: ReactNode }) => {
+export const BaseAuthLayout = ({ children }: { children: ReactNode }) => {
   const router = useRouter();
   const { isAuth } = useAuth();
 

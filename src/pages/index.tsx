@@ -2,13 +2,13 @@ import { ChatInput } from './_components/ChatInput';
 import { ChatView } from './_components/ChatView';
 import { TimelineView } from './_components/TimelineView';
 import { UserStatusList } from './_components/UserStatusList';
-import { BaseLayout } from '@/components/layouts/BaseLayout';
+import { BaseAuthLayout } from '@/components/layouts/BaseAuthLayout';
 import { Avatar } from '@mantine/core';
 import { Button } from '@mantine/core';
 
 export default function Home() {
   return (
-    <BaseLayout>
+    <BaseAuthLayout>
       <div className="flex divide-x divide-gray-200">
         <div className="h-[calc(100vh-100px)] flex-[3_3_0%] overflow-auto px-8 pb-16 pt-8">
           <UserStatusList />
@@ -39,6 +39,6 @@ export default function Home() {
           </div>
         </div>
       </div>
-    </BaseLayout>
+    </BaseAuthLayout>
   );
 }
