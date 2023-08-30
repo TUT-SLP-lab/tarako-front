@@ -1,4 +1,4 @@
-import { mockUsers } from '@/libs/mockUsers';
+import { mockUsers } from '@/mocks/mockUsers';
 import useLocalStorage from 'use-local-storage';
 
 export const useAuth = () => {

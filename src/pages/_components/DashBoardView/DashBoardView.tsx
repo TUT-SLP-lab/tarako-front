@@ -1,5 +1,5 @@
-import { TaskTimeline } from './TaskTimeline';
 import { UserStatusList } from './UserStatusList';
+import { TaskTimeline } from '@/components/features/task/TaskTimeline';
 import { Button } from '@mantine/core';
 
 export const DashBoardView = () => {
