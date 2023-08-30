@@ -11,7 +11,9 @@ export const ChatInput = () => {
         maxRows={4}
         className="flex-1"
       />
-      <Button color="pink">送信</Button>
+      <Button color="pink" size="md">
+        送信
+      </Button>
     </div>
   );
 };
