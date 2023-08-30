@@ -2,7 +2,7 @@ import { Timeline, Text } from '@mantine/core';
 import { IconGitBranch } from '@tabler/icons-react';
 
 /** TODO: めちゃくちゃ雑に実装しているので、レイアウト修正しっかりやる */
-export const TimelineView = () => {
+export const TaskTimeline = () => {
   return (
     <Timeline bulletSize={24}>
       <Timeline.Item
