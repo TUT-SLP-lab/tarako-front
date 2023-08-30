@@ -1,9 +1,24 @@
 import type { NextPage } from 'next';
 
+import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@mantine/core';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 
 const LoginPage: NextPage = () => {
+  const router = useRouter();
+  const { isAuth, login } = useAuth();
+
+  useEffect(() => {
+    if (isAuth) {
+      router.push('/').catch((err) => {
+        // TODO: Error handling
+        throw err;
+      });
+    }
+  }, [isAuth, router]);
+
   return (
     <div className="flex h-screen items-center justify-center bg-gradient-to-b from-green-200 via-white to-blue-200 px-4">
       <div>
@@ -38,9 +53,24 @@ const LoginPage: NextPage = () => {
         <div className="mt-12">
           <p className="text-2xl font-bold">アプリを体験する</p>
           <div className="mt-4 flex gap-x-4 text-white">
-            <Button size="lg">事務員1</Button>
-            <Button size="lg">事務員2</Button>
-            <Button size="lg">上司</Button>
+            <Button
+              size="lg"
+              onClick={() => login(process.env.NEXT_PUBLIC_USER_ID_1)}
+            >
+              事務員1
+            </Button>
+            <Button
+              size="lg"
+              onClick={() => login(process.env.NEXT_PUBLIC_USER_ID_2)}
+            >
+              事務員2
+            </Button>
+            <Button
+              size="lg"
+              onClick={() => login(process.env.NEXT_PUBLIC_ADMIN_USER_ID)}
+            >
+              上司
+            </Button>
           </div>
         </div>
       </div>
