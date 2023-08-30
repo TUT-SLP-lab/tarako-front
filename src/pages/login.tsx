@@ -20,9 +20,9 @@ const LoginPage: NextPage = () => {
   }, [isAuth, router]);
 
   return (
-    <div className="flex h-screen items-center justify-center bg-gradient-to-b from-green-200 via-white to-blue-200 px-4">
+    <div className="flex h-screen items-center justify-center px-4">
       <div>
-        <div className="flex items-center justify-between gap-8">
+        <div className="flex items-center justify-between gap-32">
           <div>
             <div className="space-y-8">
               <h1 className="bg-gradient-to-r from-pink-400 to-pink-900 bg-clip-text text-6xl font-bold text-transparent">
