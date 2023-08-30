@@ -42,10 +42,10 @@ export const Header = () => {
         href: `/users/${user.id}`,
       },
       {
-        type: 'action',
+        type: 'link',
         icon: <IconSettings size={14} />,
         label: '設定',
-        onClick: () => {},
+        href: '/settings',
       },
       {
         type: 'link',
