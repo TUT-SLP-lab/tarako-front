@@ -3,8 +3,8 @@ import { ChatView } from './_components/ChatView';
 import { TimelineView } from './_components/TimelineView';
 import { UserStatusList } from './_components/UserStatusList';
 import { BaseAuthLayout } from '@/components/layouts/BaseAuthLayout';
-import { Avatar } from '@mantine/core';
 import { Button } from '@mantine/core';
+import { IconMessageChatbot } from '@tabler/icons-react';
 
 export default function Home() {
   return (
@@ -26,14 +26,14 @@ export default function Home() {
         </div>
         <div className="h-[calc(100vh-100px)] flex-[2_2_0%] bg-slate-50">
           <div className="flex h-full flex-col divide-y divide-gray-200">
-            <div className="flex items-center gap-1 px-2 py-2">
-              <Avatar radius="xl" />
+            <div className="flex items-center gap-1 bg-slate-100 px-2 py-4">
+              <IconMessageChatbot size={24} />
               <span>チャットボット</span>
             </div>
             <div className="flex-grow overflow-auto px-4 py-4">
               <ChatView />
             </div>
-            <div className="px-4 py-6">
+            <div className="bg-slate-100 px-4 py-6">
               <ChatInput />
             </div>
           </div>
