@@ -48,10 +48,10 @@ export const Header = () => {
         onClick: () => {},
       },
       {
-        type: 'action',
+        type: 'link',
         icon: <IconHelp size={14} />,
         label: 'ヘルプ',
-        onClick: () => {},
+        href: '/help',
       },
     ],
     danger: [
