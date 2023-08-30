@@ -12,24 +12,43 @@ import {
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 
 export const Header = () => {
   const { user, logout } = useAuth();
   const router = useRouter();
 
+  // TODO: 原因を調査する
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  if (!isClient) {
+    return null;
+  }
+
+  if (user === undefined) {
+    return null;
+  }
+
   const avatarMenuMenus = {
     normal: [
       {
+        type: 'link',
         icon: <IconUser size={14} />,
-        label: 'プロフィール',
-        onClick: () => {},
+        label: 'マイページ',
+        href: `/users/${user.id}`,
       },
       {
+        type: 'action',
         icon: <IconSettings size={14} />,
         label: '設定',
         onClick: () => {},
       },
       {
+        type: 'action',
         icon: <IconHelp size={14} />,
         label: 'ヘルプ',
         onClick: () => {},
@@ -37,6 +56,7 @@ export const Header = () => {
     ],
     danger: [
       {
+        type: 'action',
         icon: <IconLogout size={14} />,
         label: 'ログアウト',
         onClick: logout,

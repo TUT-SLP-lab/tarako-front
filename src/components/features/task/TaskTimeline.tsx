@@ -4,7 +4,7 @@ import { Timeline } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { IconGitBranch } from '@tabler/icons-react';
 import dayjs from 'dayjs';
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 
 export type TaskTimelineItem = {
   id: string;
@@ -23,6 +23,17 @@ export const TaskTimeline = () => {
     setModalTaskId(taskId);
     open();
   };
+
+  // TODO: 原因を調査する
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  if (!isClient) {
+    return null;
+  }
 
   return (
     <>
