@@ -5,7 +5,7 @@ export const mockUsers = [
     description: '田中夏子です。よろしくお願いします。趣味は読書です。',
     section: '経理部',
     email: 'tanaka.natsuko@tarako',
-    iconUrl: '/user_1.png',
+    icon: '/user_1.png',
   },
   {
     id: process.env.NEXT_PUBLIC_USER_ID_2,
@@ -13,7 +13,7 @@ export const mockUsers = [
     description: '山田太郎です。よろしくお願いします。趣味は野球です。',
     section: '営業部',
     email: 'yamada.taro@tarako',
-    iconUrl: '/user_2.png',
+    icon: '/user_2.png',
   },
   {
     id: process.env.NEXT_PUBLIC_ADMIN_USER_ID,
@@ -22,6 +22,6 @@ export const mockUsers = [
       '管理者五郎です。よろしくお願いします。人と関わる仕事が好きです。',
     section: '管理部',
     email: 'admin.goro@tarako',
-    iconUrl: '/admin.png',
+    icon: '/admin.png',
   },
 ];

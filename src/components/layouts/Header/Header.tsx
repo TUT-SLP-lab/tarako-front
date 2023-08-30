@@ -1,6 +1,7 @@
 import type { Menu } from './AvatarMenu';
 
 import { AvatarMenu } from './AvatarMenu';
+import { PageLink } from './PageLink';
 import { useAuth } from '@/hooks/useAuth';
 import {
   IconHelp,
@@ -10,9 +11,11 @@ import {
 } from '@tabler/icons-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 export const Header = () => {
   const { user, logout } = useAuth();
+  const router = useRouter();
 
   const avatarMenuMenus = {
     normal: [
@@ -58,11 +61,21 @@ export const Header = () => {
           Tarako
         </h1>
       </Link>
-      <AvatarMenu
-        avatarUrl={user?.iconUrl}
-        menus={[...avatarMenuMenus.normal]}
-        dangerMenus={[...avatarMenuMenus.danger]}
-      />
+      <div className="flex items-center gap-12">
+        <div className="flex items-center gap-4">
+          <PageLink href="/" active={router.pathname === '/'}>
+            トップ
+          </PageLink>
+          <PageLink href="/section" active={router.pathname === '/section'}>
+            部署
+          </PageLink>
+        </div>
+        <AvatarMenu
+          src={user?.icon}
+          menus={[...avatarMenuMenus.normal]}
+          dangerMenus={[...avatarMenuMenus.danger]}
+        />
+      </div>
     </header>
   );
 };
