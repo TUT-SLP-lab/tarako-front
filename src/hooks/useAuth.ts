@@ -1,3 +1,4 @@
+import { mockUsers } from '@/libs/mockUsers';
 import useLocalStorage from 'use-local-storage';
 
 export const useAuth = () => {
@@ -16,8 +17,10 @@ export const useAuth = () => {
     setUserId(userId);
   };
 
+  const user = mockUsers.find((user) => user.id === userId);
+
   return {
-    userId,
+    user,
     isAuth,
     login,
     logout,
