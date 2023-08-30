@@ -52,9 +52,9 @@ export const Header = () => {
           alt="Tarako"
           width={100}
           height={100}
-          className="cursor-pointer"
+          className="mb-2 cursor-pointer"
         />
-        <h1 className="mt-2 bg-gradient-to-r from-pink-400 to-pink-600 bg-clip-text text-3xl font-bold leading-none text-transparent">
+        <h1 className="bg-gradient-to-r from-pink-400 to-pink-600 bg-clip-text text-3xl font-bold leading-none text-transparent">
           Tarako
         </h1>
       </Link>
