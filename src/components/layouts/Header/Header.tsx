@@ -46,14 +46,17 @@ export const Header = () => {
 
   return (
     <header className="fixed left-0 right-0 top-0 z-50 flex h-header items-center justify-between border-b border-gray-200 bg-white px-8">
-      <Link href="/">
+      <Link href="/" className="flex items-center">
         <Image
-          src="/logo.png"
+          src="/logo.svg"
           alt="Tarako"
-          width={64}
-          height={64}
+          width={100}
+          height={100}
           className="cursor-pointer"
         />
+        <h1 className="mt-2 bg-gradient-to-r from-pink-400 to-pink-600 bg-clip-text text-3xl font-bold leading-none text-transparent">
+          Tarako
+        </h1>
       </Link>
       <AvatarMenu
         avatarUrl={user?.iconUrl}

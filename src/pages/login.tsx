@@ -25,7 +25,7 @@ const LoginPage: NextPage = () => {
         <div className="flex items-center justify-between gap-32">
           <div>
             <div className="space-y-8">
-              <h1 className="bg-gradient-to-r from-pink-400 to-pink-900 bg-clip-text text-6xl font-bold text-transparent">
+              <h1 className="bg-gradient-to-r from-pink-400 to-pink-600 bg-clip-text text-6xl font-bold text-transparent">
                 Tarako
               </h1>
               <div className="space-y-1 text-4xl font-bold">
@@ -43,10 +43,10 @@ const LoginPage: NextPage = () => {
             </div>
           </div>
           <Image
-            src="/logo.png"
+            src="/logo.svg"
             alt="Tarako"
-            width={250}
-            height={250}
+            width={400}
+            height={400}
             className="flex-shrink-0"
           />
         </div>
