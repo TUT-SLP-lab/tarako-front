@@ -1,16 +1,31 @@
 import type { NextPage } from 'next';
 
+import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@mantine/core';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 
 const LoginPage: NextPage = () => {
+  const router = useRouter();
+  const { isAuth, login } = useAuth();
+
+  useEffect(() => {
+    if (isAuth) {
+      router.push('/').catch((err) => {
+        // TODO: Error handling
+        throw err;
+      });
+    }
+  }, [isAuth, router]);
+
   return (
-    <div className="flex h-screen items-center justify-center bg-gradient-to-b from-white via-blue-100 to-blue-300 px-4">
+    <div className="flex h-screen items-center justify-center px-4">
       <div>
-        <div className="flex items-center justify-between gap-8">
+        <div className="flex items-center justify-between gap-32">
           <div>
             <div className="space-y-8">
-              <h1 className="bg-gradient-to-r from-pink-400 to-pink-900 bg-clip-text text-6xl font-bold text-transparent">
+              <h1 className="bg-gradient-to-r from-pink-400 to-pink-600 bg-clip-text text-6xl font-bold text-transparent">
                 Tarako
               </h1>
               <div className="space-y-1 text-4xl font-bold">
@@ -28,19 +43,34 @@ const LoginPage: NextPage = () => {
             </div>
           </div>
           <Image
-            src="/logo.png"
+            src="/logo.svg"
             alt="Tarako"
-            width={250}
-            height={250}
+            width={400}
+            height={400}
             className="flex-shrink-0"
           />
         </div>
         <div className="mt-12">
           <p className="text-2xl font-bold">アプリを体験する</p>
           <div className="mt-4 flex gap-x-4 text-white">
-            <Button size="lg">事務員1</Button>
-            <Button size="lg">事務員2</Button>
-            <Button size="lg">上司</Button>
+            <Button
+              size="lg"
+              onClick={() => login(process.env.NEXT_PUBLIC_USER_ID_1)}
+            >
+              事務員1
+            </Button>
+            <Button
+              size="lg"
+              onClick={() => login(process.env.NEXT_PUBLIC_USER_ID_2)}
+            >
+              事務員2
+            </Button>
+            <Button
+              size="lg"
+              onClick={() => login(process.env.NEXT_PUBLIC_ADMIN_USER_ID)}
+            >
+              上司
+            </Button>
           </div>
         </div>
       </div>
