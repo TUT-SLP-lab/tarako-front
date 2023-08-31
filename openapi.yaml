@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: Tarako
   version: '0.1'
-  description: タスク管理アプリケーションバのックエンドAPI
+  description: タスク管理アプリケーションのバックエンドAPI
 
 paths:
   /users:
@@ -23,7 +23,7 @@ paths:
         '401':
           $ref: '#/components/responses/UnauthorizedError'
       x-amazon-apigateway-integration:
-        uri: 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${UsersGetFunction.Arn}/invocations'
+        uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${UsersGetFunction.Arn}/invocations"
         httpMethod: POST
         type: aws_proxy
   /users/{user_id}:
@@ -39,7 +39,7 @@ paths:
         '401':
           $ref: '#/components/responses/UnauthorizedError'
       x-amazon-apigateway-integration:
-        uri: 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${UsersGetUserFunction.Arn}/invocations'
+        uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${UsersGetUserFunction.Arn}/invocations"
         httpMethod: POST
         type: aws_proxy
     patch:
@@ -56,7 +56,7 @@ paths:
         '401':
           $ref: '#/components/responses/UnauthorizedError'
       x-amazon-apigateway-integration:
-        uri: 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${UsersPatchUserFunction.Arn}/invocations'
+        uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${UsersPatchUserFunction.Arn}/invocations"
         httpMethod: POST
         type: aws_proxy
   /tasks:
@@ -83,7 +83,7 @@ paths:
         '401':
           $ref: '#/components/responses/UnauthorizedError'
       x-amazon-apigateway-integration:
-        uri: 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${TasksGetFunction.Arn}/invocations'
+        uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${TasksGetFunction.Arn}/invocations"
         httpMethod: POST
         type: aws_proxy
     post:
@@ -108,7 +108,7 @@ paths:
         '401':
           $ref: '#/components/responses/UnauthorizedError'
       x-amazon-apigateway-integration:
-        uri: 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${TasksPostFunction.Arn}/invocations'
+        uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${TasksPostFunction.Arn}/invocations"
         httpMethod: POST
         type: aws_proxy
 
@@ -125,7 +125,7 @@ paths:
         '401':
           $ref: '#/components/responses/UnauthorizedError'
       x-amazon-apigateway-integration:
-        uri: 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${TasksGetTaskFunction.Arn}/invocations'
+        uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${TasksGetTaskFunction.Arn}/invocations"
         httpMethod: POST
         type: aws_proxy
     put:
@@ -142,7 +142,7 @@ paths:
         '401':
           $ref: '#/components/responses/UnauthorizedError'
       x-amazon-apigateway-integration:
-        uri: 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${TasksPutTaskFunction.Arn}/invocations'
+        uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${TasksPutTaskFunction.Arn}/invocations"
         httpMethod: POST
         type: aws_proxy
     delete:
@@ -157,7 +157,7 @@ paths:
         '404':
           $ref: '#/components/responses/404NotFound'
       x-amazon-apigateway-integration:
-        uri: 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${TasksDeleteTaskFunction.Arn}/invocations'
+        uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${TasksDeleteTaskFunction.Arn}/invocations"
         httpMethod: POST
         type: aws_proxy
 
@@ -173,7 +173,7 @@ paths:
         '200':
           $ref: '#/components/responses/UserDiaryArray'
       x-amazon-apigateway-integration:
-        uri: 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${DiaryUsersGetFunction.Arn}/invocations'
+        uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${DiaryUsersGetAllFunction.Arn}/invocations"
         httpMethod: POST
         type: aws_proxy
   /diary/users/{user_id}:
@@ -189,7 +189,7 @@ paths:
         '200':
           $ref: '#/components/responses/UserDiaryArray'
       x-amazon-apigateway-integration:
-        uri: 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${DiaryUsersGetUserFunction.Arn}/invocations'
+        uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${DiaryUsersGetUserFunction.Arn}/invocations"
         httpMethod: POST
         type: aws_proxy
     post:
@@ -206,7 +206,7 @@ paths:
         '409':
           $ref: '#/components/responses/409Conflict'
       x-amazon-apigateway-integration:
-        uri: 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${DiaryUsersPostUserFunction.Arn}/invocations'
+        uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${DiaryUsersPostUserFunction.Arn}/invocations"
         httpMethod: POST
         type: aws_proxy
   /diary/users/{user_id}/{diary_id}:
@@ -221,7 +221,7 @@ paths:
         '200':
           $ref: '#/components/responses/UserDiary'
       x-amazon-apigateway-integration:
-        uri: 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${DiaryUsersGetUserDiaryFunction.Arn}/invocations'
+        uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${DiaryUsersGetUserDiaryFunction.Arn}/invocations"
         httpMethod: POST
         type: aws_proxy
     put:
@@ -237,7 +237,7 @@ paths:
         '200':
           $ref: '#/components/responses/UserDiary'
       x-amazon-apigateway-integration:
-        uri: 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${DiaryUsersPutUserDiaryFunction.Arn}/invocations'
+        uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${DiaryUsersPutUserDiaryFunction.Arn}/invocations"
         httpMethod: PUT
         type: aws_proxy
     delete:
@@ -253,7 +253,7 @@ paths:
         '404':
           $ref: '#/components/responses/404NotFound'
       x-amazon-apigateway-integration:
-        uri: 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${DiaryUsersDeleteUserDiaryFunction.Arn}/invocations'
+        uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${DiaryUsersDeleteUserDiaryFunction.Arn}/invocations"
         httpMethod: POST
         type: aws_proxy
   /diary/sections:
@@ -268,7 +268,7 @@ paths:
         '200':
           $ref: '#/components/responses/SectionDiaryArray'
       x-amazon-apigateway-integration:
-        uri: 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${DiarySectionsGetFunction.Arn}/invocations'
+        uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${DiarySectionsGetFunction.Arn}/invocations"
         httpMethod: GET
         type: aws_proxy
   /diary/sections/{section_id}:
@@ -283,7 +283,7 @@ paths:
         '200':
           $ref: '#/components/responses/SectionDiaryArray'
       x-amazon-apigateway-integration:
-        uri: 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${DiarySectionsGetSectionFunction.Arn}/invocations'
+        uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${DiarySectionsGetSectionFunction.Arn}/invocations"
         httpMethod: POST
         type: aws_proxy
     post:
@@ -300,7 +300,7 @@ paths:
         '409':
           $ref: '#/components/responses/409Conflict'
       x-amazon-apigateway-integration:
-        uri: 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${DiarySectionsPostSectionFunction.Arn}/invocations'
+        uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${DiarySectionsPostSectionFunction.Arn}/invocations"
         httpMethod: POST
         type: aws_proxy
   /diary/sections/{section_id}/{diary_id}:
@@ -315,7 +315,7 @@ paths:
         '200':
           $ref: '#/components/responses/SectionDiary'
       x-amazon-apigateway-integration:
-        uri: 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${DiarySectionsGetSectionDiaryFunction.Arn}/invocations'
+        uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${DiarySectionsGetSectionDiaryFunction.Arn}/invocations"
         httpMethod: GET
         type: aws_proxy
     put:
@@ -331,7 +331,7 @@ paths:
         '200':
           $ref: '#/components/responses/SectionDiary'
       x-amazon-apigateway-integration:
-        uri: 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${DiarySectionsPutSectionDiaryFunction.Arn}/invocations'
+        uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${DiarySectionsPutSectionDiaryFunction.Arn}/invocations"
         httpMethod: PUT
         type: aws_proxy
     delete:
@@ -347,7 +347,7 @@ paths:
         '404':
           $ref: '#/components/responses/404NotFound'
       x-amazon-apigateway-integration:
-        uri: 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${DiarySectionsDeleteSectionDiaryFunction.Arn}/invocations'
+        uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${DiarySectionsDeleteSectionDiaryFunction.Arn}/invocations"
         httpMethod: POST
         type: aws_proxy
 
@@ -430,6 +430,9 @@ components:
         name:
           type: string
           example: 細井颯太
+        icon:
+          type: string
+          example: 1.png
         email:
           type: string
           format: email
@@ -454,11 +457,14 @@ components:
       type: string
       description: タスクのカテゴリー
       enum:
-        - 人事
-        - 経理
-        - 総務
-        - 日報
-        - その他
+        - HR
+        - Accounting
+        - GeneralAffairs
+        - Diary
+        - Other
+    TaskTag:
+      type: string
+      description: タスクのタグ。自由につけられる
 
     Task:
       type: object
@@ -476,6 +482,14 @@ components:
           example: 単体テスト作成
         category:
           $ref: '#/components/schemas/TaskCategory'
+        tags:
+          type: array
+          description: タスクのタグリスト
+          items:
+            $ref: '#/components/schemas/TaskTag'
+          example:
+            - 人事
+            - 休暇
         progresses:
           type: array
           description: 進捗状況リスト
