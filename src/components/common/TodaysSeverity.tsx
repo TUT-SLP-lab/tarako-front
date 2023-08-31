@@ -2,6 +2,7 @@ import { Text } from '@mantine/core';
 
 const mockSeverities: number = 50;
 
+//NOTE: 学生らしさを出すのであれば，深刻度の高さによって数値の色を変えてもよさそう
 const TodaysSeverity = () => {
   return (
     <div>
