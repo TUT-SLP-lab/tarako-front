@@ -1,6 +1,6 @@
 import type { NextPage } from 'next';
 
-import { useAuth } from '@/hooks/useAuth';
+import { useAuth } from '@/utils/hooks/useAuth';
 import { Button } from '@mantine/core';
 import Head from 'next/head';
 import Image from 'next/image';

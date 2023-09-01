@@ -12,4 +12,15 @@ const mockAxiosInstance = axios.create({
 
 const mockUserApi = new UserApi(mockApiConfig, '', mockAxiosInstance);
 
-export { mockUserApi };
+const apiConfig = new Configuration({
+  basePath: process.env.NEXT_PUBLIC_API_URL,
+});
+
+const axiosInstance = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
+  withCredentials: true,
+});
+
+const userApi = new UserApi(apiConfig, '', axiosInstance);
+
+export { mockUserApi, userApi };

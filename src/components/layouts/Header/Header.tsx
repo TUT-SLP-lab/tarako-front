@@ -2,7 +2,7 @@ import type { Menu } from './AvatarMenu';
 
 import { AvatarMenu } from './AvatarMenu';
 import { PageLink } from './PageLink';
-import { useAuth } from '@/hooks/useAuth';
+import { useAuth } from '@/utils/hooks/useAuth';
 import {
   IconHelp,
   IconLogout,

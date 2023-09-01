@@ -1,5 +1,5 @@
 import { Header } from './Header';
-import { useAuth } from '@/hooks/useAuth';
+import { useAuth } from '@/utils/hooks/useAuth';
 import { useRouter } from 'next/router';
 import { useEffect, type ReactNode } from 'react';
 

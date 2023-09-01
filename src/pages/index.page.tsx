@@ -1,7 +1,7 @@
 import { ChatView } from './_components/ChatView';
 import { DashBoardView } from './_components/DashBoardView';
 import { BaseAuthLayout } from '@/components/layouts/BaseAuthLayout';
-import { useAuth } from '@/hooks/useAuth';
+import { useAuth } from '@/utils/hooks/useAuth';
 import Head from 'next/head';
 
 export default function Home() {
