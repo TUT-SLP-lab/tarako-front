@@ -39,7 +39,7 @@ export const Header = () => {
         type: 'link',
         icon: <IconUser size={14} />,
         label: 'マイページ',
-        href: `/users/${user.id}`,
+        href: `/users/${user.user_id}`,
       },
       {
         type: 'link',

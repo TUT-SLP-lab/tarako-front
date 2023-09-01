@@ -5,15 +5,13 @@ import {
 } from '@/generated/typescript-axios';
 import axios from 'axios';
 
-const mockApiConfig = new Configuration({
-  basePath: process.env.NEXT_PUBLIC_MOCK_API_URL,
-});
+// const mockApiConfig = new Configuration({
+//   basePath: process.env.NEXT_PUBLIC_MOCK_API_URL,
+// });
 
-const mockAxiosInstance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_MOCK_API_URL,
-});
-
-const mockUserApi = new UserApi(mockApiConfig, '', mockAxiosInstance);
+// const mockAxiosInstance = axios.create({
+//   baseURL: process.env.NEXT_PUBLIC_MOCK_API_URL,
+// });
 
 const apiConfig = new Configuration({
   basePath: process.env.NEXT_PUBLIC_API_URL,
@@ -26,4 +24,4 @@ const axiosInstance = axios.create({
 const userApi = new UserApi(apiConfig, '', axiosInstance);
 const sectionApi = new SectionApi(apiConfig, '', axiosInstance);
 
-export { mockUserApi, userApi, sectionApi };
+export { userApi, sectionApi };
