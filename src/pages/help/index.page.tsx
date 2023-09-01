@@ -1,9 +1,17 @@
 import type { NextPage } from 'next';
 
 import { DevelopmentLayout } from '@/components/layouts/DevelopmentLayout';
+import Head from 'next/head';
 
 const HelpPage: NextPage = () => {
-  return <DevelopmentLayout />;
+  return (
+    <>
+      <Head>
+        <title>ヘルプ - Tarako</title>
+      </Head>
+      <DevelopmentLayout />
+    </>
+  );
 };
 
 export default HelpPage;
