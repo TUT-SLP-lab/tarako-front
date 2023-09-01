@@ -5,10 +5,41 @@ info:
   description: タスク管理アプリケーションのバックエンドAPI
 
 paths:
+  /sections:
+    get:
+      tags:
+        - section
+      operationId: get-sections
+      description: 課の一覧
+      responses:
+        '200':
+          $ref: '#/components/responses/SectionArray'
+      x-amazon-apigateway-integration:
+        uri: 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetSectionsFunction.Arn}/invocations'
+        httpMethod: POST
+        type: aws_proxy
+  /sections/{section_id}:
+    get:
+      tags:
+        - section
+      operationId: get-section-entry
+      description: 課の詳細
+      parameters:
+        - $ref: '#/components/parameters/section_id_path'
+      responses:
+        '200':
+          $ref: '#/components/responses/Section'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+      x-amazon-apigateway-integration:
+        uri: 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetSectionEntryFunction.Arn}/invocations'
+        httpMethod: POST
+        type: aws_proxy
   /users:
     get:
       tags:
         - user
+      operationId: get-users
       parameters:
         - name: department
           in: query
@@ -23,46 +54,52 @@ paths:
         '401':
           $ref: '#/components/responses/UnauthorizedError'
       x-amazon-apigateway-integration:
-        uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${UsersGetFunction.Arn}/invocations"
+        uri: 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetUsersFunction.Arn}/invocations'
         httpMethod: POST
         type: aws_proxy
   /users/{user_id}:
     get:
       tags:
         - user
+      operationId: get-user-entry
       description: ユーザー詳細の取得
       parameters:
         - $ref: '#/components/parameters/user_id_path'
       responses:
         '200':
           $ref: '#/components/responses/User'
-        '401':
-          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/404NotFound'
       x-amazon-apigateway-integration:
-        uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${UsersGetUserFunction.Arn}/invocations"
+        uri: 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetUserEntryFunction.Arn}/invocations'
         httpMethod: POST
         type: aws_proxy
-    patch:
-      description: ユーザー情報の更新。管理者を除き、自分の情報のみ更新可能
-      tags:
-        - user
-      parameters:
-        - $ref: '#/components/parameters/user_id_path'
-      requestBody:
-        $ref: '#/components/requestBodies/EditUser'
-      responses:
-        '200':
-          $ref: '#/components/responses/User'
-        '401':
-          $ref: '#/components/responses/UnauthorizedError'
-      x-amazon-apigateway-integration:
-        uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${UsersPatchUserFunction.Arn}/invocations"
-        httpMethod: POST
-        type: aws_proxy
+    # # NOTE: 今回は、ユーザー情報を更新しないこととする
+    # patch:
+    #   description: ユーザー情報の更新。管理者を除き、自分の情報のみ更新可能
+    #   operationId: patch-user-entry
+    #   tags:
+    #     - user
+    #   parameters:
+    #     - $ref: '#/components/parameters/user_id_path'
+    #   requestBody:
+    #     $ref: '#/components/requestBodies/EditUser'
+    #   responses:
+    #     '200':
+    #       $ref: '#/components/responses/User'
+    #     '401':
+    #       $ref: '#/components/responses/UnauthorizedError'
+    #     '404':
+    #       $ref: '#/components/responses/404NotFound'
+    #   x-amazon-apigateway-integration:
+    #     uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${PatchUserEntryFunction.Arn}/invocations"
+    #     httpMethod: POST
+    #     type: aws_proxy
   /tasks:
     get:
       tags:
         - task
+      operationId: get-tasks
       parameters:
         - $ref: '#/components/parameters/not_assigned'
         - $ref: '#/components/parameters/user_id_query' # NOTE: 複数ユーザーを受け付ける形にする
@@ -80,16 +117,15 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/TaskArray'
-        '401':
-          $ref: '#/components/responses/UnauthorizedError'
       x-amazon-apigateway-integration:
-        uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${TasksGetFunction.Arn}/invocations"
+        uri: 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetTasksFunction.Arn}/invocations'
         httpMethod: POST
         type: aws_proxy
     post:
       tags:
         - task
       description: タスクの投稿
+      operationId: post-task
       parameters:
         - name: force_create
           in: query
@@ -102,13 +138,11 @@ paths:
         $ref: '#/components/requestBodies/CreateTask'
       responses:
         '201':
-          $ref: '#/components/responses/Task'
+          $ref: '#/components/responses/CreateTaskResponse'
         '208':
           $ref: '#/components/responses/SuggestResponse'
-        '401':
-          $ref: '#/components/responses/UnauthorizedError'
       x-amazon-apigateway-integration:
-        uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${TasksPostFunction.Arn}/invocations"
+        uri: 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${PostTaskFunction.Arn}/invocations'
         httpMethod: POST
         type: aws_proxy
 
@@ -117,21 +151,23 @@ paths:
       tags:
         - task
       description: タスク詳細の取得
+      operationId: get-task-entry
       parameters:
         - $ref: '#/components/parameters/task_id_path'
       responses:
         '200':
           $ref: '#/components/responses/Task'
-        '401':
-          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/404NotFound'
       x-amazon-apigateway-integration:
-        uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${TasksGetTaskFunction.Arn}/invocations"
+        uri: 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetTaskEntryFunction.Arn}/invocations'
         httpMethod: POST
         type: aws_proxy
     put:
       tags:
         - task
       description: タスクを更新する。
+      operationId: put-task-entry
       parameters:
         - $ref: '#/components/parameters/task_id_path'
       requestBody:
@@ -139,16 +175,17 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/Task'
-        '401':
-          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/404NotFound'
       x-amazon-apigateway-integration:
-        uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${TasksPutTaskFunction.Arn}/invocations"
+        uri: 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${PutTaskEntryFunction.Arn}/invocations'
         httpMethod: POST
         type: aws_proxy
     delete:
       tags:
         - task
       description: タスクの削除
+      operationId: delete-task-entry
       parameters:
         - $ref: '#/components/parameters/task_id_path'
       responses:
@@ -157,7 +194,7 @@ paths:
         '404':
           $ref: '#/components/responses/404NotFound'
       x-amazon-apigateway-integration:
-        uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${TasksDeleteTaskFunction.Arn}/invocations"
+        uri: 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${DeleteTaskEntryFunction.Arn}/invocations'
         httpMethod: POST
         type: aws_proxy
 
@@ -166,6 +203,7 @@ paths:
       tags:
         - user_diary
       description: 全員の日報一覧
+      operationId: get-all-users-diaries
       parameters:
         - $ref: '#/components/parameters/from_date_query'
         - $ref: '#/components/parameters/to_date_query'
@@ -173,7 +211,7 @@ paths:
         '200':
           $ref: '#/components/responses/UserDiaryArray'
       x-amazon-apigateway-integration:
-        uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${DiaryUsersGetAllFunction.Arn}/invocations"
+        uri: 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetAllUsersDiariesFunction.Arn}/invocations'
         httpMethod: POST
         type: aws_proxy
   /diary/users/{user_id}:
@@ -181,6 +219,7 @@ paths:
       tags:
         - user_diary
       description: ユーザーの日報一覧
+      operationId: get-user-diaries
       parameters:
         - $ref: '#/components/parameters/user_id_path'
         - $ref: '#/components/parameters/from_date_query'
@@ -188,14 +227,17 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/UserDiaryArray'
+        '404':
+          $ref: '#/components/responses/404NotFound'
       x-amazon-apigateway-integration:
-        uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${DiaryUsersGetUserFunction.Arn}/invocations"
+        uri: 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetUserDiariesFunction.Arn}/invocations'
         httpMethod: POST
         type: aws_proxy
     post:
       tags:
         - user_diary
       description: 日報を作成
+      operationId: post-user-diary-entry
       parameters:
         - $ref: '#/components/parameters/user_id_path'
       requestBody:
@@ -203,10 +245,12 @@ paths:
       responses:
         '201':
           $ref: '#/components/responses/UserDiary'
+        '404':
+          $ref: '#/components/responses/404NotFound'
         '409':
           $ref: '#/components/responses/409Conflict'
       x-amazon-apigateway-integration:
-        uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${DiaryUsersPostUserFunction.Arn}/invocations"
+        uri: 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${PostUserDiaryFunction.Arn}/invocations'
         httpMethod: POST
         type: aws_proxy
   /diary/users/{user_id}/{diary_id}:
@@ -214,20 +258,24 @@ paths:
       tags:
         - user_diary
       description: 日報詳細
+      operationId: get-user-diary-entry
       parameters:
         - $ref: '#/components/parameters/user_id_path'
         - $ref: '#/components/parameters/diary_id_path'
       responses:
         '200':
           $ref: '#/components/responses/UserDiary'
+        '404':
+          $ref: '#/components/responses/404NotFound'
       x-amazon-apigateway-integration:
-        uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${DiaryUsersGetUserDiaryFunction.Arn}/invocations"
+        uri: 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetUserDiaryEntryFunction.Arn}/invocations'
         httpMethod: POST
         type: aws_proxy
     put:
       tags:
         - user_diary
       description: 日報の更新
+      operationId: put-user-diary-entry
       parameters:
         - $ref: '#/components/parameters/user_id_path'
         - $ref: '#/components/parameters/diary_id_path'
@@ -236,14 +284,17 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/UserDiary'
+        '404':
+          $ref: '#/components/responses/404NotFound'
       x-amazon-apigateway-integration:
-        uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${DiaryUsersPutUserDiaryFunction.Arn}/invocations"
+        uri: 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${PutUserDiaryEntryFunction.Arn}/invocations'
         httpMethod: PUT
         type: aws_proxy
     delete:
       tags:
         - user_diary
       description: 日報の削除
+      operationId: delete-user-diary-entry
       parameters:
         - $ref: '#/components/parameters/user_id_path'
         - $ref: '#/components/parameters/diary_id_path'
@@ -253,7 +304,7 @@ paths:
         '404':
           $ref: '#/components/responses/404NotFound'
       x-amazon-apigateway-integration:
-        uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${DiaryUsersDeleteUserDiaryFunction.Arn}/invocations"
+        uri: 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${DeleteUserDiaryEntryFunction.Arn}/invocations'
         httpMethod: POST
         type: aws_proxy
   /diary/sections:
@@ -261,6 +312,7 @@ paths:
       tags:
         - section_diary
       description: 全課の日報一覧
+      operationId: get-all-sections-diaries
       parameters:
         - $ref: '#/components/parameters/from_date_query'
         - $ref: '#/components/parameters/to_date_query'
@@ -268,13 +320,15 @@ paths:
         '200':
           $ref: '#/components/responses/SectionDiaryArray'
       x-amazon-apigateway-integration:
-        uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${DiarySectionsGetFunction.Arn}/invocations"
+        uri: 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetAllSectionsDiariesFunction.Arn}/invocations'
         httpMethod: GET
         type: aws_proxy
   /diary/sections/{section_id}:
     get:
       tags:
         - section_diary
+      description: 課の日報一覧
+      operationId: get-section-diaries
       parameters:
         - $ref: '#/components/parameters/section_id_path'
         - $ref: '#/components/parameters/from_date_query'
@@ -282,14 +336,17 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/SectionDiaryArray'
+        '404':
+          $ref: '#/components/responses/404NotFound'
       x-amazon-apigateway-integration:
-        uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${DiarySectionsGetSectionFunction.Arn}/invocations"
+        uri: 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetSectionDiariesFunction.Arn}/invocations'
         httpMethod: POST
         type: aws_proxy
     post:
       tags:
         - section_diary
       description: 課に所属しているユーザーの日報から、課の日報を作成
+      operationId: post-section-diary-entry
       parameters:
         - $ref: '#/components/parameters/section_id_path'
       requestBody:
@@ -297,10 +354,12 @@ paths:
       responses:
         '201':
           $ref: '#/components/responses/SectionDiary'
+        '404':
+          $ref: '#/components/responses/404NotFound'
         '409':
           $ref: '#/components/responses/409Conflict'
       x-amazon-apigateway-integration:
-        uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${DiarySectionsPostSectionFunction.Arn}/invocations"
+        uri: 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${PostSectionDiaryFunction.Arn}/invocations'
         httpMethod: POST
         type: aws_proxy
   /diary/sections/{section_id}/{diary_id}:
@@ -308,20 +367,24 @@ paths:
       tags:
         - section_diary
       description: 日報詳細
+      operationId: get-section-diary-entry
       parameters:
         - $ref: '#/components/parameters/section_id_path'
         - $ref: '#/components/parameters/diary_id_path'
       responses:
         '200':
           $ref: '#/components/responses/SectionDiary'
+        '404':
+          $ref: '#/components/responses/404NotFound'
       x-amazon-apigateway-integration:
-        uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${DiarySectionsGetSectionDiaryFunction.Arn}/invocations"
+        uri: 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetSectionDiaryEntryFunction.Arn}/invocations'
         httpMethod: GET
         type: aws_proxy
     put:
       tags:
         - section_diary
       description: 日報の更新
+      operationId: put-section-diary-entry
       parameters:
         - $ref: '#/components/parameters/section_id_path'
         - $ref: '#/components/parameters/diary_id_path'
@@ -330,14 +393,17 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/SectionDiary'
+        '404':
+          $ref: '#/components/responses/404NotFound'
       x-amazon-apigateway-integration:
-        uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${DiarySectionsPutSectionDiaryFunction.Arn}/invocations"
+        uri: 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${PutSectionDiaryEntryFunction.Arn}/invocations'
         httpMethod: PUT
         type: aws_proxy
     delete:
       tags:
         - section_diary
       description: 日報の削除
+      operationId: delete-section-diary-entry
       parameters:
         - $ref: '#/components/parameters/section_id_path'
         - $ref: '#/components/parameters/diary_id_path'
@@ -347,7 +413,7 @@ paths:
         '404':
           $ref: '#/components/responses/404NotFound'
       x-amazon-apigateway-integration:
-        uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${DiarySectionsDeleteSectionDiaryFunction.Arn}/invocations"
+        uri: 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${DeleteSectionDiaryEntryFunction.Arn}/invocations'
         httpMethod: POST
         type: aws_proxy
 
@@ -402,6 +468,8 @@ components:
       format: int32
       description: 課ID
       readOnly: true
+      minimum: 0
+      example: 0
     Section:
       type: object
       properties:
@@ -410,7 +478,7 @@ components:
         name:
           type: string
           description: 課名
-          example: 人事課
+          example: 営業課
         created_at:
           $ref: '#/components/schemas/createdAt'
         updated_at:
@@ -421,7 +489,7 @@ components:
       format: uuid
       description: ユーザーID
       readOnly: false
-
+      example: 4f73ab32-21bf-47ef-a119-fa024bc2b9cc
     User:
       type: object
       properties:
@@ -429,17 +497,14 @@ components:
           $ref: '#/components/schemas/UserId'
         name:
           type: string
-          example: 細井颯太
+          example: 田中夏子
         icon:
           type: string
-          example: 1.png
+          example: /user_1.png
         email:
           type: string
           format: email
-        department:
-          type: string
-          description: 部署名
-          example: 人事部
+          example: tanaka.natsuko@tarako
         section:
           $ref: '#/components/schemas/Section'
         created_at:
@@ -545,11 +610,6 @@ components:
           type: integer
           description: 深刻度の総計
           minimum: 0
-        task_ids:
-          type: array
-          description: 日報の作成に用いられたタスクのIDリスト
-          items:
-            $ref: '#/components/schemas/TaskId'
         created_at:
           $ref: '#/components/schemas/createdAt'
         updated_at:
@@ -563,6 +623,11 @@ components:
           allOf:
             - $ref: '#/components/schemas/UserId'
           readOnly: true
+        task_ids:
+          type: array
+          description: 日報の作成に用いられたタスクのIDリスト
+          items:
+            $ref: '#/components/schemas/TaskId'
     SectionDiary:
       type: object
       allOf:
@@ -572,6 +637,11 @@ components:
           allOf:
             - $ref: '#/components/schemas/Section'
           readOnly: true
+        user_ids:
+          type: array
+          description: 日報の作成に用いられたユーザーのIDリスト
+          items:
+            $ref: '#/components/schemas/UserId'
     CreateDiary:
       type: object
       properties:
@@ -647,10 +717,12 @@ components:
     user_id_query:
       name: user_id
       in: query
-      description: ユーザー絞り込み。note_assignedがtrueの場合、無視される
+      description: ユーザー絞り込み。note_assignedがtrueの場合、無視される。複数のユーザーを指定可能
       required: False
       schema:
-        $ref: '#/components/schemas/UserId'
+        type: array
+        items:
+          $ref: '#/components/schemas/UserId'
     not_assigned:
       name: not_assigned
       in: query
@@ -667,6 +739,29 @@ components:
       description: The request could not be completed due to a conflict with the current state of the target resource.
     UnauthorizedError:
       description: Access token is missing or invalid
+    Section:
+      description: 課の詳細
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Section'
+    SectionArray:
+      description: 課の一覧
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Section'
+            example:
+              - section_id: 0
+                name: 営業課
+                created_at: 2020-01-01T00:00:00+09:00
+                updated_at: 2020-01-01T00:00:00+09:00
+              - section_id: 1
+                name: 管理課
+                created_at: 2020-01-01T00:00:00+09:00
+                updated_at: 2020-01-01T00:00:00+09:00
     User:
       description: ユーザーの詳細
       content:
@@ -681,6 +776,38 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/User'
+            example:
+              - user_id: 4f73ab32-21bf-47ef-a119-fa024bc2b9cc
+                name: 田中夏子
+                description: 田中夏子です。よろしくお願いします。趣味は読書です。
+                section:
+                  section_id: 0
+                  name: 営業課
+                  created_at: 2020-01-01T00:00:00+09:00
+                  updated_at: 2020-01-01T00:00:00+09:00
+                email: tanaka.natsuko@tarako
+                icon: /user_1.png
+              - user_id: 595c060d-8417-4ac8-bcb5-c8e733dc64e0
+                name: 山田太郎
+                description: 山田太郎です。よろしくお願いします。趣味は野球です。
+                section:
+                  section_id: 0
+                  name: 営業課
+                  created_at: 2020-01-01T00:00:00+09:00
+                  updated_at: 2020-01-01T00:00:00+09:00
+                email: yamada.taro@tarako
+                icon: /user_2.png
+              - user_id: e08bf311-b1bc-4a38-bac1-374c3ede7203
+                name: 管理五郎
+                description: 管理者五郎です。よろしくお願いします。人と関わる仕事が好きです。
+                section:
+                  section_id: 1
+                  name: 管理課
+                  created_at: 2020-01-01T00:00:00+09:00
+                  updated_at: 2020-01-01T00:00:00+09:00
+                email: admin.goro@tarako
+                icon: /admin.png
+
     Task:
       description: タスクの詳細
       content:
@@ -696,6 +823,19 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/Task'
+    CreateTaskResponse:
+      description: タスクの更新を提案する
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              task:
+                $ref: '#/components/schemas/Task'
+              message:
+                type: string
+                description: タスクの作成を通知する
+                example: 新しいタスクを作成しました。
     SuggestResponse:
       description: タスクの更新を提案する
       content:
@@ -703,7 +843,9 @@ components:
           schema:
             type: object
             properties:
-              Task:
+              originTask:
+                $ref: '#/components/schemas/Task'
+              updatedTask:
                 $ref: '#/components/schemas/Task'
               message:
                 type: string
@@ -774,7 +916,10 @@ components:
             Task:
               value:
                 title: 単体テスト作成
-                category: 人事
+                category: HR
+                tags:
+                  - 人事
+                  - 休暇
                 progresses:
                   - datetime: 2020-01-01T00:00:00+09:00
                     percentage: 0
