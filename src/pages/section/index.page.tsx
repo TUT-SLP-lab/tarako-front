@@ -8,7 +8,15 @@ import Head from 'next/head';
 import Link from 'next/link';
 
 const SectionPage: NextPage = () => {
-  const { users } = useUsers();
+  const { users, isLoading } = useUsers();
+
+  if (users === undefined || isLoading) {
+    return (
+      <BaseAuthLayout>
+        <div className="md:animate-spin" />
+      </BaseAuthLayout>
+    );
+  }
 
   return (
     <>
