@@ -46,7 +46,10 @@ export const ChatView = () => {
             width={300}
           >
             <div className="bg-base flex items-center justify-center rounded-full">
-              <IconQuestionMark size="1.25rem" className="text-white" />
+              <IconQuestionMark
+                size="1.25rem"
+                className="rounded-full bg-slate-500 text-white"
+              />
             </div>
           </Tooltip>
         </div>
