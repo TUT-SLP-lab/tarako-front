@@ -67,14 +67,14 @@ const SectionDetailPage: NextPage = () => {
       <BaseAuthLayout>
         <div className="mx-auto max-w-screen-lg p-8">
           <PageTitle>{section.name}</PageTitle>
-          <div className="mt-8 flex h-[280px] gap-4">
-            <div className="flex-1 rounded-lg border-2 border-gray-200">
+          <div className="mt-8 flex h-[320px] gap-4">
+            <div className="flex-1">
               <SeverityTrend
                 title="各メンバーの深刻度の推移"
                 data={mockChartDatas}
               />
             </div>
-            <div className="flex-1 rounded-lg border-2 border-gray-200">
+            <div className="flex-1">
               <TaskStatus
                 title="各メンバーのタスクの進行数"
                 data={mockTaskDatas}

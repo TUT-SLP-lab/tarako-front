@@ -56,11 +56,11 @@ const UserDetailPage: NextPage = () => {
                */}
             </div>
           </section>
-          <div className="flex h-[280px] gap-4">
-            <div className="flex-1 rounded-lg border-2 border-gray-200">
+          <div className="flex h-[320px] gap-4">
+            <div className="flex-1">
               <SeverityTrend title="深刻度の推移" data={mockChartDatas} />
             </div>
-            <div className="flex-1 rounded-lg border-2 border-gray-200">
+            <div className="flex-1">
               <TaskStatus title="タスクの状態" data={mockTaskDatas} />
             </div>
           </div>

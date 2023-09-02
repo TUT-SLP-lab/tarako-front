@@ -51,7 +51,7 @@ const SeverityTrend = (props: Props) => {
   };
 
   return (
-    <>
+    <div className="h-full w-full space-y-4 rounded-lg border-2 border-gray-200 p-4">
       <div className="text-center text-xl font-bold">{props.title}</div>
       <ResponsiveContainer width="100%" height="100%">
         <LineChart data={chartDatas} margin={{ bottom: 30, right: 30 }}>
@@ -77,7 +77,7 @@ const SeverityTrend = (props: Props) => {
           <Tooltip />
         </LineChart>
       </ResponsiveContainer>
-    </>
+    </div>
   );
 };
 

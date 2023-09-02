@@ -59,9 +59,9 @@ const TaskStatus = (props: Props) => {
     return color;
   };
   return (
-    <div>
+    <div className="h-full rounded-lg border-2 border-gray-200 p-4">
       <div className="text-center text-xl font-bold">{props.title}</div>
-      <ResponsiveContainer width="100%" height={250}>
+      <ResponsiveContainer width="100%" height="100%">
         <PieChart>
           <Pie
             data={props.data}
