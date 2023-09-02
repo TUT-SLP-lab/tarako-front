@@ -202,6 +202,12 @@ export interface Section {
    */
   name?: string;
   /**
+   * アイコン
+   * @type {string}
+   * @memberof Section
+   */
+  icon?: string;
+  /**
    * 作成日時
    * @type {any}
    * @memberof Section
