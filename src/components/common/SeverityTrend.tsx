@@ -49,24 +49,20 @@ const SeverityTrend = (props: Props) => {
     return color;
   };
 
-  const lines = users.map((user, index) => {
-    return (
-      <Line
-        key={index}
-        type="monotone"
-        dataKey={user}
-        stroke={generateRandomColor()}
-        strokeWidth={2}
-      />
-    );
-  });
-
   return (
     <>
       <div className="text-center text-xl font-bold">深刻度の推移</div>
       <ResponsiveContainer width="100%" height="100%">
         <LineChart data={chartDatas} margin={{ bottom: 30, right: 30 }}>
-          {lines}
+          {users.map((user, index) => (
+            <Line
+              key={index}
+              type="monotone"
+              dataKey={user}
+              stroke={generateRandomColor()}
+              strokeWidth={2}
+            />
+          ))}
           <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
           <XAxis
             dataKey="date"
