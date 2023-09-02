@@ -1,9 +1,13 @@
+import 'regenerator-runtime';
 import type { Chat } from './ChatList';
 
 import { ChatInput } from './ChatInput';
 import { ChatList } from './ChatList';
 import { IconMessageChatbot } from '@tabler/icons-react';
-
+import { useEffect, useState } from 'react';
+import SpeechRecognition, {
+  useSpeechRecognition,
+} from 'react-speech-recognition';
 const MOCK_CHAT: Chat[] = [
   {
     from: 'bot',
@@ -25,6 +29,28 @@ const MOCK_CHAT: Chat[] = [
 ];
 
 export const ChatView = () => {
+  const [inputValue, setInputValue] = useState('');
+  const { transcript, listening, resetTranscript } = useSpeechRecognition();
+
+  useEffect(() => {
+    transcript && setInputValue(transcript);
+
+    if (!listening) {
+      resetTranscript();
+    }
+  }, [listening, resetTranscript, transcript]);
+
+  const onClickRecordButton = () => {
+    if (listening) {
+      void SpeechRecognition.stopListening();
+    } else {
+      void SpeechRecognition.startListening({
+        continuous: true,
+        language: 'ja-JP',
+      });
+    }
+  };
+
   return (
     <div className="flex h-full flex-col divide-y divide-gray-200 bg-slate-50">
       <div className="flex items-center gap-1 bg-slate-100 px-2 py-4">
@@ -35,7 +61,12 @@ export const ChatView = () => {
         <ChatList chat={MOCK_CHAT} />
       </div>
       <div className="bg-slate-100 px-4 py-6">
-        <ChatInput />
+        <ChatInput
+          value={inputValue}
+          onChange={setInputValue}
+          onSubmit={() => void 0}
+          onClickRecordButton={onClickRecordButton}
+        />
       </div>
     </div>
   );
