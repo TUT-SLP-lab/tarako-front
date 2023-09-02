@@ -1,13 +1,11 @@
-import 'regenerator-runtime';
 import type { Chat } from './ChatList';
 
 import { ChatInput } from './ChatInput';
 import { ChatList } from './ChatList';
-import { IconMessageChatbot } from '@tabler/icons-react';
-import { useEffect, useState } from 'react';
-import SpeechRecognition, {
-  useSpeechRecognition,
-} from 'react-speech-recognition';
+import { useASRInput } from '@/utils/hooks/useASRInput';
+import { Tooltip } from '@mantine/core';
+import { IconMessageChatbot, IconQuestionMark } from '@tabler/icons-react';
+
 const MOCK_CHAT: Chat[] = [
   {
     from: 'bot',
@@ -29,38 +27,32 @@ const MOCK_CHAT: Chat[] = [
 ];
 
 export const ChatView = () => {
-  const [inputValue, setInputValue] = useState('');
-  const { transcript, listening, finalTranscript, resetTranscript } =
-    useSpeechRecognition();
-
-  const onClickRecordButton = () => {
-    if (listening) {
-      void SpeechRecognition.stopListening();
-    } else {
-      void SpeechRecognition.startListening({
-        continuous: true,
-        language: 'ja-JP',
-      });
-    }
-  };
-
-  useEffect(() => {
-    if (!listening) {
-      resetTranscript();
-    }
-  }, [finalTranscript, listening, resetTranscript]);
-
-  useEffect(() => {
-    if (!listening && finalTranscript) {
-      setInputValue((prev) => prev + finalTranscript);
-    }
-  }, [finalTranscript, listening]);
+  const { inputValue, setInputValue, toggleRecording, transcript, recording } =
+    useASRInput({
+      target: 'chatbot',
+    });
 
   return (
     <div className="flex h-full flex-col divide-y divide-gray-200 bg-slate-50">
       <div className="flex items-center gap-1 bg-slate-100 px-2 py-4">
         <IconMessageChatbot size={24} />
         <span>チャットボット</span>
+        <div className="ml-4">
+          <Tooltip
+            label="チャットボットと会話することで、自動で日報を作成することができます。また、チャットボットはあなたの日報を分析し、あなたの気分を分析します。分析した結果をもとに部署の上長に報告することもできます。"
+            position="bottom"
+            withArrow
+            multiline
+            width={300}
+          >
+            <div className="bg-base flex items-center justify-center rounded-full">
+              <IconQuestionMark
+                size="1.25rem"
+                className="rounded-full bg-slate-500 text-white"
+              />
+            </div>
+          </Tooltip>
+        </div>
       </div>
       <div className="flex-grow overflow-auto px-4 py-4">
         <ChatList chat={MOCK_CHAT} />
@@ -71,8 +63,8 @@ export const ChatView = () => {
           transcript={transcript}
           onChange={setInputValue}
           onSubmit={() => void 0}
-          onClickRecordButton={onClickRecordButton}
-          isRecording={listening}
+          onClickRecordButton={toggleRecording}
+          recording={recording}
         />
       </div>
     </div>

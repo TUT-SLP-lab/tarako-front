@@ -1,6 +1,6 @@
 import type { NextPage } from 'next';
 
-import { DevelopmentLayout } from '@/components/layouts/DevelopmentLayout';
+import { DevelopmentAuthLayout } from '@/components/layouts/DevelopmentAuthLayout';
 import Head from 'next/head';
 
 const SettingsPage: NextPage = () => {
@@ -9,7 +9,7 @@ const SettingsPage: NextPage = () => {
       <Head>
         <title>設定 - Tarako</title>
       </Head>
-      <DevelopmentLayout />
+      <DevelopmentAuthLayout />
     </>
   );
 };
