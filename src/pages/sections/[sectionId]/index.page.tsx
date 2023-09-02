@@ -67,7 +67,7 @@ const SectionDetailPage: NextPage = () => {
       <BaseAuthLayout>
         <div className="mx-auto max-w-screen-lg p-8">
           <PageTitle>{section.name}</PageTitle>
-          <div className="mt-8 flex h-[280px] animate-pulse gap-4">
+          <div className="mt-8 flex h-[280px] gap-4">
             <div className="flex-1 rounded-lg border-2 border-gray-200">
               <SeverityTrend
                 title="各メンバーの深刻度の推移"
