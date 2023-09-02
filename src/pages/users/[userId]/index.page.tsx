@@ -1,6 +1,7 @@
 import type { NextPage } from 'next';
 
 import SeverityTrend from '@/components/common/SeverityTrend';
+import TaskStatus from '@/components/common/TaskStatus';
 import { TaskTimeline } from '@/components/features/task/TaskTimeline';
 import { BaseAuthLayout } from '@/components/layouts/BaseAuthLayout';
 import { mockUsers } from '@/mocks/mockUsers';
@@ -8,12 +9,17 @@ import { Avatar } from '@mantine/core';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
-const mockData = [
+const mockChartDatas = [
   { date: '2023-01-01', users: { user1: 50 } },
   { date: '2023-01-02', users: { user1: 50 } },
   { date: '2023-01-03', users: { user1: 30 } },
   { date: '2023-01-04', users: { user1: 10 } },
   { date: '2023-01-05', users: { user1: 10 } },
+];
+
+const mockTaskDatas = [
+  { name: 'Progress', value: 5 },
+  { name: 'Done', value: 5 },
 ];
 
 const UserDetailPage: NextPage = () => {
@@ -48,9 +54,11 @@ const UserDetailPage: NextPage = () => {
           </section>
           <div className="flex h-[280px] gap-4">
             <div className="flex-1 rounded-lg border-2 border-gray-200">
-              <SeverityTrend data={mockData} />
+              <SeverityTrend data={mockChartDatas} />
             </div>
-            <div className="flex-1 rounded-lg border-2 border-gray-200" />
+            <div className="flex-1 rounded-lg border-2 border-gray-200">
+              <TaskStatus title="タスクの状態" data={mockTaskDatas} />
+            </div>
           </div>
           <TaskTimeline />
         </div>
