@@ -3,7 +3,8 @@ import type { Chat } from './ChatList';
 
 import { ChatInput } from './ChatInput';
 import { ChatList } from './ChatList';
-import { IconMessageChatbot } from '@tabler/icons-react';
+import { Tooltip } from '@mantine/core';
+import { IconMessageChatbot, IconQuestionMark } from '@tabler/icons-react';
 import { useEffect, useState } from 'react';
 import SpeechRecognition, {
   useSpeechRecognition,
@@ -61,6 +62,19 @@ export const ChatView = () => {
       <div className="flex items-center gap-1 bg-slate-100 px-2 py-4">
         <IconMessageChatbot size={24} />
         <span>チャットボット</span>
+        <div className="ml-4">
+          <Tooltip
+            label="チャットボットと会話することで、自動で日報を作成することができます。また、チャットボットはあなたの日報を分析し、あなたの気分を分析します。分析した結果をもとに部署の上長に報告することもできます。"
+            position="bottom"
+            withArrow
+            multiline
+            width={300}
+          >
+            <div className="flex items-center justify-center rounded-full bg-base">
+              <IconQuestionMark size="1.25rem" className="text-white" />
+            </div>
+          </Tooltip>
+        </div>
       </div>
       <div className="flex-grow overflow-auto px-4 py-4">
         <ChatList chat={MOCK_CHAT} />
