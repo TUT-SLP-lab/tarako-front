@@ -1,6 +1,8 @@
 import type { NextPage } from 'next';
 
 import { PageTitle } from '@/components/common/PageTitle';
+import SeverityTrend from '@/components/common/SeverityTrend';
+import TaskStatus from '@/components/common/TaskStatus';
 import { BaseAuthLayout } from '@/components/layouts/BaseAuthLayout';
 import { useSection } from '@/utils/hooks/api/useSection';
 import { useSections } from '@/utils/hooks/api/useSections';
@@ -9,6 +11,37 @@ import { Avatar } from '@mantine/core';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+
+const mockChartDatas = [
+  {
+    date: '2023-01-01',
+    users: { user1: 50, user2: 30, user3: 50, user4: 30, user5: 50, user6: 30 },
+  },
+  {
+    date: '2023-01-02',
+    users: { user1: 50, user2: 40, user3: 20, user4: 10, user5: 50, user6: 30 },
+  },
+  {
+    date: '2023-01-03',
+    users: { user1: 30, user2: 10, user3: 50, user4: 30, user5: 10, user6: 50 },
+  },
+  {
+    date: '2023-01-04',
+    users: { user1: 10, user2: 20, user3: 50, user4: 10, user5: 20, user6: 10 },
+  },
+  {
+    date: '2023-01-05',
+    users: { user1: 10, user2: 20, user3: 50, user4: 10, user5: 50, user6: 20 },
+  },
+];
+
+const mockTaskDatas = [
+  { name: 'user1', value: 5 },
+  { name: 'user2', value: 5 },
+  { name: 'user3', value: 5 },
+  { name: 'user4', value: 5 },
+  { name: 'user5', value: 5 },
+];
 
 const SectionDetailPage: NextPage = () => {
   const router = useRouter();
@@ -35,9 +68,18 @@ const SectionDetailPage: NextPage = () => {
         <div className="mx-auto max-w-screen-lg p-8">
           <PageTitle>{section.name}</PageTitle>
           <div className="mt-8 flex h-[280px] animate-pulse gap-4">
-            <div className="flex-1 rounded-lg bg-gray-200" />
-            <div className="flex-1 rounded-lg  bg-gray-200" />
-            <div className="flex-1 rounded-lg bg-gray-200" />
+            <div className="flex-1 rounded-lg border-2 border-gray-200">
+              <SeverityTrend
+                title="各メンバーの深刻度の推移"
+                data={mockChartDatas}
+              />
+            </div>
+            <div className="flex-1 rounded-lg border-2 border-gray-200">
+              <TaskStatus
+                title="各メンバーのタスクの進行数"
+                data={mockTaskDatas}
+              />
+            </div>
           </div>
           <section className="mt-12">
             <h2 className="text-2xl font-bold">メンバー状況</h2>
