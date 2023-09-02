@@ -2,7 +2,10 @@ import type { NextPage } from 'next';
 
 import { PageTitle } from '@/components/common/PageTitle';
 import { BaseAuthLayout } from '@/components/layouts/BaseAuthLayout';
+import { mockSections } from '@/mocks/mockSections';
+import { Avatar } from '@mantine/core';
 import Head from 'next/head';
+import Link from 'next/link';
 
 const SectionsPage: NextPage = () => {
   return (
@@ -14,15 +17,30 @@ const SectionsPage: NextPage = () => {
         <div className="mx-auto max-w-screen-lg p-8">
           <PageTitle>部署一覧</PageTitle>
           <div className="mt-8 flex flex-col gap-y-4">
-            {[1, 2, 3, 4, 5].map((i) => {
-              return (
-                <div key={i} className="flex h-[280px] animate-pulse gap-x-4">
-                  <div className="flex-1 rounded-lg bg-gray-200" />
-                  <div className="flex-1 rounded-lg  bg-gray-200" />
-                  <div className="flex-1 rounded-lg bg-gray-200" />
+            {mockSections && (
+              <section className="mt-12">
+                <h2 className="text-2xl font-bold">部署一覧</h2>
+                <div className="mt-4 grid h-36 grid-cols-2 gap-4">
+                  {mockSections.map((section) => {
+                    return (
+                      <Link
+                        key={section.section_id}
+                        href={`/sections/${section.section_id}`}
+                        className="flex flex-1 items-center justify-center gap-8 rounded-lg border border-gray-200 p-4 transition-colors hover:bg-gray-100"
+                      >
+                        <Avatar
+                          src={`/section_images/${section.icon}`}
+                          size={96}
+                        />
+                        <div>
+                          <p className="text-xl font-bold">{section.name}</p>
+                        </div>
+                      </Link>
+                    );
+                  })}
                 </div>
-              );
-            })}
+              </section>
+            )}
           </div>
         </div>
       </BaseAuthLayout>
