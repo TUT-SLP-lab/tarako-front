@@ -1,11 +1,20 @@
 import type { NextPage } from 'next';
 
+import SeverityTrend from '@/components/common/SeverityTrend';
 import { TaskTimeline } from '@/components/features/task/TaskTimeline';
 import { BaseAuthLayout } from '@/components/layouts/BaseAuthLayout';
 import { mockUsers } from '@/mocks/mockUsers';
 import { Avatar } from '@mantine/core';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+
+const mockData = [
+  { date: '2023-01-01', users: { user1: 50 } },
+  { date: '2023-01-02', users: { user1: 50 } },
+  { date: '2023-01-03', users: { user1: 30 } },
+  { date: '2023-01-04', users: { user1: 10 } },
+  { date: '2023-01-05', users: { user1: 10 } },
+];
 
 const UserDetailPage: NextPage = () => {
   const router = useRouter();
@@ -37,6 +46,12 @@ const UserDetailPage: NextPage = () => {
               <p className="mt-4 text-lg">{user.description}</p>
             </div>
           </section>
+          <div className="flex h-[280px] gap-4">
+            <div className="flex-1 rounded-lg border-2 border-gray-200">
+              <SeverityTrend data={mockData} />
+            </div>
+            <div className="flex-1 rounded-lg border-2 border-gray-200" />
+          </div>
           <TaskTimeline />
         </div>
       </BaseAuthLayout>
