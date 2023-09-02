@@ -1,10 +1,9 @@
-import { Header } from './Header';
+import { BaseAuthLayout } from './BaseAuthLayout';
 import Link from 'next/link';
 
-export const DevelopmentLayout = () => {
+export const DevelopmentAuthLayout = () => {
   return (
-    <>
-      <Header />
+    <BaseAuthLayout>
       <main className="mt-header flex flex-col items-center justify-center gap-12 pt-80">
         <h1 className="text-4xl font-bold">開発中</h1>
         <Link
@@ -14,6 +13,6 @@ export const DevelopmentLayout = () => {
           トップページに戻る
         </Link>
       </main>
-    </>
+    </BaseAuthLayout>
   );
 };
