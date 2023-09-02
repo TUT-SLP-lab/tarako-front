@@ -19,9 +19,12 @@ export const TaskDetailModal = ({ taskId, ...modalProps }: Props) => {
       {...modalProps}
       size="xl"
       centered
-      title={<h2 className="text-2xl font-bold">{taskDetail.title}</h2>}
+      title={
+        <h2 className="text-2xl font-bold text-normal">{taskDetail.title}</h2>
+      }
+      padding="xl"
     >
-      <p className="text-lg">{taskDetail.description}</p>
+      <p className="text-lg text-normal">{taskDetail.description}</p>
     </Modal>
   );
 };
