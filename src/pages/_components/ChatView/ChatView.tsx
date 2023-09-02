@@ -1,14 +1,11 @@
-import 'regenerator-runtime';
 import type { Chat } from './ChatList';
 
 import { ChatInput } from './ChatInput';
 import { ChatList } from './ChatList';
+import { useASRInput } from '@/utils/hooks/useASRInput';
 import { Tooltip } from '@mantine/core';
 import { IconMessageChatbot, IconQuestionMark } from '@tabler/icons-react';
-import { useEffect, useState } from 'react';
-import SpeechRecognition, {
-  useSpeechRecognition,
-} from 'react-speech-recognition';
+
 const MOCK_CHAT: Chat[] = [
   {
     from: 'bot',
@@ -30,32 +27,8 @@ const MOCK_CHAT: Chat[] = [
 ];
 
 export const ChatView = () => {
-  const [inputValue, setInputValue] = useState('');
-  const { transcript, listening, finalTranscript, resetTranscript } =
-    useSpeechRecognition();
-
-  const onClickRecordButton = () => {
-    if (listening) {
-      void SpeechRecognition.stopListening();
-    } else {
-      void SpeechRecognition.startListening({
-        continuous: true,
-        language: 'ja-JP',
-      });
-    }
-  };
-
-  useEffect(() => {
-    if (!listening) {
-      resetTranscript();
-    }
-  }, [finalTranscript, listening, resetTranscript]);
-
-  useEffect(() => {
-    if (!listening && finalTranscript) {
-      setInputValue((prev) => prev + finalTranscript);
-    }
-  }, [finalTranscript, listening]);
+  const { inputValue, setInputValue, toggleRecording, transcript, recording } =
+    useASRInput();
 
   return (
     <div className="flex h-full flex-col divide-y divide-gray-200 bg-slate-50">
@@ -70,7 +43,7 @@ export const ChatView = () => {
             multiline
             width={300}
           >
-            <div className="flex items-center justify-center rounded-full bg-base">
+            <div className="bg-base flex items-center justify-center rounded-full">
               <IconQuestionMark size="1.25rem" className="text-white" />
             </div>
           </Tooltip>
@@ -85,8 +58,8 @@ export const ChatView = () => {
           transcript={transcript}
           onChange={setInputValue}
           onSubmit={() => void 0}
-          onClickRecordButton={onClickRecordButton}
-          isRecording={listening}
+          onClickRecordButton={toggleRecording}
+          recording={recording}
         />
       </div>
     </div>

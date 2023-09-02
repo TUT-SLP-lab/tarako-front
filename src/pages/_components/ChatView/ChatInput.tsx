@@ -9,7 +9,7 @@ type Props = {
   onSubmit: () => void;
   onClickRecordButton: () => void;
   transcript: string;
-  isRecording?: boolean;
+  recording?: boolean;
 };
 
 export const ChatInput = ({
@@ -17,11 +17,11 @@ export const ChatInput = ({
   onChange,
   onClickRecordButton,
   transcript,
-  isRecording,
+  recording,
 }: Props) => {
   return (
     <div>
-      {isRecording && <div className="mb-8 text-lg">{transcript}</div>}
+      {recording && <div className="mb-8 text-lg">{transcript}</div>}
       <div className="flex items-end gap-x-2">
         <Textarea
           value={value}
@@ -30,7 +30,7 @@ export const ChatInput = ({
           autosize
           minRows={1}
           maxRows={4}
-          disabled={isRecording}
+          disabled={recording}
           className="flex-1"
         />
         <div className="flex items-center gap-x-12">
@@ -45,11 +45,11 @@ export const ChatInput = ({
               size="1.25rem"
               className={clsx(
                 'transition-colors',
-                isRecording ? 'text-red-500' : 'text-gray-500',
+                recording ? 'text-red-500' : 'text-gray-500',
               )}
             />
           </ActionIcon>
-          <Button color="pink" size="md" disabled={isRecording}>
+          <Button color="pink" size="md" disabled={recording}>
             送信
           </Button>
         </div>
