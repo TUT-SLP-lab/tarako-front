@@ -1,12 +1,6 @@
+import { CreateDiaryModal } from './CreateDiaryModal';
 import { TaskTimeline } from '@/components/features/task/TaskTimeline';
-import { ActionIcon, Button, Modal } from '@mantine/core';
-import {
-  IconMicrophone,
-  IconMoodAngry,
-  IconMoodHappy,
-  IconRun,
-} from '@tabler/icons-react';
-import { IconCheck, IconEdit, IconStar } from '@tabler/icons-react';
+import { Button } from '@mantine/core';
 import { useState } from 'react';
 
 export const DashBoardView = () => {
@@ -15,7 +9,7 @@ export const DashBoardView = () => {
 
   const [modalOpened, setModalOpened] = useState(false);
 
-  const onClickRecordingButton = async () => {
+  const onCreateDiary = async () => {
     setModalOpened(false);
     setButtonLoading(true);
     await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -52,72 +46,11 @@ export const DashBoardView = () => {
           <TaskTimeline />
         </div>
       </div>
-      <Modal
+      <CreateDiaryModal
         opened={modalOpened}
-        onClose={() => {
-          setModalOpened(false);
-        }}
-        size="xl"
-        closeOnClickOutside={false}
-        centered
-        title={
-          <h2 className="text-2xl font-bold text-normal">今日のふりかえり</h2>
-        }
-        padding="xl"
-      >
-        <div className="text-normal">
-          <div className="space-y-2">
-            <p className="text-lg">
-              今日の仕事を通して、どんな気づきや感情が湧き上がりましたか？良い点、改善点、そして感じたことを率直に声に出して話してみましょう。
-            </p>
-            <p className="text-lg">
-              声に出すことで、自分の気持ちを整理することができます。また、AIがあなたの声を分析し、あなたの気持ちを分析します。
-            </p>
-          </div>
-          <div className="mt-8 grid grid-cols-3 gap-4">
-            <div className="flex h-40 flex-col items-center justify-center gap-4 rounded-md border border-gray-200 p-4">
-              <h3 className="text-lg font-bold">今日のハイライト</h3>
-              <IconStar size={36} />
-            </div>
-            <div className="flex h-40 flex-col items-center justify-center gap-4 rounded-md border border-gray-200 p-4">
-              <h3 className="text-lg font-bold">達成できたこと</h3>
-              <IconCheck size={36} />
-            </div>
-            <div className="flex h-40 flex-col items-center justify-center gap-4 rounded-md border border-gray-200 p-4">
-              <h3 className="text-lg font-bold">改善点・反省</h3>
-              <IconEdit size={36} />
-            </div>
-            <div className="flex h-40 flex-col items-center justify-center gap-4 rounded-md border border-gray-200 p-4">
-              <h3 className="text-lg font-bold">感じたこと・感情</h3>
-              <IconMoodHappy size={36} />
-            </div>
-            <div className="flex h-40 flex-col items-center justify-center gap-4 rounded-md border border-gray-200 p-4">
-              <h3 className="text-lg font-bold">不満・もやもや</h3>
-              <IconMoodAngry size={36} />
-            </div>
-            <div className="flex h-40 flex-col items-center justify-center gap-4 rounded-md border border-gray-200 p-4">
-              <h3 className="text-lg font-bold">明日への一歩</h3>
-              <IconRun size={36} />
-            </div>
-          </div>
-          <ActionIcon
-            size="xl"
-            color="gray"
-            radius="xl"
-            variant="filled"
-            onClick={() => void onClickRecordingButton()}
-            className="mx-auto mt-20 w-fit"
-          >
-            <IconMicrophone
-              size="1.75rem"
-              // className={clsx(
-              //   'transition-colors',
-              //   isRecording ? 'text-red-500' : 'text-gray-500',
-              // )}
-            />
-          </ActionIcon>
-        </div>
-      </Modal>
+        onClose={() => setModalOpened(false)}
+        onCreateDiary={() => void onCreateDiary()}
+      />
     </>
   );
 };
