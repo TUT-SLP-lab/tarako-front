@@ -1,3 +1,4 @@
+import { CreateDiaryModal } from './CreateDiaryModal';
 import { TaskTimeline } from '@/components/features/task/TaskTimeline';
 import { Button } from '@mantine/core';
 import { useState } from 'react';
@@ -6,7 +7,10 @@ export const DashBoardView = () => {
   const [shouldShowDummyDiary, setShouldShowDummyDiary] = useState(false);
   const [buttonLoading, setButtonLoading] = useState(false);
 
-  const onClickCrateDiaryButton = async () => {
+  const [modalOpened, setModalOpened] = useState(false);
+
+  const onCreateDiary = async () => {
+    setModalOpened(false);
     setButtonLoading(true);
     await new Promise((resolve) => setTimeout(resolve, 1000));
     setShouldShowDummyDiary(true);
@@ -14,36 +18,40 @@ export const DashBoardView = () => {
   };
 
   return (
-    <div className="mx-auto max-w-screen-lg">
-      <div className="flex items-center justify-between">
-        <h2 className="text-3xl font-bold">Today</h2>
-        {!shouldShowDummyDiary && (
-          <Button
-            size="lg"
-            variant="outline"
-            color="pink"
-            onClick={() => {
-              onClickCrateDiaryButton().catch((e) => {
-                // TODO: Error handling
-                console.error(e);
-              });
-              return;
-            }}
-            loading={buttonLoading}
-          >
-            日報を作成する
-          </Button>
-        )}
-      </div>
-      {shouldShowDummyDiary && (
-        <div className="mt-4">
-          <DummyDiary />
+    <>
+      <div className="mx-auto max-w-screen-lg">
+        <div className="flex items-center justify-between">
+          <h2 className="text-3xl font-bold">Today</h2>
+          {!shouldShowDummyDiary && (
+            <Button
+              size="lg"
+              variant="outline"
+              color="pink"
+              onClick={() => {
+                // void onClickCrateDiaryButton();
+                setModalOpened(true);
+              }}
+              loading={buttonLoading}
+            >
+              日報を作成する
+            </Button>
+          )}
         </div>
-      )}
-      <div className="mt-8">
-        <TaskTimeline />
+        {shouldShowDummyDiary && (
+          <div className="mt-4">
+            <DummyDiary />
+          </div>
+        )}
+        <div className="mt-8">
+          <TaskTimeline />
+        </div>
       </div>
-    </div>
+      <CreateDiaryModal
+        opened={modalOpened}
+        onClose={() => setModalOpened(false)}
+        onCreateDiary={() => void onCreateDiary()}
+      />
+    </>
   );
 };
 
