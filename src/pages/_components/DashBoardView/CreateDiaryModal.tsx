@@ -17,7 +17,7 @@ type Props = {
 
 export const CreateDiaryModal = ({ onCreateDiary, ...modalProps }: Props) => {
   const { inputValue, setInputValue, toggleRecording, transcript, recording } =
-    useASRInput();
+    useASRInput({ target: 'create-diary' });
 
   return (
     <Modal

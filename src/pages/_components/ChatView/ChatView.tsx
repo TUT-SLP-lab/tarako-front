@@ -28,7 +28,9 @@ const MOCK_CHAT: Chat[] = [
 
 export const ChatView = () => {
   const { inputValue, setInputValue, toggleRecording, transcript, recording } =
-    useASRInput();
+    useASRInput({
+      target: 'chatbot',
+    });
 
   return (
     <div className="flex h-full flex-col divide-y divide-gray-200 bg-slate-50">
