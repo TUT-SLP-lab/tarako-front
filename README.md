@@ -20,9 +20,10 @@ npm i
 cp .env.development .env.development.local
 ```
 
-4. Devサーバーの立ち上げ
+4. Devサーバーの立ち上げ（必要に応じてmockサーバーも立てる）
 
 ```bash
+npm run mock // 必要に応じて
 npm run dev
 ```
 
