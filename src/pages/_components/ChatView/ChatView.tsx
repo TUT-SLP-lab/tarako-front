@@ -30,15 +30,8 @@ const MOCK_CHAT: Chat[] = [
 
 export const ChatView = () => {
   const [inputValue, setInputValue] = useState('');
-  const { transcript, listening, resetTranscript } = useSpeechRecognition();
-
-  useEffect(() => {
-    transcript && setInputValue(transcript);
-
-    if (!listening) {
-      resetTranscript();
-    }
-  }, [listening, resetTranscript, transcript]);
+  const { transcript, listening, finalTranscript, resetTranscript } =
+    useSpeechRecognition();
 
   const onClickRecordButton = () => {
     if (listening) {
@@ -50,6 +43,18 @@ export const ChatView = () => {
       });
     }
   };
+
+  useEffect(() => {
+    if (!listening) {
+      resetTranscript();
+    }
+  }, [finalTranscript, listening, resetTranscript]);
+
+  useEffect(() => {
+    if (!listening && finalTranscript) {
+      setInputValue((prev) => prev + finalTranscript);
+    }
+  }, [finalTranscript, listening]);
 
   return (
     <div className="flex h-full flex-col divide-y divide-gray-200 bg-slate-50">
@@ -63,9 +68,11 @@ export const ChatView = () => {
       <div className="bg-slate-100 px-4 py-6">
         <ChatInput
           value={inputValue}
+          transcript={transcript}
           onChange={setInputValue}
           onSubmit={() => void 0}
           onClickRecordButton={onClickRecordButton}
+          isRecording={listening}
         />
       </div>
     </div>
