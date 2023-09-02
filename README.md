@@ -13,9 +13,17 @@ n auto
 npm i
 ```
 
-3. Devサーバーの立ち上げ
+3. 環境変数の設定
+   .env.developmentをlocal環境変数用ファイルにコピーし、空になっている部分を設定する。
 
 ```bash
+cp .env.development .env.development.local
+```
+
+4. Devサーバーの立ち上げ（必要に応じてmockサーバーも立てる）
+
+```bash
+npm run mock // 必要に応じて
 npm run dev
 ```
 

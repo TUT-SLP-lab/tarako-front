@@ -39,7 +39,7 @@ export const Header = () => {
         type: 'link',
         icon: <IconUser size={14} />,
         label: 'マイページ',
-        href: `/users/${user.id}`,
+        href: `/users/${user.user_id}`,
       },
       {
         type: 'link',
@@ -67,6 +67,9 @@ export const Header = () => {
     danger: ReadonlyArray<Menu>;
   };
 
+  console.log(router.pathname);
+  console.log(router.query.sectionId);
+
   return (
     <header className="fixed left-0 right-0 top-0 z-50 flex h-header items-center justify-between border-b border-gray-200 bg-white px-8">
       <Link href="/" className="flex items-center">
@@ -86,8 +89,14 @@ export const Header = () => {
           <PageLink href="/" active={router.pathname === '/'}>
             トップ
           </PageLink>
-          <PageLink href="/section" active={router.pathname === '/section'}>
-            部署
+          <PageLink
+            href={`/sections/${user.section?.section_id}`}
+            active={router.pathname === '/sections/[sectionId]'}
+          >
+            {user.section?.name}
+          </PageLink>
+          <PageLink href="/sections" active={router.pathname === '/sections'}>
+            部署一覧
           </PageLink>
         </div>
         <AvatarMenu
