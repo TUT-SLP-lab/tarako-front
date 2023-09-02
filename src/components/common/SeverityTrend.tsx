@@ -14,6 +14,7 @@ type UsersData = {
 };
 
 type Props = {
+  title: string;
   data: UsersData[];
 };
 
@@ -51,7 +52,7 @@ const SeverityTrend = (props: Props) => {
 
   return (
     <>
-      <div className="text-center text-xl font-bold">深刻度の推移</div>
+      <div className="text-center text-xl font-bold">{props.title}</div>
       <ResponsiveContainer width="100%" height="100%">
         <LineChart data={chartDatas} margin={{ bottom: 30, right: 30 }}>
           {users.map((user, index) => (

@@ -51,7 +51,10 @@ const SectionPage: NextPage = () => {
           <PageTitle>部署ページ</PageTitle>
           <div className="flex h-[280px] gap-4">
             <div className="flex-1 rounded-lg border-2 border-gray-200">
-              <SeverityTrend data={mockChartDatas} />
+              <SeverityTrend
+                title="各メンバーの深刻度の推移"
+                data={mockChartDatas}
+              />
             </div>
             <div className="flex-1 rounded-lg border-2 border-gray-200">
               <TaskStatus
