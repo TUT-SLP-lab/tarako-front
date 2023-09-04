@@ -1,5 +1,6 @@
 import type { NextPage } from 'next';
 
+import { Affix } from '@/components/common/Affix';
 import SeverityTrend from '@/components/common/SeverityTrend';
 import TaskStatus from '@/components/common/TaskStatus';
 import { TaskTimeline } from '@/components/features/task/TaskTimeline';
@@ -67,6 +68,7 @@ const UserDetailPage: NextPage = () => {
           <TaskTimeline />
         </div>
       </BaseAuthLayout>
+      <Affix />
     </>
   );
 };
