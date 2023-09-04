@@ -61,22 +61,22 @@ const SectionDetailPage: NextPage = () => {
   }
 
   // 表示する部署数を2つにする
-  const showSections: Section[] | undefined = [];
+  const filteredSections: Section[] = [];
   if (sections) {
     if (sections.length > 2) {
       // 自分以外の部署から2つ表示される
       for (let i = 0; i < sections.length; i++) {
-        if (showSections.length == 2) {
+        if (filteredSections.length == 2) {
           break;
         }
         if (sections[i].name !== section.name) {
-          showSections.push(sections[i]);
+          filteredSections.push(sections[i]);
         }
       }
     } else {
       //全部署数が2つ以下のとき，自分の部署も表示
       sections.forEach((section) => {
-        showSections.push(section);
+        filteredSections.push(section);
       });
     }
   }
@@ -128,11 +128,11 @@ const SectionDetailPage: NextPage = () => {
                 : null}
             </div>
           </section>
-          {showSections && (
+          {filteredSections && (
             <section className="mt-12">
               <h2 className="text-2xl font-bold">部署一覧</h2>
               <div className="mt-4 grid h-36 grid-cols-2 gap-4">
-                {showSections.map((section) => {
+                {filteredSections.map((section) => {
                   return (
                     <Link
                       key={section.section_id}
