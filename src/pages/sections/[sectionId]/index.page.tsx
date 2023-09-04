@@ -1,12 +1,11 @@
-import type { Section } from '@/generated/typescript-axios';
 import type { NextPage } from 'next';
 
 import { PageTitle } from '@/components/common/PageTitle';
 import SeverityTrend from '@/components/common/SeverityTrend';
 import TaskStatus from '@/components/common/TaskStatus';
+import { SectionCards } from '@/components/features/section/SectionCards';
 import { BaseAuthLayout } from '@/components/layouts/BaseAuthLayout';
 import { useSection } from '@/utils/hooks/api/useSection';
-import { useSections } from '@/utils/hooks/api/useSections';
 import { useUsers } from '@/utils/hooks/api/useUsers';
 import { Avatar } from '@mantine/core';
 import Head from 'next/head';
@@ -50,7 +49,6 @@ const SectionDetailPage: NextPage = () => {
 
   const { users, isLoading } = useUsers();
   const { section } = useSection({ sectionId });
-  const { sections } = useSections();
 
   if (users === undefined || section === undefined || isLoading) {
     return (
@@ -58,27 +56,6 @@ const SectionDetailPage: NextPage = () => {
         <div className="md:animate-spin" />
       </BaseAuthLayout>
     );
-  }
-
-  // 表示する部署数を4つにする
-  const filteredSections: Section[] = [];
-  if (sections) {
-    if (sections.length > 2) {
-      // 自分以外の部署から4つ表示される
-      for (let i = 0; i < sections.length; i++) {
-        if (filteredSections.length == 4) {
-          break;
-        }
-        if (sections[i].name !== section.name) {
-          filteredSections.push(sections[i]);
-        }
-      }
-    } else {
-      //全部署数が4つ以下のとき，自分の部署も表示
-      sections.forEach((section) => {
-        filteredSections.push(section);
-      });
-    }
   }
 
   return (
@@ -128,36 +105,18 @@ const SectionDetailPage: NextPage = () => {
                 : null}
             </div>
           </section>
-          {filteredSections && (
-            <section className="mt-12">
-              <h2 className="text-2xl font-bold">部署一覧</h2>
-              <div className="mt-4 grid grid-cols-2 gap-4">
-                {filteredSections.map((section) => {
-                  return (
-                    <Link
-                      key={section.section_id}
-                      href={`/sections/${section.section_id}`}
-                      className="flex flex-1 items-center justify-center gap-8 rounded-lg border border-gray-200 px-4 py-16 transition-colors hover:bg-gray-100"
-                    >
-                      <Avatar
-                        src={`/section_images/${section.icon}.png`}
-                        size={96}
-                      />
-                      <div>
-                        <p className="text-xl font-bold">{section.name}</p>
-                      </div>
-                    </Link>
-                  );
-                })}
-              </div>
+          <div className="mt-12">
+            <h2 className="text-2xl font-bold">部署一覧</h2>
+            <div className="mt-4">
+              <SectionCards visibleNum={4} />
               <Link
                 href="/sections"
                 className="text-md mt-4 block w-fit text-light underline"
               >
                 全ての部署を見る
               </Link>
-            </section>
-          )}
+            </div>
+          </div>
         </div>
       </BaseAuthLayout>
     </>
