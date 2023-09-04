@@ -1,10 +1,15 @@
 import type { NextPage } from 'next';
 
+import { Affix } from '@/components/common/Affix';
 import { PageTitle } from '@/components/common/PageTitle';
+import { SectionCards } from '@/components/features/section/SectionCards';
 import { BaseAuthLayout } from '@/components/layouts/BaseAuthLayout';
+import { useSections } from '@/utils/hooks/api/useSections';
 import Head from 'next/head';
 
 const SectionsPage: NextPage = () => {
+  const { sections } = useSections();
+
   return (
     <>
       <Head>
@@ -13,19 +18,14 @@ const SectionsPage: NextPage = () => {
       <BaseAuthLayout>
         <div className="mx-auto max-w-screen-lg p-8">
           <PageTitle>部署一覧</PageTitle>
-          <div className="mt-8 flex flex-col gap-y-4">
-            {[1, 2, 3, 4, 5].map((i) => {
-              return (
-                <div key={i} className="flex h-[280px] animate-pulse gap-x-4">
-                  <div className="flex-1 rounded-lg bg-gray-200" />
-                  <div className="flex-1 rounded-lg  bg-gray-200" />
-                  <div className="flex-1 rounded-lg bg-gray-200" />
-                </div>
-              );
-            })}
-          </div>
+          {sections && (
+            <div className="mt-12 flex flex-col gap-y-4">
+              <SectionCards />
+            </div>
+          )}
         </div>
       </BaseAuthLayout>
+      <Affix />
     </>
   );
 };

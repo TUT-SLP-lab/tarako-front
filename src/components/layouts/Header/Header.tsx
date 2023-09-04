@@ -67,9 +67,6 @@ export const Header = () => {
     danger: ReadonlyArray<Menu>;
   };
 
-  console.log(router.pathname);
-  console.log(router.query.sectionId);
-
   return (
     <header className="fixed left-0 right-0 top-0 z-50 flex h-header items-center justify-between border-b border-gray-200 bg-white px-8">
       <Link href="/" className="flex items-center">
