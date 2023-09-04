@@ -2,5 +2,7 @@
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
-  }
+  },
+  // VSCodeのテーマを設定
+  "workbench.colorTheme": "Tomorrow Night Blue"
 }
