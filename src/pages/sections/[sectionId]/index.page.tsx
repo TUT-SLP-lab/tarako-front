@@ -60,13 +60,13 @@ const SectionDetailPage: NextPage = () => {
     );
   }
 
-  // 表示する部署数を2つにする
+  // 表示する部署数を4つにする
   const filteredSections: Section[] = [];
   if (sections) {
     if (sections.length > 2) {
-      // 自分以外の部署から2つ表示される
+      // 自分以外の部署から4つ表示される
       for (let i = 0; i < sections.length; i++) {
-        if (filteredSections.length == 2) {
+        if (filteredSections.length == 4) {
           break;
         }
         if (sections[i].name !== section.name) {
@@ -74,7 +74,7 @@ const SectionDetailPage: NextPage = () => {
         }
       }
     } else {
-      //全部署数が2つ以下のとき，自分の部署も表示
+      //全部署数が4つ以下のとき，自分の部署も表示
       sections.forEach((section) => {
         filteredSections.push(section);
       });
@@ -131,13 +131,13 @@ const SectionDetailPage: NextPage = () => {
           {filteredSections && (
             <section className="mt-12">
               <h2 className="text-2xl font-bold">部署一覧</h2>
-              <div className="mt-4 grid h-36 grid-cols-2 gap-4">
+              <div className="mt-4 grid grid-cols-2 gap-4">
                 {filteredSections.map((section) => {
                   return (
                     <Link
                       key={section.section_id}
                       href={`/sections/${section.section_id}`}
-                      className="flex flex-1 items-center justify-center gap-8 rounded-lg border border-gray-200 p-4 transition-colors hover:bg-gray-100"
+                      className="flex flex-1 items-center justify-center gap-8 rounded-lg border border-gray-200 px-4 py-16 transition-colors hover:bg-gray-100"
                     >
                       <Avatar
                         src={`/section_images/${section.icon}.png`}

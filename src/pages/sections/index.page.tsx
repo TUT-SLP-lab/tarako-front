@@ -1,5 +1,6 @@
 import type { NextPage } from 'next';
 
+import { Affix } from '@/components/common/Affix';
 import { PageTitle } from '@/components/common/PageTitle';
 import { BaseAuthLayout } from '@/components/layouts/BaseAuthLayout';
 import { useSections } from '@/utils/hooks/api/useSections';
@@ -18,34 +19,32 @@ const SectionsPage: NextPage = () => {
       <BaseAuthLayout>
         <div className="mx-auto max-w-screen-lg p-8">
           <PageTitle>部署一覧</PageTitle>
-          <div className="mt-8 flex flex-col gap-y-4">
-            {sections && (
-              <section className="mt-12">
-                <h2 className="text-2xl font-bold">部署一覧</h2>
-                <div className="mt-4 grid h-36 grid-cols-2 gap-4">
-                  {sections.map((section) => {
-                    return (
-                      <Link
-                        key={section.section_id}
-                        href={`/sections/${section.section_id}`}
-                        className="flex flex-1 items-center justify-center gap-8 rounded-lg border border-gray-200 p-4 transition-colors hover:bg-gray-100"
-                      >
-                        <Avatar
-                          src={`/section_images/${section.icon}.png`}
-                          size={96}
-                        />
-                        <div>
-                          <p className="text-xl font-bold">{section.name}</p>
-                        </div>
-                      </Link>
-                    );
-                  })}
-                </div>
-              </section>
-            )}
-          </div>
+          {sections && (
+            <section className="mt-12 flex flex-col gap-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                {sections.map((section) => {
+                  return (
+                    <Link
+                      key={section.section_id}
+                      href={`/sections/${section.section_id}`}
+                      className="flex flex-1 items-center justify-center gap-8 rounded-lg border border-gray-200 px-4 py-16 transition-colors hover:bg-gray-100"
+                    >
+                      <Avatar
+                        src={`/section_images/${section.icon}.png`}
+                        size={96}
+                      />
+                      <div>
+                        <p className="text-xl font-bold">{section.name}</p>
+                      </div>
+                    </Link>
+                  );
+                })}
+              </div>
+            </section>
+          )}
         </div>
       </BaseAuthLayout>
+      <Affix />
     </>
   );
 };
