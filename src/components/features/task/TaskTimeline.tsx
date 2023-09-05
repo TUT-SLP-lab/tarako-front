@@ -6,12 +6,22 @@ import { Timeline } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import clsx from 'clsx';
 import dayjs from 'dayjs';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 export const TaskTimeline = () => {
   const [opened, { close, open }] = useDisclosure(false);
   const [modalTaskId, setModalTaskId] = useState('');
   const { tasks, isLoading } = useTasks();
+
+  const sortedTasks = useMemo(() => {
+    return tasks?.sort((a, b) => {
+      if (a.updated_at == undefined || b.updated_at == undefined) {
+        return 0;
+      }
+
+      return dayjs(b.updated_at).unix() - dayjs(a.updated_at).unix();
+    });
+  }, [tasks]);
 
   const onClickTimelineItem = (taskId: string) => {
     setModalTaskId(taskId);
@@ -29,14 +39,14 @@ export const TaskTimeline = () => {
     return null;
   }
 
-  if (tasks == undefined || isLoading) {
+  if (sortedTasks == undefined || isLoading) {
     return null;
   }
 
   return (
     <>
       <Timeline bulletSize={32}>
-        {tasks.map((item) => {
+        {sortedTasks.map((item) => {
           const progressPercentage = item.progresses?.reduce(
             (prev, current) => {
               if (
