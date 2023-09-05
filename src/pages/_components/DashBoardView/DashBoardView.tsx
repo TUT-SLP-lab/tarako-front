@@ -21,7 +21,7 @@ export const DashBoardView = () => {
     <>
       <div className="mx-auto max-w-screen-lg">
         <div className="flex items-center justify-between">
-          <h2 className="text-3xl font-bold">Today</h2>
+          <h2 className="text-3xl font-bold">ダッシュボード</h2>
           {!shouldShowDummyDiary && (
             <Button
               size="lg"
