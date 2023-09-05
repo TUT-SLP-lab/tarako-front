@@ -6,6 +6,7 @@ import TaskStatus from '@/components/common/TaskStatus';
 import { TaskTimeline } from '@/components/features/task/TaskTimeline';
 import { BaseAuthLayout } from '@/components/layouts/BaseAuthLayout';
 import { useUser } from '@/utils/hooks/api/useUser';
+import { useUserDiary } from '@/utils/hooks/api/useUserDiary';
 import { Avatar } from '@mantine/core';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
@@ -28,6 +29,8 @@ const UserDetailPage: NextPage = () => {
   const userId = router.query.userId as string;
 
   const { user, isLoading } = useUser({ userId });
+  const { userDiary } = useUserDiary({ userId });
+  console.log(userDiary);
 
   // TODO: ローディング中の表示を作る
   if (user === undefined || isLoading) {

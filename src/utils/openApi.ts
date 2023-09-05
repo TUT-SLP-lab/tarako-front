@@ -2,6 +2,7 @@ import {
   Configuration,
   SectionApi,
   UserApi,
+  UserDiaryApi,
 } from '@/generated/typescript-axios';
 import axios from 'axios';
 
@@ -23,5 +24,6 @@ const axiosInstance = axios.create({
 
 const userApi = new UserApi(apiConfig, '', axiosInstance);
 const sectionApi = new SectionApi(apiConfig, '', axiosInstance);
+const userDiaryApi = new UserDiaryApi(apiConfig, '', axiosInstance);
 
-export { userApi, sectionApi };
+export { userApi, sectionApi, userDiaryApi };
