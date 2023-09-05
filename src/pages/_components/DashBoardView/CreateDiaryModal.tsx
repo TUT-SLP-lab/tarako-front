@@ -1,5 +1,4 @@
 import type { ModalProps } from '@mantine/core';
-import type { ReactNode } from 'react';
 
 import { useASRInput } from '@/utils/hooks/useASRInput';
 import { ActionIcon, Button, Modal, Textarea } from '@mantine/core';
@@ -10,6 +9,7 @@ import {
 } from '@tabler/icons-react';
 import { IconEdit, IconStar } from '@tabler/icons-react';
 import clsx from 'clsx';
+import { useState, type ReactNode } from 'react';
 
 type Props = {
   onCreateDiary: () => void;
@@ -18,6 +18,13 @@ type Props = {
 export const CreateDiaryModal = ({ onCreateDiary, ...modalProps }: Props) => {
   const { inputValue, setInputValue, toggleRecording, transcript, recording } =
     useASRInput({ target: 'create-diary' });
+
+  const [hasRecorded, setHasRecorded] = useState(false);
+
+  const onClickRecordButton = () => {
+    toggleRecording();
+    setHasRecorded(true);
+  };
 
   return (
     <Modal
@@ -54,7 +61,7 @@ export const CreateDiaryModal = ({ onCreateDiary, ...modalProps }: Props) => {
         </div>
         <div className="mt-20 space-y-8">
           {transcript && <div className="text-xl">{transcript}</div>}
-          {inputValue && (
+          {hasRecorded && (
             <Textarea
               size="lg"
               label="今日のふりかえり"
@@ -72,7 +79,7 @@ export const CreateDiaryModal = ({ onCreateDiary, ...modalProps }: Props) => {
               radius="xl"
               variant="filled"
               className={clsx(!inputValue && 'mx-auto w-fit')}
-              onClick={toggleRecording}
+              onClick={onClickRecordButton}
             >
               <IconMicrophone size="1.75rem" />
             </ActionIcon>
