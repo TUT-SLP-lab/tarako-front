@@ -1,8 +1,10 @@
+import { TaskCategoryIcon } from './TaskCategoryIcon';
 import { TaskDetailModal } from './TaskDetailModal';
+import { TaskCategory } from '@/generated/typescript-axios';
 import { useTasks } from '@/utils/hooks/api/useTasks';
 import { Timeline } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { IconGitBranch } from '@tabler/icons-react';
+import clsx from 'clsx';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 
@@ -33,12 +35,44 @@ export const TaskTimeline = () => {
 
   return (
     <>
-      <Timeline bulletSize={24}>
+      <Timeline bulletSize={32}>
         {tasks.map((item) => {
+          const progressPercentage = item.progresses?.reduce(
+            (prev, current) => {
+              if (
+                prev?.percentage == undefined ||
+                current?.percentage == undefined
+              ) {
+                return prev;
+              }
+
+              return prev?.percentage > current?.percentage ? prev : current;
+            },
+          );
+
           return (
             <Timeline.Item
               key={item.task_id}
-              bullet={<IconGitBranch size={16} />}
+              bullet={
+                <div
+                  className={clsx(
+                    'flex h-full w-full items-center justify-center rounded-full bg-red-500',
+                    {
+                      'bg-red-700': item.category === TaskCategory.Hr,
+                      'bg-blue-700': item.category === TaskCategory.Accounting,
+                      'bg-green-700':
+                        item.category === TaskCategory.GeneralAffairs,
+                      'bg-yellow-700': item.category === TaskCategory.Diary,
+                      'bg-gray-700': item.category === TaskCategory.Other,
+                    },
+                  )}
+                >
+                  <TaskCategoryIcon
+                    category={item.category as TaskCategory}
+                    color="white"
+                  />
+                </div>
+              }
               bulletSize={32}
               title={
                 <div className="flex items-start justify-between">
@@ -51,8 +85,30 @@ export const TaskTimeline = () => {
               onClick={() => onClickTimelineItem(item.task_id as string)}
               className="cursor-pointer rounded-md border border-gray-200 py-4 pl-8 pr-4 hover:bg-gray-50"
             >
-              <div className="pb-8">
-                <p className="text-md text-light">{item.details}</p>
+              <div>
+                <p className="text-md">{item.details}</p>
+              </div>
+              <div className="mt-4 text-sm text-light underline">
+                {item.completed?.toString() === 'True'
+                  ? '完了済み'
+                  : `深刻度レベル: ${item.serious}`}
+              </div>
+              <div className="mt-3 flex items-end justify-between">
+                <div className="mt-3 flex gap-x-2">
+                  {item?.tags?.map((tag) => {
+                    return (
+                      <span
+                        key={tag}
+                        className="block rounded-md bg-gray-100 px-3 py-1 text-sm text-gray-500"
+                      >
+                        {tag}
+                      </span>
+                    );
+                  })}
+                </div>
+                <p className="text-sm text-light">
+                  進捗率: {progressPercentage?.percentage}%
+                </p>
               </div>
             </Timeline.Item>
           );

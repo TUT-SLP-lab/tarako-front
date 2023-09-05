@@ -14,6 +14,14 @@ export const TaskDetailModal = ({ taskId, ...modalProps }: Props) => {
     return null;
   }
 
+  const progressPercentage = task.progresses?.reduce((prev, current) => {
+    if (prev?.percentage == undefined || current?.percentage == undefined) {
+      return prev;
+    }
+
+    return prev?.percentage > current?.percentage ? prev : current;
+  });
+
   return (
     <Modal
       {...modalProps}
@@ -22,7 +30,31 @@ export const TaskDetailModal = ({ taskId, ...modalProps }: Props) => {
       title={<h2 className="text-2xl font-bold text-normal">{task.title}</h2>}
       padding="xl"
     >
-      <p className="text-lg text-normal">{task.details}</p>
+      <div>
+        <p className="text-md">{task.details}</p>
+      </div>
+      <div className="mt-4 text-sm text-light underline">
+        {task.completed?.toString() === 'True'
+          ? '完了済み'
+          : `深刻度レベル: ${task.serious}`}
+      </div>
+      <div className="mt-3 flex items-end justify-between">
+        <div className="mt-3 flex gap-x-2">
+          {task?.tags?.map((tag) => {
+            return (
+              <span
+                key={tag}
+                className="block rounded-md bg-gray-100 px-3 py-1 text-sm text-gray-500"
+              >
+                {tag}
+              </span>
+            );
+          })}
+        </div>
+        <p className="text-sm text-light">
+          進捗率: {progressPercentage?.percentage}%
+        </p>
+      </div>
     </Modal>
   );
 };
