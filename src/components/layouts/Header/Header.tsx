@@ -2,6 +2,7 @@ import type { Menu } from './AvatarMenu';
 
 import { AvatarMenu } from './AvatarMenu';
 import { PageLink } from './PageLink';
+import { useSection } from '@/utils/hooks/api/useSection';
 import { useAuth } from '@/utils/hooks/useAuth';
 import {
   IconHelp,
@@ -15,8 +16,10 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
 export const Header = () => {
-  const { user, logout } = useAuth();
   const router = useRouter();
+  const { user, logout } = useAuth();
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  const { section } = useSection({ sectionId: user?.section_id });
 
   // TODO: 原因を調査する
   const [isClient, setIsClient] = useState(false);
@@ -87,10 +90,10 @@ export const Header = () => {
             トップ
           </PageLink>
           <PageLink
-            href={`/sections/${user.section?.section_id}`}
+            href={`/sections/${user.section_id}`}
             active={router.pathname === '/sections/[sectionId]'}
           >
-            {user.section?.name}
+            {section?.name}
           </PageLink>
           <PageLink href="/sections" active={router.pathname === '/sections'}>
             部署一覧

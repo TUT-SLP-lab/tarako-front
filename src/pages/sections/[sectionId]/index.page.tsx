@@ -45,7 +45,7 @@ const mockTaskDatas = [
 
 const SectionDetailPage: NextPage = () => {
   const router = useRouter();
-  const sectionId = router.query.sectionId as string;
+  const sectionId = Number(router.query.sectionId);
 
   const { users, isLoading } = useUsers();
   const { section } = useSection({ sectionId });
@@ -94,9 +94,11 @@ const SectionDetailPage: NextPage = () => {
                         <Avatar src={user.icon} size={96} />
                         <div>
                           <p className="text-xl font-bold">{user.name}</p>
-                          <p className="mt-2 text-xs text-light">
-                            {user.section?.name}
-                          </p>
+                          {section && (
+                            <p className="mt-2 text-xs text-light">
+                              {section.name}
+                            </p>
+                          )}
                           <p className="text-xs text-light">{user.email}</p>
                         </div>
                       </Link>

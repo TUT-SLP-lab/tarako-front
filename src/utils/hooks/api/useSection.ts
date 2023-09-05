@@ -3,7 +3,7 @@ import useSWR from 'swr';
 
 export const useSection = ({ sectionId }: FetcherArgs) => {
   const { data, isLoading, mutate } = useSWR(
-    sectionId ? { url: '/sections', sectionId } : null,
+    sectionId !== undefined ? { url: '/sections', sectionId } : null,
     ({ sectionId }) => fetcher({ sectionId }),
   );
   return {
@@ -14,11 +14,11 @@ export const useSection = ({ sectionId }: FetcherArgs) => {
 };
 
 type FetcherArgs = {
-  sectionId?: string;
+  sectionId?: number;
 };
 
 const fetcher = async ({ sectionId }: FetcherArgs) => {
-  if (!sectionId) {
+  if (sectionId === undefined) {
     return undefined;
   }
 

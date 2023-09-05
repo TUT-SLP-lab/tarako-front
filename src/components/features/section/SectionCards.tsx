@@ -28,7 +28,7 @@ export const SectionCards = ({ visibleNum }: Props) => {
           if (filteredSections.length == visibleNum) {
             break;
           }
-          if (sections[i].section_id !== user.section?.section_id) {
+          if (sections[i].section_id !== user.section_id) {
             filteredSections.push(sections[i]);
           }
         }

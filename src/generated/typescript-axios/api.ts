@@ -45,6 +45,12 @@ export interface CreateDiary {
    * @memberof CreateDiary
    */
   date?: string;
+  /**
+   * 日報の詳細
+   * @type {string}
+   * @memberof CreateDiary
+   */
+  message?: string;
 }
 /**
  *
@@ -58,6 +64,12 @@ export interface DiaryBase {
    * @memberof DiaryBase
    */
   diary_id?: string;
+  /**
+   * 課ID
+   * @type {number}
+   * @memberof DiaryBase
+   */
+  section_id?: number;
   /**
    * 日報の日付
    * @type {string}
@@ -78,10 +90,10 @@ export interface DiaryBase {
   serious?: number;
   /**
    * 作成日時
-   * @type {any}
+   * @type {string}
    * @memberof DiaryBase
    */
-  created_at?: any;
+  created_at?: string;
   /**
    * 更新日時
    * @type {string}
@@ -134,12 +146,6 @@ export interface PostTask208Response {
   message?: string;
 }
 /**
- * @type PostTaskRequest
- * @export
- */
-export type PostTaskRequest = File | RequestTaskAndFile | string;
-
-/**
  * 進捗状況
  * @export
  * @interface ProgressItem
@@ -159,17 +165,17 @@ export interface ProgressItem {
   percentage?: number;
 }
 /**
- * @type PutTaskEntryRequest
- * @export
- */
-export type PutTaskEntryRequest = File | RequestTaskAndFile | Task | string;
-
-/**
  *
  * @export
  * @interface RequestTaskAndFile
  */
 export interface RequestTaskAndFile {
+  /**
+   * ユーザーID
+   * @type {string}
+   * @memberof RequestTaskAndFile
+   */
+  user_id?: string;
   /**
    * タスクの詳細
    * @type {string}
@@ -180,6 +186,31 @@ export interface RequestTaskAndFile {
    * タスクで作成したファイル
    * @type {File}
    * @memberof RequestTaskAndFile
+   */
+  file?: File;
+}
+/**
+ *
+ * @export
+ * @interface RequestTextFileTask
+ */
+export interface RequestTextFileTask {
+  /**
+   * タスクの詳細
+   * @type {string}
+   * @memberof RequestTextFileTask
+   */
+  task?: string;
+  /**
+   * タスクの詳細
+   * @type {string}
+   * @memberof RequestTextFileTask
+   */
+  text?: string;
+  /**
+   * タスクで作成したファイル
+   * @type {File}
+   * @memberof RequestTextFileTask
    */
   file?: File;
 }
@@ -202,17 +233,17 @@ export interface Section {
    */
   name?: string;
   /**
-   * アイコン
+   * 課のアイコン名
    * @type {string}
    * @memberof Section
    */
   icon?: string;
   /**
    * 作成日時
-   * @type {any}
+   * @type {string}
    * @memberof Section
    */
-  created_at?: any;
+  created_at?: string;
   /**
    * 更新日時
    * @type {string}
@@ -245,6 +276,12 @@ export interface SectionDiary {
    */
   diary_id?: string;
   /**
+   * 課ID
+   * @type {number}
+   * @memberof SectionDiary
+   */
+  section_id?: number;
+  /**
    * 日報の日付
    * @type {string}
    * @memberof SectionDiary
@@ -264,10 +301,10 @@ export interface SectionDiary {
   serious?: number;
   /**
    * 作成日時
-   * @type {any}
+   * @type {string}
    * @memberof SectionDiary
    */
-  created_at?: any;
+  created_at?: string;
   /**
    * 更新日時
    * @type {string}
@@ -292,7 +329,13 @@ export interface Task {
    * @type {string}
    * @memberof Task
    */
-  assigned_by?: string | null;
+  assigned_to?: string | null;
+  /**
+   * 課ID
+   * @type {number}
+   * @memberof Task
+   */
+  section_id?: number;
   /**
    * タスク名
    * @type {string}
@@ -337,10 +380,10 @@ export interface Task {
   details?: string;
   /**
    * 作成日時
-   * @type {any}
+   * @type {string}
    * @memberof Task
    */
-  created_at?: any;
+  created_at?: string;
   /**
    * 更新日時
    * @type {string}
@@ -372,12 +415,6 @@ export type TaskCategory = (typeof TaskCategory)[keyof typeof TaskCategory];
  */
 export interface User {
   /**
-   * ユーザーID
-   * @type {string}
-   * @memberof User
-   */
-  user_id?: string;
-  /**
    *
    * @type {string}
    * @memberof User
@@ -396,17 +433,23 @@ export interface User {
    */
   email?: string;
   /**
-   *
-   * @type {Section}
+   * 課ID
+   * @type {number}
    * @memberof User
    */
-  section?: Section;
+  section_id?: number;
+  /**
+   * ユーザーID
+   * @type {string}
+   * @memberof User
+   */
+  user_id?: string;
   /**
    * 作成日時
-   * @type {any}
+   * @type {string}
    * @memberof User
    */
-  created_at?: any;
+  created_at?: string;
   /**
    * 更新日時
    * @type {string}
@@ -439,6 +482,12 @@ export interface UserDiary {
    */
   diary_id?: string;
   /**
+   * 課ID
+   * @type {number}
+   * @memberof UserDiary
+   */
+  section_id?: number;
+  /**
    * 日報の日付
    * @type {string}
    * @memberof UserDiary
@@ -458,10 +507,10 @@ export interface UserDiary {
   serious?: number;
   /**
    * 作成日時
-   * @type {any}
+   * @type {string}
    * @memberof UserDiary
    */
-  created_at?: any;
+  created_at?: string;
   /**
    * 更新日時
    * @type {string}
@@ -480,12 +529,12 @@ export const SectionApiAxiosParamCreator = function (
   return {
     /**
      * 課の詳細
-     * @param {string} sectionId
+     * @param {number} sectionId
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     getSectionEntry: async (
-      sectionId: string,
+      sectionId: number,
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'sectionId' is not null or undefined
@@ -561,6 +610,111 @@ export const SectionApiAxiosParamCreator = function (
         options: localVarRequestOptions,
       };
     },
+    /**
+     * 課の作成
+     * @param {Section} section
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    postSectionEntry: async (
+      section: Section,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'section' is not null or undefined
+      assertParamExists('postSectionEntry', 'section', section);
+      const localVarPath = `/sections`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: 'POST',
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        section,
+        localVarRequestOptions,
+        configuration,
+      );
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * 課の更新
+     * @param {number} sectionId
+     * @param {Section} section
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    putSectionEntry: async (
+      sectionId: number,
+      section: Section,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'sectionId' is not null or undefined
+      assertParamExists('putSectionEntry', 'sectionId', sectionId);
+      // verify required parameter 'section' is not null or undefined
+      assertParamExists('putSectionEntry', 'section', section);
+      const localVarPath = `/sections/{section_id}`.replace(
+        `{${'section_id'}}`,
+        encodeURIComponent(String(sectionId)),
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: 'PUT',
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        section,
+        localVarRequestOptions,
+        configuration,
+      );
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
   };
 };
 
@@ -573,12 +727,12 @@ export const SectionApiFp = function (configuration?: Configuration) {
   return {
     /**
      * 課の詳細
-     * @param {string} sectionId
+     * @param {number} sectionId
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async getSectionEntry(
-      sectionId: string,
+      sectionId: number,
       options?: AxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Section>
@@ -613,6 +767,53 @@ export const SectionApiFp = function (configuration?: Configuration) {
         configuration,
       );
     },
+    /**
+     * 課の作成
+     * @param {Section} section
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async postSectionEntry(
+      section: Section,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Section>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.postSectionEntry(section, options);
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      );
+    },
+    /**
+     * 課の更新
+     * @param {number} sectionId
+     * @param {Section} section
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async putSectionEntry(
+      sectionId: number,
+      section: Section,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Section>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.putSectionEntry(
+        sectionId,
+        section,
+        options,
+      );
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      );
+    },
   };
 };
 
@@ -629,11 +830,11 @@ export const SectionApiFactory = function (
   return {
     /**
      * 課の詳細
-     * @param {string} sectionId
+     * @param {number} sectionId
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getSectionEntry(sectionId: string, options?: any): AxiosPromise<Section> {
+    getSectionEntry(sectionId: number, options?: any): AxiosPromise<Section> {
       return localVarFp
         .getSectionEntry(sectionId, options)
         .then((request) => request(axios, basePath));
@@ -648,6 +849,33 @@ export const SectionApiFactory = function (
         .getSections(options)
         .then((request) => request(axios, basePath));
     },
+    /**
+     * 課の作成
+     * @param {Section} section
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    postSectionEntry(section: Section, options?: any): AxiosPromise<Section> {
+      return localVarFp
+        .postSectionEntry(section, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     * 課の更新
+     * @param {number} sectionId
+     * @param {Section} section
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    putSectionEntry(
+      sectionId: number,
+      section: Section,
+      options?: any,
+    ): AxiosPromise<Section> {
+      return localVarFp
+        .putSectionEntry(sectionId, section, options)
+        .then((request) => request(axios, basePath));
+    },
   };
 };
 
@@ -660,12 +888,12 @@ export const SectionApiFactory = function (
 export class SectionApi extends BaseAPI {
   /**
    * 課の詳細
-   * @param {string} sectionId
+   * @param {number} sectionId
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof SectionApi
    */
-  public getSectionEntry(sectionId: string, options?: AxiosRequestConfig) {
+  public getSectionEntry(sectionId: number, options?: AxiosRequestConfig) {
     return SectionApiFp(this.configuration)
       .getSectionEntry(sectionId, options)
       .then((request) => request(this.axios, this.basePath));
@@ -682,6 +910,37 @@ export class SectionApi extends BaseAPI {
       .getSections(options)
       .then((request) => request(this.axios, this.basePath));
   }
+
+  /**
+   * 課の作成
+   * @param {Section} section
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof SectionApi
+   */
+  public postSectionEntry(section: Section, options?: AxiosRequestConfig) {
+    return SectionApiFp(this.configuration)
+      .postSectionEntry(section, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * 課の更新
+   * @param {number} sectionId
+   * @param {Section} section
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof SectionApi
+   */
+  public putSectionEntry(
+    sectionId: number,
+    section: Section,
+    options?: AxiosRequestConfig,
+  ) {
+    return SectionApiFp(this.configuration)
+      .putSectionEntry(sectionId, section, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
 }
 
 /**
@@ -694,13 +953,13 @@ export const SectionDiaryApiAxiosParamCreator = function (
   return {
     /**
      * 日報の削除
-     * @param {string} sectionId
+     * @param {number} sectionId
      * @param {string} diaryId
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     deleteSectionDiaryEntry: async (
-      sectionId: string,
+      sectionId: number,
       diaryId: string,
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
@@ -798,14 +1057,14 @@ export const SectionDiaryApiAxiosParamCreator = function (
     },
     /**
      * 課の日報一覧
-     * @param {string} sectionId
+     * @param {number} sectionId
      * @param {string} [from] 開始日で絞り込み。指定しなかった場合、制限なし
      * @param {string} [to] 終了日で絞り込み。指定しなかった場合、制限なし
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     getSectionDiaries: async (
-      sectionId: string,
+      sectionId: number,
       from?: string,
       to?: string,
       options: AxiosRequestConfig = {},
@@ -861,13 +1120,13 @@ export const SectionDiaryApiAxiosParamCreator = function (
     },
     /**
      * 日報詳細
-     * @param {string} sectionId
+     * @param {number} sectionId
      * @param {string} diaryId
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     getSectionDiaryEntry: async (
-      sectionId: string,
+      sectionId: number,
       diaryId: string,
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
@@ -909,13 +1168,13 @@ export const SectionDiaryApiAxiosParamCreator = function (
     },
     /**
      * 課に所属しているユーザーの日報から、課の日報を作成
-     * @param {string} sectionId
+     * @param {number} sectionId
      * @param {CreateDiary} createDiary 日報の作成
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     postSectionDiaryEntry: async (
-      sectionId: string,
+      sectionId: number,
       createDiary: CreateDiary,
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
@@ -965,14 +1224,14 @@ export const SectionDiaryApiAxiosParamCreator = function (
     },
     /**
      * 日報の更新
-     * @param {string} sectionId
+     * @param {number} sectionId
      * @param {string} diaryId
      * @param {SectionDiary} sectionDiary 日報の更新
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     putSectionDiaryEntry: async (
-      sectionId: string,
+      sectionId: number,
       diaryId: string,
       sectionDiary: SectionDiary,
       options: AxiosRequestConfig = {},
@@ -1035,13 +1294,13 @@ export const SectionDiaryApiFp = function (configuration?: Configuration) {
   return {
     /**
      * 日報の削除
-     * @param {string} sectionId
+     * @param {number} sectionId
      * @param {string} diaryId
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async deleteSectionDiaryEntry(
-      sectionId: string,
+      sectionId: number,
       diaryId: string,
       options?: AxiosRequestConfig,
     ): Promise<
@@ -1092,14 +1351,14 @@ export const SectionDiaryApiFp = function (configuration?: Configuration) {
     },
     /**
      * 課の日報一覧
-     * @param {string} sectionId
+     * @param {number} sectionId
      * @param {string} [from] 開始日で絞り込み。指定しなかった場合、制限なし
      * @param {string} [to] 終了日で絞り込み。指定しなかった場合、制限なし
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async getSectionDiaries(
-      sectionId: string,
+      sectionId: number,
       from?: string,
       to?: string,
       options?: AxiosRequestConfig,
@@ -1125,13 +1384,13 @@ export const SectionDiaryApiFp = function (configuration?: Configuration) {
     },
     /**
      * 日報詳細
-     * @param {string} sectionId
+     * @param {number} sectionId
      * @param {string} diaryId
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async getSectionDiaryEntry(
-      sectionId: string,
+      sectionId: number,
       diaryId: string,
       options?: AxiosRequestConfig,
     ): Promise<
@@ -1152,13 +1411,13 @@ export const SectionDiaryApiFp = function (configuration?: Configuration) {
     },
     /**
      * 課に所属しているユーザーの日報から、課の日報を作成
-     * @param {string} sectionId
+     * @param {number} sectionId
      * @param {CreateDiary} createDiary 日報の作成
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async postSectionDiaryEntry(
-      sectionId: string,
+      sectionId: number,
       createDiary: CreateDiary,
       options?: AxiosRequestConfig,
     ): Promise<
@@ -1179,14 +1438,14 @@ export const SectionDiaryApiFp = function (configuration?: Configuration) {
     },
     /**
      * 日報の更新
-     * @param {string} sectionId
+     * @param {number} sectionId
      * @param {string} diaryId
      * @param {SectionDiary} sectionDiary 日報の更新
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async putSectionDiaryEntry(
-      sectionId: string,
+      sectionId: number,
       diaryId: string,
       sectionDiary: SectionDiary,
       options?: AxiosRequestConfig,
@@ -1223,13 +1482,13 @@ export const SectionDiaryApiFactory = function (
   return {
     /**
      * 日報の削除
-     * @param {string} sectionId
+     * @param {number} sectionId
      * @param {string} diaryId
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     deleteSectionDiaryEntry(
-      sectionId: string,
+      sectionId: number,
       diaryId: string,
       options?: any,
     ): AxiosPromise<void> {
@@ -1255,14 +1514,14 @@ export const SectionDiaryApiFactory = function (
     },
     /**
      * 課の日報一覧
-     * @param {string} sectionId
+     * @param {number} sectionId
      * @param {string} [from] 開始日で絞り込み。指定しなかった場合、制限なし
      * @param {string} [to] 終了日で絞り込み。指定しなかった場合、制限なし
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     getSectionDiaries(
-      sectionId: string,
+      sectionId: number,
       from?: string,
       to?: string,
       options?: any,
@@ -1273,13 +1532,13 @@ export const SectionDiaryApiFactory = function (
     },
     /**
      * 日報詳細
-     * @param {string} sectionId
+     * @param {number} sectionId
      * @param {string} diaryId
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     getSectionDiaryEntry(
-      sectionId: string,
+      sectionId: number,
       diaryId: string,
       options?: any,
     ): AxiosPromise<SectionDiary> {
@@ -1289,13 +1548,13 @@ export const SectionDiaryApiFactory = function (
     },
     /**
      * 課に所属しているユーザーの日報から、課の日報を作成
-     * @param {string} sectionId
+     * @param {number} sectionId
      * @param {CreateDiary} createDiary 日報の作成
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     postSectionDiaryEntry(
-      sectionId: string,
+      sectionId: number,
       createDiary: CreateDiary,
       options?: any,
     ): AxiosPromise<SectionDiary> {
@@ -1305,14 +1564,14 @@ export const SectionDiaryApiFactory = function (
     },
     /**
      * 日報の更新
-     * @param {string} sectionId
+     * @param {number} sectionId
      * @param {string} diaryId
      * @param {SectionDiary} sectionDiary 日報の更新
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     putSectionDiaryEntry(
-      sectionId: string,
+      sectionId: number,
       diaryId: string,
       sectionDiary: SectionDiary,
       options?: any,
@@ -1333,14 +1592,14 @@ export const SectionDiaryApiFactory = function (
 export class SectionDiaryApi extends BaseAPI {
   /**
    * 日報の削除
-   * @param {string} sectionId
+   * @param {number} sectionId
    * @param {string} diaryId
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof SectionDiaryApi
    */
   public deleteSectionDiaryEntry(
-    sectionId: string,
+    sectionId: number,
     diaryId: string,
     options?: AxiosRequestConfig,
   ) {
@@ -1369,7 +1628,7 @@ export class SectionDiaryApi extends BaseAPI {
 
   /**
    * 課の日報一覧
-   * @param {string} sectionId
+   * @param {number} sectionId
    * @param {string} [from] 開始日で絞り込み。指定しなかった場合、制限なし
    * @param {string} [to] 終了日で絞り込み。指定しなかった場合、制限なし
    * @param {*} [options] Override http request option.
@@ -1377,7 +1636,7 @@ export class SectionDiaryApi extends BaseAPI {
    * @memberof SectionDiaryApi
    */
   public getSectionDiaries(
-    sectionId: string,
+    sectionId: number,
     from?: string,
     to?: string,
     options?: AxiosRequestConfig,
@@ -1389,14 +1648,14 @@ export class SectionDiaryApi extends BaseAPI {
 
   /**
    * 日報詳細
-   * @param {string} sectionId
+   * @param {number} sectionId
    * @param {string} diaryId
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof SectionDiaryApi
    */
   public getSectionDiaryEntry(
-    sectionId: string,
+    sectionId: number,
     diaryId: string,
     options?: AxiosRequestConfig,
   ) {
@@ -1407,14 +1666,14 @@ export class SectionDiaryApi extends BaseAPI {
 
   /**
    * 課に所属しているユーザーの日報から、課の日報を作成
-   * @param {string} sectionId
+   * @param {number} sectionId
    * @param {CreateDiary} createDiary 日報の作成
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof SectionDiaryApi
    */
   public postSectionDiaryEntry(
-    sectionId: string,
+    sectionId: number,
     createDiary: CreateDiary,
     options?: AxiosRequestConfig,
   ) {
@@ -1425,7 +1684,7 @@ export class SectionDiaryApi extends BaseAPI {
 
   /**
    * 日報の更新
-   * @param {string} sectionId
+   * @param {number} sectionId
    * @param {string} diaryId
    * @param {SectionDiary} sectionDiary 日報の更新
    * @param {*} [options] Override http request option.
@@ -1433,7 +1692,7 @@ export class SectionDiaryApi extends BaseAPI {
    * @memberof SectionDiaryApi
    */
   public putSectionDiaryEntry(
-    sectionId: string,
+    sectionId: number,
     diaryId: string,
     sectionDiary: SectionDiary,
     options?: AxiosRequestConfig,
@@ -1612,18 +1871,18 @@ export const TaskApiAxiosParamCreator = function (
     },
     /**
      * タスクの投稿
-     * @param {PostTaskRequest} postTaskRequest
+     * @param {RequestTaskAndFile} requestTaskAndFile
      * @param {boolean} [forceCreate] すでに存在するタスクを強制的に作成するかどうか。指定しなかった場合、変更を提案されることがある。
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     postTask: async (
-      postTaskRequest: PostTaskRequest,
+      requestTaskAndFile: RequestTaskAndFile,
       forceCreate?: boolean,
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
-      // verify required parameter 'postTaskRequest' is not null or undefined
-      assertParamExists('postTask', 'postTaskRequest', postTaskRequest);
+      // verify required parameter 'requestTaskAndFile' is not null or undefined
+      assertParamExists('postTask', 'requestTaskAndFile', requestTaskAndFile);
       const localVarPath = `/tasks`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1655,7 +1914,7 @@ export const TaskApiAxiosParamCreator = function (
         ...options.headers,
       };
       localVarRequestOptions.data = serializeDataIfNeeded(
-        postTaskRequest,
+        requestTaskAndFile,
         localVarRequestOptions,
         configuration,
       );
@@ -1668,22 +1927,22 @@ export const TaskApiAxiosParamCreator = function (
     /**
      * タスクを更新する。
      * @param {string} taskId
-     * @param {PutTaskEntryRequest} putTaskEntryRequest
+     * @param {RequestTextFileTask} requestTextFileTask
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     putTaskEntry: async (
       taskId: string,
-      putTaskEntryRequest: PutTaskEntryRequest,
+      requestTextFileTask: RequestTextFileTask,
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'taskId' is not null or undefined
       assertParamExists('putTaskEntry', 'taskId', taskId);
-      // verify required parameter 'putTaskEntryRequest' is not null or undefined
+      // verify required parameter 'requestTextFileTask' is not null or undefined
       assertParamExists(
         'putTaskEntry',
-        'putTaskEntryRequest',
-        putTaskEntryRequest,
+        'requestTextFileTask',
+        requestTextFileTask,
       );
       const localVarPath = `/tasks/{task_id}`.replace(
         `{${'task_id'}}`,
@@ -1715,7 +1974,7 @@ export const TaskApiAxiosParamCreator = function (
         ...options.headers,
       };
       localVarRequestOptions.data = serializeDataIfNeeded(
-        putTaskEntryRequest,
+        requestTextFileTask,
         localVarRequestOptions,
         configuration,
       );
@@ -1818,13 +2077,13 @@ export const TaskApiFp = function (configuration?: Configuration) {
     },
     /**
      * タスクの投稿
-     * @param {PostTaskRequest} postTaskRequest
+     * @param {RequestTaskAndFile} requestTaskAndFile
      * @param {boolean} [forceCreate] すでに存在するタスクを強制的に作成するかどうか。指定しなかった場合、変更を提案されることがある。
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async postTask(
-      postTaskRequest: PostTaskRequest,
+      requestTaskAndFile: RequestTaskAndFile,
       forceCreate?: boolean,
       options?: AxiosRequestConfig,
     ): Promise<
@@ -1834,7 +2093,7 @@ export const TaskApiFp = function (configuration?: Configuration) {
       ) => AxiosPromise<PostTask201Response>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.postTask(
-        postTaskRequest,
+        requestTaskAndFile,
         forceCreate,
         options,
       );
@@ -1848,20 +2107,20 @@ export const TaskApiFp = function (configuration?: Configuration) {
     /**
      * タスクを更新する。
      * @param {string} taskId
-     * @param {PutTaskEntryRequest} putTaskEntryRequest
+     * @param {RequestTextFileTask} requestTextFileTask
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async putTaskEntry(
       taskId: string,
-      putTaskEntryRequest: PutTaskEntryRequest,
+      requestTextFileTask: RequestTextFileTask,
       options?: AxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Task>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.putTaskEntry(
         taskId,
-        putTaskEntryRequest,
+        requestTextFileTask,
         options,
       );
       return createRequestFunction(
@@ -1931,34 +2190,34 @@ export const TaskApiFactory = function (
     },
     /**
      * タスクの投稿
-     * @param {PostTaskRequest} postTaskRequest
+     * @param {RequestTaskAndFile} requestTaskAndFile
      * @param {boolean} [forceCreate] すでに存在するタスクを強制的に作成するかどうか。指定しなかった場合、変更を提案されることがある。
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     postTask(
-      postTaskRequest: PostTaskRequest,
+      requestTaskAndFile: RequestTaskAndFile,
       forceCreate?: boolean,
       options?: any,
     ): AxiosPromise<PostTask201Response> {
       return localVarFp
-        .postTask(postTaskRequest, forceCreate, options)
+        .postTask(requestTaskAndFile, forceCreate, options)
         .then((request) => request(axios, basePath));
     },
     /**
      * タスクを更新する。
      * @param {string} taskId
-     * @param {PutTaskEntryRequest} putTaskEntryRequest
+     * @param {RequestTextFileTask} requestTextFileTask
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     putTaskEntry(
       taskId: string,
-      putTaskEntryRequest: PutTaskEntryRequest,
+      requestTextFileTask: RequestTextFileTask,
       options?: any,
     ): AxiosPromise<Task> {
       return localVarFp
-        .putTaskEntry(taskId, putTaskEntryRequest, options)
+        .putTaskEntry(taskId, requestTextFileTask, options)
         .then((request) => request(axios, basePath));
     },
   };
@@ -2023,37 +2282,37 @@ export class TaskApi extends BaseAPI {
 
   /**
    * タスクの投稿
-   * @param {PostTaskRequest} postTaskRequest
+   * @param {RequestTaskAndFile} requestTaskAndFile
    * @param {boolean} [forceCreate] すでに存在するタスクを強制的に作成するかどうか。指定しなかった場合、変更を提案されることがある。
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof TaskApi
    */
   public postTask(
-    postTaskRequest: PostTaskRequest,
+    requestTaskAndFile: RequestTaskAndFile,
     forceCreate?: boolean,
     options?: AxiosRequestConfig,
   ) {
     return TaskApiFp(this.configuration)
-      .postTask(postTaskRequest, forceCreate, options)
+      .postTask(requestTaskAndFile, forceCreate, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
   /**
    * タスクを更新する。
    * @param {string} taskId
-   * @param {PutTaskEntryRequest} putTaskEntryRequest
+   * @param {RequestTextFileTask} requestTextFileTask
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof TaskApi
    */
   public putTaskEntry(
     taskId: string,
-    putTaskEntryRequest: PutTaskEntryRequest,
+    requestTextFileTask: RequestTextFileTask,
     options?: AxiosRequestConfig,
   ) {
     return TaskApiFp(this.configuration)
-      .putTaskEntry(taskId, putTaskEntryRequest, options)
+      .putTaskEntry(taskId, requestTextFileTask, options)
       .then((request) => request(this.axios, this.basePath));
   }
 }
@@ -2123,12 +2382,12 @@ export const UserApiAxiosParamCreator = function (
     },
     /**
      *
-     * @param {string} [department] 部署絞り込み。指定しなかった場合、すべての部署
+     * @param {number} [sectionId]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     getUsers: async (
-      department?: string,
+      sectionId?: number,
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/users`;
@@ -2147,8 +2406,8 @@ export const UserApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
 
-      if (department !== undefined) {
-        localVarQueryParameter['department'] = department;
+      if (sectionId !== undefined) {
+        localVarQueryParameter['section_id'] = sectionId;
       }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -2159,6 +2418,111 @@ export const UserApiAxiosParamCreator = function (
         ...headersFromBaseOptions,
         ...options.headers,
       };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * ユーザーの作成
+     * @param {User} user
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    postUserEntry: async (
+      user: User,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'user' is not null or undefined
+      assertParamExists('postUserEntry', 'user', user);
+      const localVarPath = `/users`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: 'POST',
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        user,
+        localVarRequestOptions,
+        configuration,
+      );
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * ユーザーの更新
+     * @param {string} userId
+     * @param {User} user
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    putUserEntry: async (
+      userId: string,
+      user: User,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'userId' is not null or undefined
+      assertParamExists('putUserEntry', 'userId', userId);
+      // verify required parameter 'user' is not null or undefined
+      assertParamExists('putUserEntry', 'user', user);
+      const localVarPath = `/users/{user_id}`.replace(
+        `{${'user_id'}}`,
+        encodeURIComponent(String(userId)),
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: 'PUT',
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        user,
+        localVarRequestOptions,
+        configuration,
+      );
 
       return {
         url: toPathString(localVarUrlObj),
@@ -2200,18 +2564,67 @@ export const UserApiFp = function (configuration?: Configuration) {
     },
     /**
      *
-     * @param {string} [department] 部署絞り込み。指定しなかった場合、すべての部署
+     * @param {number} [sectionId]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async getUsers(
-      department?: string,
+      sectionId?: number,
       options?: AxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<User>>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getUsers(
-        department,
+        sectionId,
+        options,
+      );
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      );
+    },
+    /**
+     * ユーザーの作成
+     * @param {User} user
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async postUserEntry(
+      user: User,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<User>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.postUserEntry(
+        user,
+        options,
+      );
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      );
+    },
+    /**
+     * ユーザーの更新
+     * @param {string} userId
+     * @param {User} user
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async putUserEntry(
+      userId: string,
+      user: User,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<User>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.putUserEntry(
+        userId,
+        user,
         options,
       );
       return createRequestFunction(
@@ -2248,13 +2661,40 @@ export const UserApiFactory = function (
     },
     /**
      *
-     * @param {string} [department] 部署絞り込み。指定しなかった場合、すべての部署
+     * @param {number} [sectionId]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getUsers(department?: string, options?: any): AxiosPromise<Array<User>> {
+    getUsers(sectionId?: number, options?: any): AxiosPromise<Array<User>> {
       return localVarFp
-        .getUsers(department, options)
+        .getUsers(sectionId, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     * ユーザーの作成
+     * @param {User} user
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    postUserEntry(user: User, options?: any): AxiosPromise<User> {
+      return localVarFp
+        .postUserEntry(user, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     * ユーザーの更新
+     * @param {string} userId
+     * @param {User} user
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    putUserEntry(
+      userId: string,
+      user: User,
+      options?: any,
+    ): AxiosPromise<User> {
+      return localVarFp
+        .putUserEntry(userId, user, options)
         .then((request) => request(axios, basePath));
     },
   };
@@ -2282,14 +2722,45 @@ export class UserApi extends BaseAPI {
 
   /**
    *
-   * @param {string} [department] 部署絞り込み。指定しなかった場合、すべての部署
+   * @param {number} [sectionId]
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof UserApi
    */
-  public getUsers(department?: string, options?: AxiosRequestConfig) {
+  public getUsers(sectionId?: number, options?: AxiosRequestConfig) {
     return UserApiFp(this.configuration)
-      .getUsers(department, options)
+      .getUsers(sectionId, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * ユーザーの作成
+   * @param {User} user
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof UserApi
+   */
+  public postUserEntry(user: User, options?: AxiosRequestConfig) {
+    return UserApiFp(this.configuration)
+      .postUserEntry(user, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * ユーザーの更新
+   * @param {string} userId
+   * @param {User} user
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof UserApi
+   */
+  public putUserEntry(
+    userId: string,
+    user: User,
+    options?: AxiosRequestConfig,
+  ) {
+    return UserApiFp(this.configuration)
+      .putUserEntry(userId, user, options)
       .then((request) => request(this.axios, this.basePath));
   }
 }

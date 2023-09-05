@@ -5,6 +5,7 @@ import SeverityTrend from '@/components/common/SeverityTrend';
 import TaskStatus from '@/components/common/TaskStatus';
 import { TaskTimeline } from '@/components/features/task/TaskTimeline';
 import { BaseAuthLayout } from '@/components/layouts/BaseAuthLayout';
+import { useSection } from '@/utils/hooks/api/useSection';
 import { useUser } from '@/utils/hooks/api/useUser';
 import { Avatar } from '@mantine/core';
 import Head from 'next/head';
@@ -28,6 +29,10 @@ const UserDetailPage: NextPage = () => {
   const userId = router.query.userId as string;
 
   const { user, isLoading } = useUser({ userId });
+  const { section } = useSection({
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    sectionId: user?.section_id,
+  });
 
   // TODO: ローディング中の表示を作る
   if (user === undefined || isLoading) {
@@ -49,7 +54,7 @@ const UserDetailPage: NextPage = () => {
             <Avatar src={user.icon} size={320} />
             <div>
               <h1 className="text-3xl font-bold">{user.name}</h1>
-              <p className="mt-1 text-lg">{user.section?.name}</p>
+              <p className="mt-1 text-lg">{section?.name}</p>
               <p className="text-lg">{user.email}</p>
               {/*
               TODO: ユーザーの自己紹介を表示する
