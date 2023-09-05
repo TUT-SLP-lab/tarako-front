@@ -2,7 +2,10 @@ import type { Chat } from './ChatList';
 
 import { ChatInput } from './ChatInput';
 import { ChatList } from './ChatList';
+import { useTasks } from '@/utils/hooks/api/useTasks';
 import { useASRInput } from '@/utils/hooks/useASRInput';
+import { useAuth } from '@/utils/hooks/useAuth';
+import { taskApi } from '@/utils/openApi';
 import { Tooltip } from '@mantine/core';
 import { IconMessageChatbot, IconQuestionMark } from '@tabler/icons-react';
 
@@ -27,10 +30,27 @@ const MOCK_CHAT: Chat[] = [
 ];
 
 export const ChatView = () => {
+  const { user } = useAuth();
+  const { refetchTasks } = useTasks();
   const { inputValue, setInputValue, toggleRecording, transcript, recording } =
     useASRInput({
       target: 'chatbot',
     });
+
+  const onSend = async () => {
+    if (user == undefined) {
+      return;
+    }
+
+    await taskApi.postTask({
+      user_id: user.user_id,
+      text: inputValue,
+    });
+
+    setInputValue('');
+
+    await refetchTasks();
+  };
 
   return (
     <div className="flex h-full flex-col divide-y divide-gray-200 bg-slate-50">
@@ -62,9 +82,9 @@ export const ChatView = () => {
           value={inputValue}
           transcript={transcript}
           onChange={setInputValue}
-          onSubmit={() => void 0}
           onClickRecordButton={toggleRecording}
           recording={recording}
+          onSend={() => void onSend()}
         />
       </div>
     </div>

@@ -6,7 +6,7 @@ import clsx from 'clsx';
 type Props = {
   value: string;
   onChange: (value: string) => void;
-  onSubmit: () => void;
+  onSend: () => void;
   onClickRecordButton: () => void;
   transcript: string;
   recording?: boolean;
@@ -18,6 +18,7 @@ export const ChatInput = ({
   onClickRecordButton,
   transcript,
   recording,
+  onSend,
 }: Props) => {
   return (
     <div>
@@ -49,7 +50,7 @@ export const ChatInput = ({
               )}
             />
           </ActionIcon>
-          <Button color="pink" size="md" disabled={recording}>
+          <Button color="pink" size="md" disabled={recording} onClick={onSend}>
             送信
           </Button>
         </div>

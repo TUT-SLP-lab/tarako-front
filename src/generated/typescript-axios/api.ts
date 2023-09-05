@@ -36,6 +36,55 @@ import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError } from './base';
 /**
  *
  * @export
+ * @interface Chat
+ */
+export interface Chat {
+  /**
+   * chat 履歴ID
+   * @type {string}
+   * @memberof Chat
+   */
+  chat_id?: string;
+  /**
+   * ユーザーID
+   * @type {string}
+   * @memberof Chat
+   */
+  user_id?: string;
+  /**
+   * チャットの日時
+   * @type {string}
+   * @memberof Chat
+   */
+  timestamp?: string;
+  /**
+   * チャット内容
+   * @type {string}
+   * @memberof Chat
+   */
+  message?: string;
+  /**
+   * ユーザーからのメッセージかどうか
+   * @type {boolean}
+   * @memberof Chat
+   */
+  is_user_message?: boolean;
+  /**
+   * 作成日時
+   * @type {string}
+   * @memberof Chat
+   */
+  created_at?: string;
+  /**
+   * 更新日時
+   * @type {string}
+   * @memberof Chat
+   */
+  updated_at?: string;
+}
+/**
+ *
+ * @export
  * @interface CreateDiary
  */
 export interface CreateDiary {
@@ -167,52 +216,115 @@ export interface ProgressItem {
 /**
  *
  * @export
- * @interface RequestTaskAndFile
+ * @interface PutTaskEntryRequest
  */
-export interface RequestTaskAndFile {
+export interface PutTaskEntryRequest {
   /**
    * ユーザーID
    * @type {string}
-   * @memberof RequestTaskAndFile
+   * @memberof PutTaskEntryRequest
+   */
+  assigned_to?: string | null;
+  /**
+   * タスクID
+   * @type {string}
+   * @memberof PutTaskEntryRequest
+   */
+  task_id?: string;
+  /**
+   * 課ID
+   * @type {number}
+   * @memberof PutTaskEntryRequest
+   */
+  section_id?: number;
+  /**
+   * タスク名
+   * @type {string}
+   * @memberof PutTaskEntryRequest
+   */
+  title?: string;
+  /**
+   *
+   * @type {TaskCategory}
+   * @memberof PutTaskEntryRequest
+   */
+  category?: TaskCategory;
+  /**
+   * タスクのタグリスト
+   * @type {Array<string>}
+   * @memberof PutTaskEntryRequest
+   */
+  tags?: Array<string>;
+  /**
+   * 進捗状況リスト
+   * @type {Array<ProgressItem>}
+   * @memberof PutTaskEntryRequest
+   */
+  progresses?: Array<ProgressItem>;
+  /**
+   * タスクが完了したかどうか。progressesから自動的に判定される。検索の高速化のために存在
+   * @type {string}
+   * @memberof PutTaskEntryRequest
+   */
+  completed?: PutTaskEntryRequestCompletedEnum;
+  /**
+   * 深刻度
+   * @type {number}
+   * @memberof PutTaskEntryRequest
+   */
+  serious?: number;
+  /**
+   * タスクの詳細
+   * @type {string}
+   * @memberof PutTaskEntryRequest
+   */
+  details?: string;
+  /**
+   * 作成日時
+   * @type {string}
+   * @memberof PutTaskEntryRequest
+   */
+  created_at?: string;
+  /**
+   * 更新日時
+   * @type {string}
+   * @memberof PutTaskEntryRequest
+   */
+  updated_at?: string;
+}
+
+export const PutTaskEntryRequestCompletedEnum = {
+  True: 'True',
+  False: 'False',
+} as const;
+
+export type PutTaskEntryRequestCompletedEnum =
+  (typeof PutTaskEntryRequestCompletedEnum)[keyof typeof PutTaskEntryRequestCompletedEnum];
+
+/**
+ *
+ * @export
+ * @interface RequestTask
+ */
+export interface RequestTask {
+  /**
+   * ユーザーID
+   * @type {string}
+   * @memberof RequestTask
    */
   user_id?: string;
   /**
    * タスクの詳細
    * @type {string}
-   * @memberof RequestTaskAndFile
+   * @memberof RequestTask
    */
   text?: string;
   /**
-   * タスクで作成したファイル
-   * @type {File}
-   * @memberof RequestTaskAndFile
-   */
-  file?: File;
-}
-/**
- *
- * @export
- * @interface RequestTextFileTask
- */
-export interface RequestTextFileTask {
-  /**
-   * タスクの詳細
+   * タスクID
    * @type {string}
-   * @memberof RequestTextFileTask
+   * @memberof RequestTask
    */
-  task?: string;
-  /**
-   * タスクの詳細
-   * @type {string}
-   * @memberof RequestTextFileTask
-   */
-  text?: string;
-  /**
-   * タスクで作成したファイル
-   * @type {File}
-   * @memberof RequestTextFileTask
-   */
-  file?: File;
+  reference_task_id?: string;
 }
 /**
  *
@@ -362,10 +474,10 @@ export interface Task {
   progresses?: Array<ProgressItem>;
   /**
    * タスクが完了したかどうか。progressesから自動的に判定される。検索の高速化のために存在
-   * @type {boolean}
+   * @type {string}
    * @memberof Task
    */
-  completed?: boolean;
+  completed?: TaskCompletedEnum;
   /**
    * 深刻度
    * @type {number}
@@ -391,6 +503,14 @@ export interface Task {
    */
   updated_at?: string;
 }
+
+export const TaskCompletedEnum = {
+  True: 'True',
+  False: 'False',
+} as const;
+
+export type TaskCompletedEnum =
+  (typeof TaskCompletedEnum)[keyof typeof TaskCompletedEnum];
 
 /**
  * タスクのカテゴリー
@@ -517,6 +637,281 @@ export interface UserDiary {
    * @memberof UserDiary
    */
   updated_at?: string;
+}
+
+/**
+ * ChatApi - axios parameter creator
+ * @export
+ */
+export const ChatApiAxiosParamCreator = function (
+  configuration?: Configuration,
+) {
+  return {
+    /**
+     * 全ユーザーのチャット一覧
+     * @param {string} [from]
+     * @param {string} [to]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getAllChatHistory: async (
+      from?: string,
+      to?: string,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/chat`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      if (from !== undefined) {
+        localVarQueryParameter['from'] = from;
+      }
+
+      if (to !== undefined) {
+        localVarQueryParameter['to'] = to;
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * ユーザのチャット履歴一覧
+     * @param {string} userId
+     * @param {string} [from]
+     * @param {string} [to]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getSingleUserChatHistory: async (
+      userId: string,
+      from?: string,
+      to?: string,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'userId' is not null or undefined
+      assertParamExists('getSingleUserChatHistory', 'userId', userId);
+      const localVarPath = `/chat/{user_id}`.replace(
+        `{${'user_id'}}`,
+        encodeURIComponent(String(userId)),
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      if (from !== undefined) {
+        localVarQueryParameter['from'] = from;
+      }
+
+      if (to !== undefined) {
+        localVarQueryParameter['to'] = to;
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+  };
+};
+
+/**
+ * ChatApi - functional programming interface
+ * @export
+ */
+export const ChatApiFp = function (configuration?: Configuration) {
+  const localVarAxiosParamCreator = ChatApiAxiosParamCreator(configuration);
+  return {
+    /**
+     * 全ユーザーのチャット一覧
+     * @param {string} [from]
+     * @param {string} [to]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getAllChatHistory(
+      from?: string,
+      to?: string,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Chat>>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.getAllChatHistory(from, to, options);
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      );
+    },
+    /**
+     * ユーザのチャット履歴一覧
+     * @param {string} userId
+     * @param {string} [from]
+     * @param {string} [to]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getSingleUserChatHistory(
+      userId: string,
+      from?: string,
+      to?: string,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Chat>>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.getSingleUserChatHistory(
+          userId,
+          from,
+          to,
+          options,
+        );
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      );
+    },
+  };
+};
+
+/**
+ * ChatApi - factory interface
+ * @export
+ */
+export const ChatApiFactory = function (
+  configuration?: Configuration,
+  basePath?: string,
+  axios?: AxiosInstance,
+) {
+  const localVarFp = ChatApiFp(configuration);
+  return {
+    /**
+     * 全ユーザーのチャット一覧
+     * @param {string} [from]
+     * @param {string} [to]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getAllChatHistory(
+      from?: string,
+      to?: string,
+      options?: any,
+    ): AxiosPromise<Array<Chat>> {
+      return localVarFp
+        .getAllChatHistory(from, to, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     * ユーザのチャット履歴一覧
+     * @param {string} userId
+     * @param {string} [from]
+     * @param {string} [to]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getSingleUserChatHistory(
+      userId: string,
+      from?: string,
+      to?: string,
+      options?: any,
+    ): AxiosPromise<Array<Chat>> {
+      return localVarFp
+        .getSingleUserChatHistory(userId, from, to, options)
+        .then((request) => request(axios, basePath));
+    },
+  };
+};
+
+/**
+ * ChatApi - object-oriented interface
+ * @export
+ * @class ChatApi
+ * @extends {BaseAPI}
+ */
+export class ChatApi extends BaseAPI {
+  /**
+   * 全ユーザーのチャット一覧
+   * @param {string} [from]
+   * @param {string} [to]
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof ChatApi
+   */
+  public getAllChatHistory(
+    from?: string,
+    to?: string,
+    options?: AxiosRequestConfig,
+  ) {
+    return ChatApiFp(this.configuration)
+      .getAllChatHistory(from, to, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * ユーザのチャット履歴一覧
+   * @param {string} userId
+   * @param {string} [from]
+   * @param {string} [to]
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof ChatApi
+   */
+  public getSingleUserChatHistory(
+    userId: string,
+    from?: string,
+    to?: string,
+    options?: AxiosRequestConfig,
+  ) {
+    return ChatApiFp(this.configuration)
+      .getSingleUserChatHistory(userId, from, to, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
 }
 
 /**
@@ -1805,8 +2200,10 @@ export const TaskApiAxiosParamCreator = function (
      *
      * @param {boolean} [notAssigned] 担当者がいないタスクを絞り込む。user_id_queryよりも優先される
      * @param {Array<string>} [userId] ユーザー絞り込み。note_assignedがtrueの場合、無視される。複数のユーザーを指定可能
-     * @param {string} [from] タスクの開始期間で絞り込み。指定しなかった場合、制限なし
-     * @param {string} [to] タスクの終了期間で絞り込み。指定しなかった場合、制限なし
+     * @param {string} [fromStartDatetime] タスクの開始期間の前方の絞り込み。指定しなかった場合、制限なし
+     * @param {string} [toStartDatetime] タスクの開始期間の後方の絞り込み。指定しなかった場合、制限なし
+     * @param {string} [fromLastStatus] タスクの最新更新時間の前方の絞り込み。指定しなかった場合、制限なし。*_start_datetimeが指定されている場合、無視される
+     * @param {string} [toLastStatus] タスクの最新更新時間の後方の絞り込み。指定しなかった場合、制限なし*_start_datetimeが指定されている場合、無視される
      * @param {GetTasksStatusEnum} [status] 進行中か否かで絞り込み。指定しなかった場合、現状での絞り込みを行わない
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -1814,8 +2211,10 @@ export const TaskApiAxiosParamCreator = function (
     getTasks: async (
       notAssigned?: boolean,
       userId?: Array<string>,
-      from?: string,
-      to?: string,
+      fromStartDatetime?: string,
+      toStartDatetime?: string,
+      fromLastStatus?: string,
+      toLastStatus?: string,
       status?: GetTasksStatusEnum,
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
@@ -1843,12 +2242,20 @@ export const TaskApiAxiosParamCreator = function (
         localVarQueryParameter['user_id'] = userId;
       }
 
-      if (from !== undefined) {
-        localVarQueryParameter['from'] = from;
+      if (fromStartDatetime !== undefined) {
+        localVarQueryParameter['from_start_datetime'] = fromStartDatetime;
       }
 
-      if (to !== undefined) {
-        localVarQueryParameter['to'] = to;
+      if (toStartDatetime !== undefined) {
+        localVarQueryParameter['to_start_datetime'] = toStartDatetime;
+      }
+
+      if (fromLastStatus !== undefined) {
+        localVarQueryParameter['from_last_status'] = fromLastStatus;
+      }
+
+      if (toLastStatus !== undefined) {
+        localVarQueryParameter['to_last_status'] = toLastStatus;
       }
 
       if (status !== undefined) {
@@ -1871,18 +2278,18 @@ export const TaskApiAxiosParamCreator = function (
     },
     /**
      * タスクの投稿
-     * @param {RequestTaskAndFile} requestTaskAndFile
+     * @param {RequestTask} requestTask
      * @param {boolean} [forceCreate] すでに存在するタスクを強制的に作成するかどうか。指定しなかった場合、変更を提案されることがある。
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     postTask: async (
-      requestTaskAndFile: RequestTaskAndFile,
+      requestTask: RequestTask,
       forceCreate?: boolean,
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
-      // verify required parameter 'requestTaskAndFile' is not null or undefined
-      assertParamExists('postTask', 'requestTaskAndFile', requestTaskAndFile);
+      // verify required parameter 'requestTask' is not null or undefined
+      assertParamExists('postTask', 'requestTask', requestTask);
       const localVarPath = `/tasks`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1914,7 +2321,7 @@ export const TaskApiAxiosParamCreator = function (
         ...options.headers,
       };
       localVarRequestOptions.data = serializeDataIfNeeded(
-        requestTaskAndFile,
+        requestTask,
         localVarRequestOptions,
         configuration,
       );
@@ -1927,22 +2334,22 @@ export const TaskApiAxiosParamCreator = function (
     /**
      * タスクを更新する。
      * @param {string} taskId
-     * @param {RequestTextFileTask} requestTextFileTask
+     * @param {PutTaskEntryRequest} putTaskEntryRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     putTaskEntry: async (
       taskId: string,
-      requestTextFileTask: RequestTextFileTask,
+      putTaskEntryRequest: PutTaskEntryRequest,
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'taskId' is not null or undefined
       assertParamExists('putTaskEntry', 'taskId', taskId);
-      // verify required parameter 'requestTextFileTask' is not null or undefined
+      // verify required parameter 'putTaskEntryRequest' is not null or undefined
       assertParamExists(
         'putTaskEntry',
-        'requestTextFileTask',
-        requestTextFileTask,
+        'putTaskEntryRequest',
+        putTaskEntryRequest,
       );
       const localVarPath = `/tasks/{task_id}`.replace(
         `{${'task_id'}}`,
@@ -1974,7 +2381,7 @@ export const TaskApiAxiosParamCreator = function (
         ...options.headers,
       };
       localVarRequestOptions.data = serializeDataIfNeeded(
-        requestTextFileTask,
+        putTaskEntryRequest,
         localVarRequestOptions,
         configuration,
       );
@@ -2044,8 +2451,10 @@ export const TaskApiFp = function (configuration?: Configuration) {
      *
      * @param {boolean} [notAssigned] 担当者がいないタスクを絞り込む。user_id_queryよりも優先される
      * @param {Array<string>} [userId] ユーザー絞り込み。note_assignedがtrueの場合、無視される。複数のユーザーを指定可能
-     * @param {string} [from] タスクの開始期間で絞り込み。指定しなかった場合、制限なし
-     * @param {string} [to] タスクの終了期間で絞り込み。指定しなかった場合、制限なし
+     * @param {string} [fromStartDatetime] タスクの開始期間の前方の絞り込み。指定しなかった場合、制限なし
+     * @param {string} [toStartDatetime] タスクの開始期間の後方の絞り込み。指定しなかった場合、制限なし
+     * @param {string} [fromLastStatus] タスクの最新更新時間の前方の絞り込み。指定しなかった場合、制限なし。*_start_datetimeが指定されている場合、無視される
+     * @param {string} [toLastStatus] タスクの最新更新時間の後方の絞り込み。指定しなかった場合、制限なし*_start_datetimeが指定されている場合、無視される
      * @param {GetTasksStatusEnum} [status] 進行中か否かで絞り込み。指定しなかった場合、現状での絞り込みを行わない
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -2053,8 +2462,10 @@ export const TaskApiFp = function (configuration?: Configuration) {
     async getTasks(
       notAssigned?: boolean,
       userId?: Array<string>,
-      from?: string,
-      to?: string,
+      fromStartDatetime?: string,
+      toStartDatetime?: string,
+      fromLastStatus?: string,
+      toLastStatus?: string,
       status?: GetTasksStatusEnum,
       options?: AxiosRequestConfig,
     ): Promise<
@@ -2063,8 +2474,10 @@ export const TaskApiFp = function (configuration?: Configuration) {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getTasks(
         notAssigned,
         userId,
-        from,
-        to,
+        fromStartDatetime,
+        toStartDatetime,
+        fromLastStatus,
+        toLastStatus,
         status,
         options,
       );
@@ -2077,13 +2490,13 @@ export const TaskApiFp = function (configuration?: Configuration) {
     },
     /**
      * タスクの投稿
-     * @param {RequestTaskAndFile} requestTaskAndFile
+     * @param {RequestTask} requestTask
      * @param {boolean} [forceCreate] すでに存在するタスクを強制的に作成するかどうか。指定しなかった場合、変更を提案されることがある。
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async postTask(
-      requestTaskAndFile: RequestTaskAndFile,
+      requestTask: RequestTask,
       forceCreate?: boolean,
       options?: AxiosRequestConfig,
     ): Promise<
@@ -2093,7 +2506,7 @@ export const TaskApiFp = function (configuration?: Configuration) {
       ) => AxiosPromise<PostTask201Response>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.postTask(
-        requestTaskAndFile,
+        requestTask,
         forceCreate,
         options,
       );
@@ -2107,20 +2520,20 @@ export const TaskApiFp = function (configuration?: Configuration) {
     /**
      * タスクを更新する。
      * @param {string} taskId
-     * @param {RequestTextFileTask} requestTextFileTask
+     * @param {PutTaskEntryRequest} putTaskEntryRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async putTaskEntry(
       taskId: string,
-      requestTextFileTask: RequestTextFileTask,
+      putTaskEntryRequest: PutTaskEntryRequest,
       options?: AxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Task>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.putTaskEntry(
         taskId,
-        requestTextFileTask,
+        putTaskEntryRequest,
         options,
       );
       return createRequestFunction(
@@ -2170,8 +2583,10 @@ export const TaskApiFactory = function (
      *
      * @param {boolean} [notAssigned] 担当者がいないタスクを絞り込む。user_id_queryよりも優先される
      * @param {Array<string>} [userId] ユーザー絞り込み。note_assignedがtrueの場合、無視される。複数のユーザーを指定可能
-     * @param {string} [from] タスクの開始期間で絞り込み。指定しなかった場合、制限なし
-     * @param {string} [to] タスクの終了期間で絞り込み。指定しなかった場合、制限なし
+     * @param {string} [fromStartDatetime] タスクの開始期間の前方の絞り込み。指定しなかった場合、制限なし
+     * @param {string} [toStartDatetime] タスクの開始期間の後方の絞り込み。指定しなかった場合、制限なし
+     * @param {string} [fromLastStatus] タスクの最新更新時間の前方の絞り込み。指定しなかった場合、制限なし。*_start_datetimeが指定されている場合、無視される
+     * @param {string} [toLastStatus] タスクの最新更新時間の後方の絞り込み。指定しなかった場合、制限なし*_start_datetimeが指定されている場合、無視される
      * @param {GetTasksStatusEnum} [status] 進行中か否かで絞り込み。指定しなかった場合、現状での絞り込みを行わない
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -2179,45 +2594,56 @@ export const TaskApiFactory = function (
     getTasks(
       notAssigned?: boolean,
       userId?: Array<string>,
-      from?: string,
-      to?: string,
+      fromStartDatetime?: string,
+      toStartDatetime?: string,
+      fromLastStatus?: string,
+      toLastStatus?: string,
       status?: GetTasksStatusEnum,
       options?: any,
     ): AxiosPromise<Array<Task>> {
       return localVarFp
-        .getTasks(notAssigned, userId, from, to, status, options)
+        .getTasks(
+          notAssigned,
+          userId,
+          fromStartDatetime,
+          toStartDatetime,
+          fromLastStatus,
+          toLastStatus,
+          status,
+          options,
+        )
         .then((request) => request(axios, basePath));
     },
     /**
      * タスクの投稿
-     * @param {RequestTaskAndFile} requestTaskAndFile
+     * @param {RequestTask} requestTask
      * @param {boolean} [forceCreate] すでに存在するタスクを強制的に作成するかどうか。指定しなかった場合、変更を提案されることがある。
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     postTask(
-      requestTaskAndFile: RequestTaskAndFile,
+      requestTask: RequestTask,
       forceCreate?: boolean,
       options?: any,
     ): AxiosPromise<PostTask201Response> {
       return localVarFp
-        .postTask(requestTaskAndFile, forceCreate, options)
+        .postTask(requestTask, forceCreate, options)
         .then((request) => request(axios, basePath));
     },
     /**
      * タスクを更新する。
      * @param {string} taskId
-     * @param {RequestTextFileTask} requestTextFileTask
+     * @param {PutTaskEntryRequest} putTaskEntryRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     putTaskEntry(
       taskId: string,
-      requestTextFileTask: RequestTextFileTask,
+      putTaskEntryRequest: PutTaskEntryRequest,
       options?: any,
     ): AxiosPromise<Task> {
       return localVarFp
-        .putTaskEntry(taskId, requestTextFileTask, options)
+        .putTaskEntry(taskId, putTaskEntryRequest, options)
         .then((request) => request(axios, basePath));
     },
   };
@@ -2260,8 +2686,10 @@ export class TaskApi extends BaseAPI {
    *
    * @param {boolean} [notAssigned] 担当者がいないタスクを絞り込む。user_id_queryよりも優先される
    * @param {Array<string>} [userId] ユーザー絞り込み。note_assignedがtrueの場合、無視される。複数のユーザーを指定可能
-   * @param {string} [from] タスクの開始期間で絞り込み。指定しなかった場合、制限なし
-   * @param {string} [to] タスクの終了期間で絞り込み。指定しなかった場合、制限なし
+   * @param {string} [fromStartDatetime] タスクの開始期間の前方の絞り込み。指定しなかった場合、制限なし
+   * @param {string} [toStartDatetime] タスクの開始期間の後方の絞り込み。指定しなかった場合、制限なし
+   * @param {string} [fromLastStatus] タスクの最新更新時間の前方の絞り込み。指定しなかった場合、制限なし。*_start_datetimeが指定されている場合、無視される
+   * @param {string} [toLastStatus] タスクの最新更新時間の後方の絞り込み。指定しなかった場合、制限なし*_start_datetimeが指定されている場合、無視される
    * @param {GetTasksStatusEnum} [status] 進行中か否かで絞り込み。指定しなかった場合、現状での絞り込みを行わない
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -2270,49 +2698,60 @@ export class TaskApi extends BaseAPI {
   public getTasks(
     notAssigned?: boolean,
     userId?: Array<string>,
-    from?: string,
-    to?: string,
+    fromStartDatetime?: string,
+    toStartDatetime?: string,
+    fromLastStatus?: string,
+    toLastStatus?: string,
     status?: GetTasksStatusEnum,
     options?: AxiosRequestConfig,
   ) {
     return TaskApiFp(this.configuration)
-      .getTasks(notAssigned, userId, from, to, status, options)
+      .getTasks(
+        notAssigned,
+        userId,
+        fromStartDatetime,
+        toStartDatetime,
+        fromLastStatus,
+        toLastStatus,
+        status,
+        options,
+      )
       .then((request) => request(this.axios, this.basePath));
   }
 
   /**
    * タスクの投稿
-   * @param {RequestTaskAndFile} requestTaskAndFile
+   * @param {RequestTask} requestTask
    * @param {boolean} [forceCreate] すでに存在するタスクを強制的に作成するかどうか。指定しなかった場合、変更を提案されることがある。
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof TaskApi
    */
   public postTask(
-    requestTaskAndFile: RequestTaskAndFile,
+    requestTask: RequestTask,
     forceCreate?: boolean,
     options?: AxiosRequestConfig,
   ) {
     return TaskApiFp(this.configuration)
-      .postTask(requestTaskAndFile, forceCreate, options)
+      .postTask(requestTask, forceCreate, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
   /**
    * タスクを更新する。
    * @param {string} taskId
-   * @param {RequestTextFileTask} requestTextFileTask
+   * @param {PutTaskEntryRequest} putTaskEntryRequest
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof TaskApi
    */
   public putTaskEntry(
     taskId: string,
-    requestTextFileTask: RequestTextFileTask,
+    putTaskEntryRequest: PutTaskEntryRequest,
     options?: AxiosRequestConfig,
   ) {
     return TaskApiFp(this.configuration)
-      .putTaskEntry(taskId, requestTextFileTask, options)
+      .putTaskEntry(taskId, putTaskEntryRequest, options)
       .then((request) => request(this.axios, this.basePath));
   }
 }
