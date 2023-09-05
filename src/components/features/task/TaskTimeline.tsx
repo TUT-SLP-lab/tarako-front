@@ -56,14 +56,14 @@ export const TaskTimeline = () => {
               bullet={
                 <div
                   className={clsx(
-                    'flex h-full w-full items-center justify-center rounded-full bg-red-500',
+                    'flex h-full w-full items-center justify-center rounded-full bg-red-500 p-1',
                     {
-                      'bg-red-700': item.category === TaskCategory.Hr,
-                      'bg-blue-700': item.category === TaskCategory.Accounting,
-                      'bg-green-700':
+                      'bg-red-600': item.category === TaskCategory.Hr,
+                      'bg-blue-600': item.category === TaskCategory.Accounting,
+                      'bg-green-600':
                         item.category === TaskCategory.GeneralAffairs,
-                      'bg-yellow-700': item.category === TaskCategory.Diary,
-                      'bg-gray-700': item.category === TaskCategory.Other,
+                      'bg-yellow-600': item.category === TaskCategory.Diary,
+                      'bg-gray-600': item.category === TaskCategory.Other,
                     },
                   )}
                 >
