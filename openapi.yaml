@@ -15,10 +15,10 @@ paths:
         '200':
           $ref: '#/components/responses/SectionArray'
       x-amazon-apigateway-integration:
-        uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetSectionsFunction.Arn}/invocations"
+        uri: 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetSectionsFunction.Arn}/invocations'
         httpMethod: POST
         type: aws_proxy
-        passthroughBehavior: "when_no_match"
+        passthroughBehavior: 'when_no_match'
     post:
       tags:
         - section
@@ -32,10 +32,10 @@ paths:
         '409':
           $ref: '#/components/responses/409Conflict'
       x-amazon-apigateway-integration:
-        uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${PostSectionEntryFunction.Arn}/invocations"
+        uri: 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${PostSectionEntryFunction.Arn}/invocations'
         httpMethod: POST
         type: aws_proxy
-        passthroughBehavior: "when_no_match"
+        passthroughBehavior: 'when_no_match'
   /sections/{section_id}:
     get:
       tags:
@@ -50,10 +50,10 @@ paths:
         '404':
           $ref: '#/components/responses/404NotFound'
       x-amazon-apigateway-integration:
-        uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetSectionEntryFunction.Arn}/invocations"
+        uri: 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetSectionEntryFunction.Arn}/invocations'
         httpMethod: POST
         type: aws_proxy
-        passthroughBehavior: "when_no_match"
+        passthroughBehavior: 'when_no_match'
     put:
       tags:
         - section
@@ -71,10 +71,10 @@ paths:
         '409':
           $ref: '#/components/responses/409Conflict'
       x-amazon-apigateway-integration:
-        uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${PutSectionEntryFunction.Arn}/invocations"
+        uri: 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${PutSectionEntryFunction.Arn}/invocations'
         httpMethod: POST
         type: aws_proxy
-        passthroughBehavior: "when_no_match"
+        passthroughBehavior: 'when_no_match'
   /users:
     get:
       tags:
@@ -93,10 +93,10 @@ paths:
         '401':
           $ref: '#/components/responses/UnauthorizedError'
       x-amazon-apigateway-integration:
-        uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetUsersFunction.Arn}/invocations"
+        uri: 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetUsersFunction.Arn}/invocations'
         httpMethod: POST
         type: aws_proxy
-        passthroughBehavior: "when_no_match"
+        passthroughBehavior: 'when_no_match'
     post:
       tags:
         - user
@@ -110,10 +110,10 @@ paths:
         '409':
           $ref: '#/components/responses/409Conflict'
       x-amazon-apigateway-integration:
-        uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${PostUserEntryFunction.Arn}/invocations"
+        uri: 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${PostUserEntryFunction.Arn}/invocations'
         httpMethod: POST
         type: aws_proxy
-        passthroughBehavior: "when_no_match"
+        passthroughBehavior: 'when_no_match'
   /users/{user_id}:
     get:
       tags:
@@ -128,10 +128,10 @@ paths:
         '404':
           $ref: '#/components/responses/404NotFound'
       x-amazon-apigateway-integration:
-        uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetUserEntryFunction.Arn}/invocations"
+        uri: 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetUserEntryFunction.Arn}/invocations'
         httpMethod: POST
         type: aws_proxy
-        passthroughBehavior: "when_no_match"
+        passthroughBehavior: 'when_no_match'
     put:
       tags:
         - user
@@ -149,10 +149,10 @@ paths:
         '409':
           $ref: '#/components/responses/409Conflict'
       x-amazon-apigateway-integration:
-        uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${PutUserEntryFunction.Arn}/invocations"
+        uri: 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${PutUserEntryFunction.Arn}/invocations'
         httpMethod: POST
         type: aws_proxy
-        passthroughBehavior: "when_no_match"
+        passthroughBehavior: 'when_no_match'
   /tasks:
     get:
       tags:
@@ -176,10 +176,10 @@ paths:
         '200':
           $ref: '#/components/responses/TaskArray'
       x-amazon-apigateway-integration:
-        uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetTasksFunction.Arn}/invocations"
+        uri: 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetTasksFunction.Arn}/invocations'
         httpMethod: POST
         type: aws_proxy
-        passthroughBehavior: "when_no_match"
+        passthroughBehavior: 'when_no_match'
     post:
       tags:
         - task
@@ -201,10 +201,10 @@ paths:
         '208':
           $ref: '#/components/responses/SuggestResponse'
       x-amazon-apigateway-integration:
-        uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${PostTaskFunction.Arn}/invocations"
+        uri: 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${PostTaskFunction.Arn}/invocations'
         httpMethod: POST
         type: aws_proxy
-        passthroughBehavior: "when_no_match"
+        passthroughBehavior: 'when_no_match'
   /tasks/{task_id}:
     get:
       tags:
@@ -219,10 +219,10 @@ paths:
         '404':
           $ref: '#/components/responses/404NotFound'
       x-amazon-apigateway-integration:
-        uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetTaskEntryFunction.Arn}/invocations"
+        uri: 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetTaskEntryFunction.Arn}/invocations'
         httpMethod: POST
         type: aws_proxy
-        passthroughBehavior: "when_no_match"
+        passthroughBehavior: 'when_no_match'
     put:
       tags:
         - task
@@ -238,10 +238,10 @@ paths:
         '404':
           $ref: '#/components/responses/404NotFound'
       x-amazon-apigateway-integration:
-        uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${PutTaskEntryFunction.Arn}/invocations"
+        uri: 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${PutTaskEntryFunction.Arn}/invocations'
         httpMethod: POST
         type: aws_proxy
-        passthroughBehavior: "when_no_match"
+        passthroughBehavior: 'when_no_match'
     delete:
       tags:
         - task
@@ -255,10 +255,10 @@ paths:
         '404':
           $ref: '#/components/responses/404NotFound'
       x-amazon-apigateway-integration:
-        uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${DeleteTaskEntryFunction.Arn}/invocations"
+        uri: 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${DeleteTaskEntryFunction.Arn}/invocations'
         httpMethod: POST
         type: aws_proxy
-        passthroughBehavior: "when_no_match"
+        passthroughBehavior: 'when_no_match'
   /diary/users:
     get:
       tags:
@@ -272,10 +272,10 @@ paths:
         '200':
           $ref: '#/components/responses/UserDiaryArray'
       x-amazon-apigateway-integration:
-        uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetAllUsersDiariesFunction.Arn}/invocations"
+        uri: 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetAllUsersDiariesFunction.Arn}/invocations'
         httpMethod: POST
         type: aws_proxy
-        passthroughBehavior: "when_no_match"
+        passthroughBehavior: 'when_no_match'
   /diary/users/{user_id}:
     get:
       tags:
@@ -292,10 +292,10 @@ paths:
         '404':
           $ref: '#/components/responses/404NotFound'
       x-amazon-apigateway-integration:
-        uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetUserDiariesFunction.Arn}/invocations"
+        uri: 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetUserDiariesFunction.Arn}/invocations'
         httpMethod: POST
         type: aws_proxy
-        passthroughBehavior: "when_no_match"
+        passthroughBehavior: 'when_no_match'
     post:
       tags:
         - user_diary
@@ -313,10 +313,10 @@ paths:
         '409':
           $ref: '#/components/responses/409Conflict'
       x-amazon-apigateway-integration:
-        uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${PostUserDiaryFunction.Arn}/invocations"
+        uri: 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${PostUserDiaryFunction.Arn}/invocations'
         httpMethod: POST
         type: aws_proxy
-        passthroughBehavior: "when_no_match"
+        passthroughBehavior: 'when_no_match'
   /diary/users/{user_id}/{diary_id}:
     get:
       tags:
@@ -332,10 +332,10 @@ paths:
         '404':
           $ref: '#/components/responses/404NotFound'
       x-amazon-apigateway-integration:
-        uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetUserDiaryEntryFunction.Arn}/invocations"
+        uri: 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetUserDiaryEntryFunction.Arn}/invocations'
         httpMethod: POST
         type: aws_proxy
-        passthroughBehavior: "when_no_match"
+        passthroughBehavior: 'when_no_match'
     put:
       tags:
         - user_diary
@@ -352,10 +352,10 @@ paths:
         '404':
           $ref: '#/components/responses/404NotFound'
       x-amazon-apigateway-integration:
-        uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${PutUserDiaryEntryFunction.Arn}/invocations"
+        uri: 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${PutUserDiaryEntryFunction.Arn}/invocations'
         httpMethod: POST
         type: aws_proxy
-        passthroughBehavior: "when_no_match"
+        passthroughBehavior: 'when_no_match'
     delete:
       tags:
         - user_diary
@@ -370,10 +370,10 @@ paths:
         '404':
           $ref: '#/components/responses/404NotFound'
       x-amazon-apigateway-integration:
-        uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${DeleteUserDiaryEntryFunction.Arn}/invocations"
+        uri: 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${DeleteUserDiaryEntryFunction.Arn}/invocations'
         httpMethod: POST
         type: aws_proxy
-        passthroughBehavior: "when_no_match"
+        passthroughBehavior: 'when_no_match'
   /diary/sections:
     get:
       tags:
@@ -387,10 +387,10 @@ paths:
         '200':
           $ref: '#/components/responses/SectionDiaryArray'
       x-amazon-apigateway-integration:
-        uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetAllSectionsDiariesFunction.Arn}/invocations"
+        uri: 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetAllSectionsDiariesFunction.Arn}/invocations'
         httpMethod: POST
         type: aws_proxy
-        passthroughBehavior: "when_no_match"
+        passthroughBehavior: 'when_no_match'
   /diary/sections/{section_id}:
     get:
       tags:
@@ -407,10 +407,10 @@ paths:
         '404':
           $ref: '#/components/responses/404NotFound'
       x-amazon-apigateway-integration:
-        uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetSectionDiariesFunction.Arn}/invocations"
+        uri: 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetSectionDiariesFunction.Arn}/invocations'
         httpMethod: POST
         type: aws_proxy
-        passthroughBehavior: "when_no_match"
+        passthroughBehavior: 'when_no_match'
     post:
       tags:
         - section_diary
@@ -428,10 +428,10 @@ paths:
         '409':
           $ref: '#/components/responses/409Conflict'
       x-amazon-apigateway-integration:
-        uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${PostSectionDiaryFunction.Arn}/invocations"
+        uri: 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${PostSectionDiaryFunction.Arn}/invocations'
         httpMethod: POST
         type: aws_proxy
-        passthroughBehavior: "when_no_match"
+        passthroughBehavior: 'when_no_match'
   /diary/sections/{section_id}/{diary_id}:
     get:
       tags:
@@ -447,10 +447,10 @@ paths:
         '404':
           $ref: '#/components/responses/404NotFound'
       x-amazon-apigateway-integration:
-        uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetSectionDiaryEntryFunction.Arn}/invocations"
+        uri: 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetSectionDiaryEntryFunction.Arn}/invocations'
         httpMethod: POST
         type: aws_proxy
-        passthroughBehavior: "when_no_match"
+        passthroughBehavior: 'when_no_match'
     put:
       tags:
         - section_diary
@@ -467,10 +467,10 @@ paths:
         '404':
           $ref: '#/components/responses/404NotFound'
       x-amazon-apigateway-integration:
-        uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${PutSectionDiaryEntryFunction.Arn}/invocations"
+        uri: 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${PutSectionDiaryEntryFunction.Arn}/invocations'
         httpMethod: POST
         type: aws_proxy
-        passthroughBehavior: "when_no_match"
+        passthroughBehavior: 'when_no_match'
     delete:
       tags:
         - section_diary
@@ -485,10 +485,10 @@ paths:
         '404':
           $ref: '#/components/responses/404NotFound'
       x-amazon-apigateway-integration:
-        uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${DeleteSectionDiaryEntryFunction.Arn}/invocations"
+        uri: 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${DeleteSectionDiaryEntryFunction.Arn}/invocations'
         httpMethod: POST
         type: aws_proxy
-        passthroughBehavior: "when_no_match"
+        passthroughBehavior: 'when_no_match'
 
 components:
   schemas:

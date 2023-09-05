@@ -1,6 +1,7 @@
 import {
   Configuration,
   SectionApi,
+  TaskApi,
   UserApi,
 } from '@/generated/typescript-axios';
 import axios from 'axios';
@@ -21,7 +22,6 @@ const axiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
 });
 
-const userApi = new UserApi(apiConfig, '', axiosInstance);
-const sectionApi = new SectionApi(apiConfig, '', axiosInstance);
-
-export { userApi, sectionApi };
+export const userApi = new UserApi(apiConfig, '', axiosInstance);
+export const sectionApi = new SectionApi(apiConfig, '', axiosInstance);
+export const taskApi = new TaskApi(apiConfig, '', axiosInstance);

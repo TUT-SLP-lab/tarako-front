@@ -1,6 +1,6 @@
 import type { ModalProps } from '@mantine/core';
 
-import { mockTasks } from '@/mocks/moskTasks';
+import { useTask } from '@/utils/hooks/api/useTask';
 import { Modal } from '@mantine/core';
 
 type Props = {
@@ -8,9 +8,9 @@ type Props = {
 } & ModalProps;
 
 export const TaskDetailModal = ({ taskId, ...modalProps }: Props) => {
-  const taskDetail = mockTasks.find((task) => task.id === taskId);
+  const { task, isLoading } = useTask({ taskId });
 
-  if (taskDetail === undefined) {
+  if (task === undefined || isLoading) {
     return null;
   }
 
@@ -19,12 +19,10 @@ export const TaskDetailModal = ({ taskId, ...modalProps }: Props) => {
       {...modalProps}
       size="xl"
       centered
-      title={
-        <h2 className="text-2xl font-bold text-normal">{taskDetail.title}</h2>
-      }
+      title={<h2 className="text-2xl font-bold text-normal">{task.title}</h2>}
       padding="xl"
     >
-      <p className="text-lg text-normal">{taskDetail.description}</p>
+      <p className="text-lg text-normal">{task.details}</p>
     </Modal>
   );
 };
