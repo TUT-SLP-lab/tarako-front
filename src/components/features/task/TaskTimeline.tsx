@@ -104,16 +104,16 @@ export const TaskTimeline = () => {
                     bullet={
                       <div
                         className={clsx(
-                          'flex h-full w-full items-center justify-center rounded-full bg-red-500 p-1',
+                          'flex h-full w-full items-center justify-center rounded-full p-1',
                           {
-                            'bg-red-600': item.category === TaskCategory.Hr,
-                            'bg-blue-600':
+                            'bg-red-500': item.category === TaskCategory.Hr,
+                            'bg-blue-500':
                               item.category === TaskCategory.Accounting,
-                            'bg-green-600':
+                            'bg-green-500':
                               item.category === TaskCategory.GeneralAffairs,
-                            'bg-yellow-600':
+                            'bg-yellow-500':
                               item.category === TaskCategory.Diary,
-                            'bg-gray-600': item.category === TaskCategory.Other,
+                            'bg-gray-500': item.category === TaskCategory.Other,
                           },
                         )}
                       >
@@ -192,16 +192,16 @@ export const TaskTimeline = () => {
                     bullet={
                       <div
                         className={clsx(
-                          'flex h-full w-full items-center justify-center rounded-full bg-red-500 p-1',
+                          'flex h-full w-full items-center justify-center rounded-full p-1',
                           {
-                            'bg-red-600': item.category === TaskCategory.Hr,
-                            'bg-blue-600':
+                            'bg-red-500': item.category === TaskCategory.Hr,
+                            'bg-blue-500':
                               item.category === TaskCategory.Accounting,
-                            'bg-green-600':
+                            'bg-green-500':
                               item.category === TaskCategory.GeneralAffairs,
-                            'bg-yellow-600':
+                            'bg-yellow-500':
                               item.category === TaskCategory.Diary,
-                            'bg-gray-600': item.category === TaskCategory.Other,
+                            'bg-gray-500': item.category === TaskCategory.Other,
                           },
                         )}
                       >
@@ -280,16 +280,16 @@ export const TaskTimeline = () => {
                     bullet={
                       <div
                         className={clsx(
-                          'flex h-full w-full items-center justify-center rounded-full bg-red-500 p-1',
+                          'flex h-full w-full items-center justify-center rounded-full p-1',
                           {
-                            'bg-red-600': item.category === TaskCategory.Hr,
-                            'bg-blue-600':
+                            'bg-red-500': item.category === TaskCategory.Hr,
+                            'bg-blue-500':
                               item.category === TaskCategory.Accounting,
-                            'bg-green-600':
+                            'bg-green-500':
                               item.category === TaskCategory.GeneralAffairs,
-                            'bg-yellow-600':
+                            'bg-yellow-500':
                               item.category === TaskCategory.Diary,
-                            'bg-gray-600': item.category === TaskCategory.Other,
+                            'bg-gray-500': item.category === TaskCategory.Other,
                           },
                         )}
                       >
