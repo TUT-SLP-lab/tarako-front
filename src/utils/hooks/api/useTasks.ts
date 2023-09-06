@@ -1,8 +1,13 @@
 import { taskApi } from '@/utils/openApi';
 import useSWR from 'swr';
 
-export const useTasks = () => {
-  const { data, isLoading, mutate } = useSWR('/tasks', fetcher);
+export const useTasks = (args: FetcherArgs) => {
+  const { data, isLoading, mutate } = useSWR(
+    args?.userIds !== undefined
+      ? { url: '/tasks', userIds: args.userIds }
+      : null,
+    ({ userIds }) => fetcher({ userIds }),
+  );
 
   return {
     tasks: data,
@@ -11,7 +16,11 @@ export const useTasks = () => {
   };
 };
 
-const fetcher = async () => {
-  const response = await taskApi.getTasks();
+type FetcherArgs = {
+  userIds?: string[];
+};
+
+const fetcher = async ({ userIds }: FetcherArgs) => {
+  const response = await taskApi.getTasks(undefined, userIds);
   return response.data;
 };

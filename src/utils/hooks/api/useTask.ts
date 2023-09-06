@@ -3,7 +3,7 @@ import useSWR from 'swr';
 
 export const useTask = ({ taskId }: FetcherArgs) => {
   const { data, isLoading, mutate } = useSWR(
-    taskId !== undefined ? { url: '/tasks', taskId } : null,
+    taskId !== undefined ? { url: '/tasks/[taskId]', taskId } : null,
     ({ taskId }) => fetcher({ taskId }),
   );
   return {

@@ -31,7 +31,9 @@ const MOCK_CHAT: Chat[] = [
 
 export const ChatView = () => {
   const { user } = useAuth();
-  const { refetchTasks } = useTasks();
+  const { refetchTasks } = useTasks({
+    userIds: user?.user_id !== undefined ? [user.user_id] : undefined,
+  });
   const { inputValue, setInputValue, toggleRecording, transcript, recording } =
     useASRInput({
       target: 'chatbot',

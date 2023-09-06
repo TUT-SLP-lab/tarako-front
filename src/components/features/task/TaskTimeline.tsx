@@ -2,6 +2,7 @@ import { TaskCategoryIcon } from './TaskCategoryIcon';
 import { TaskDetailModal } from './TaskDetailModal';
 import { TaskCategory } from '@/generated/typescript-axios';
 import { useTasks } from '@/utils/hooks/api/useTasks';
+import { useAuth } from '@/utils/hooks/useAuth';
 import { Timeline } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import clsx from 'clsx';
@@ -11,7 +12,11 @@ import { useEffect, useMemo, useState } from 'react';
 export const TaskTimeline = () => {
   const [opened, { close, open }] = useDisclosure(false);
   const [modalTaskId, setModalTaskId] = useState('');
-  const { tasks, isLoading } = useTasks();
+  const { user } = useAuth();
+
+  const { tasks, isLoading } = useTasks({
+    userIds: user?.user_id !== undefined ? [user.user_id] : undefined,
+  });
 
   const sortedTasks = useMemo(() => {
     return tasks?.sort((a, b) => {
