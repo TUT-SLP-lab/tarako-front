@@ -9,13 +9,17 @@ import clsx from 'clsx';
 import dayjs from 'dayjs';
 import { useEffect, useMemo, useState } from 'react';
 
-export const TaskTimeline = () => {
+type Props = {
+  userId?: string;
+};
+
+export const TaskTimeline = ({ userId }: Props) => {
   const [opened, { close, open }] = useDisclosure(false);
   const [modalTaskId, setModalTaskId] = useState('');
   const { user } = useAuth();
 
   const { tasks, isLoading } = useTasks({
-    userIds: user?.user_id !== undefined ? [user.user_id] : undefined,
+    userIds: userId ? [userId] : user?.user_id ? [user.user_id] : undefined,
   });
 
   const sortedTasks = useMemo(() => {

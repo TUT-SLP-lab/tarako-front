@@ -70,7 +70,7 @@ const UserDetailPage: NextPage = () => {
               <TaskStatus title="タスクの状態" data={mockTaskDatas} />
             </div>
           </div>
-          <TaskTimeline />
+          <TaskTimeline userId={userId} />
         </div>
       </BaseAuthLayout>
       <Affix />
