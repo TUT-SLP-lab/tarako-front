@@ -38,7 +38,7 @@ export const TaskTimeline = ({ userId }: Props) => {
         return false;
       }
 
-      return dayjs(task.updated_at).isSame(dayjs(), 'day');
+      return dayjs.utc(task.updated_at).tz().isSame(dayjs(), 'day');
     });
   }, [sortedTasks]);
   const yesterdayTasks = useMemo(() => {
@@ -47,7 +47,10 @@ export const TaskTimeline = ({ userId }: Props) => {
         return false;
       }
 
-      return dayjs(task.updated_at).isSame(dayjs().subtract(1, 'day'), 'day');
+      return dayjs
+        .utc(task.updated_at)
+        .tz()
+        .isSame(dayjs().subtract(1, 'day'), 'day');
     });
   }, [sortedTasks]);
   const beforeYesterdayTasks = useMemo(() => {
@@ -56,7 +59,10 @@ export const TaskTimeline = ({ userId }: Props) => {
         return false;
       }
 
-      return dayjs(task.updated_at).isSame(dayjs().subtract(2, 'day'), 'day');
+      return dayjs
+        .utc(task.updated_at)
+        .tz()
+        .isSame(dayjs().subtract(2, 'day'), 'day');
     });
   }, [sortedTasks]);
 
@@ -102,6 +108,7 @@ export const TaskTimeline = ({ userId }: Props) => {
                       : current;
                   },
                 );
+                console.log(item.updated_at);
                 return (
                   <Timeline.Item
                     key={item.task_id}
@@ -132,7 +139,7 @@ export const TaskTimeline = ({ userId }: Props) => {
                       <div className="flex items-start justify-between">
                         <p className="text-xl">{item.title}</p>
                         <p className="text-md text-light">
-                          {dayjs(item.updated_at).format('HH:mm')}
+                          {dayjs.utc(item.updated_at).tz().format('HH:mm')}
                         </p>
                       </div>
                     }
@@ -220,7 +227,7 @@ export const TaskTimeline = ({ userId }: Props) => {
                       <div className="flex items-start justify-between">
                         <p className="text-xl">{item.title}</p>
                         <p className="text-md text-light">
-                          {dayjs(item.updated_at).format('HH:mm')}
+                          {dayjs.utc(item.updated_at).tz().format('HH:mm')}
                         </p>
                       </div>
                     }
@@ -308,7 +315,7 @@ export const TaskTimeline = ({ userId }: Props) => {
                       <div className="flex items-start justify-between">
                         <p className="text-xl">{item.title}</p>
                         <p className="text-md text-light">
-                          {dayjs(item.updated_at).format('HH:mm')}
+                          {dayjs.utc(item.updated_at).tz().format('HH:mm')}
                         </p>
                       </div>
                     }
