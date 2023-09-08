@@ -61,7 +61,6 @@ export const ChatView = () => {
   if (isLoading) {
     return null;
   }
-
   return (
     <div className="flex h-full flex-col divide-y divide-gray-200 bg-slate-50">
       <div className="flex items-center gap-1 bg-slate-100 px-2 py-4">

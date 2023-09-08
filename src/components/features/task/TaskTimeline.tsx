@@ -129,7 +129,7 @@ export const TaskTimeline = ({ userId }: Props) => {
                         )}
                       >
                         <TaskCategoryIcon
-                          category={item.category as TaskCategory}
+                          category={item.category}
                           color="white"
                         />
                       </div>
@@ -143,14 +143,20 @@ export const TaskTimeline = ({ userId }: Props) => {
                         </p>
                       </div>
                     }
-                    onClick={() => onClickTimelineItem(item.task_id as string)}
+                    onClick={() => onClickTimelineItem(item.task_id)}
                     className="cursor-pointer rounded-md border border-gray-200 py-4 pl-8 pr-4 hover:bg-gray-50"
                   >
                     <div>
                       <p className="text-md">{item.details}</p>
                     </div>
-                    <div className="mt-4 text-sm text-light underline">
-                      {item.completed?.toString() === 'True'
+                    <div
+                      className={`mt-4 text-sm text-light underline ${
+                        item.serious >= 4 && !item.completed
+                          ? 'text-rose-600'
+                          : ''
+                      }`}
+                    >
+                      {item.completed === true
                         ? '完了済み'
                         : `深刻度レベル: ${item.serious}`}
                     </div>
@@ -217,7 +223,7 @@ export const TaskTimeline = ({ userId }: Props) => {
                         )}
                       >
                         <TaskCategoryIcon
-                          category={item.category as TaskCategory}
+                          category={item.category}
                           color="white"
                         />
                       </div>
@@ -231,14 +237,20 @@ export const TaskTimeline = ({ userId }: Props) => {
                         </p>
                       </div>
                     }
-                    onClick={() => onClickTimelineItem(item.task_id as string)}
+                    onClick={() => onClickTimelineItem(item.task_id)}
                     className="cursor-pointer rounded-md border border-gray-200 py-4 pl-8 pr-4 hover:bg-gray-50"
                   >
                     <div>
                       <p className="text-md">{item.details}</p>
                     </div>
-                    <div className="mt-4 text-sm text-light underline">
-                      {item.completed?.toString() === 'True'
+                    <div
+                      className={`mt-4 text-sm text-light underline ${
+                        item.serious >= 4 && !item.completed
+                          ? 'text-rose-600'
+                          : ''
+                      }`}
+                    >
+                      {item.completed
                         ? '完了済み'
                         : `深刻度レベル: ${item.serious}`}
                     </div>
@@ -305,7 +317,7 @@ export const TaskTimeline = ({ userId }: Props) => {
                         )}
                       >
                         <TaskCategoryIcon
-                          category={item.category as TaskCategory}
+                          category={item.category}
                           color="white"
                         />
                       </div>
@@ -319,14 +331,20 @@ export const TaskTimeline = ({ userId }: Props) => {
                         </p>
                       </div>
                     }
-                    onClick={() => onClickTimelineItem(item.task_id as string)}
+                    onClick={() => onClickTimelineItem(item.task_id)}
                     className="cursor-pointer rounded-md border border-gray-200 py-4 pl-8 pr-4 hover:bg-gray-50"
                   >
                     <div>
                       <p className="text-md">{item.details}</p>
                     </div>
-                    <div className="mt-4 text-sm text-light underline">
-                      {item.completed?.toString() === 'True'
+                    <div
+                      className={`mt-4 text-sm text-light underline ${
+                        item.serious >= 4 && !item.completed
+                          ? 'text-rose-600'
+                          : ''
+                      }`}
+                    >
+                      {item.completed === true
                         ? '完了済み'
                         : `深刻度レベル: ${item.serious}`}
                     </div>
