@@ -7,7 +7,7 @@ import { useAuth } from '@/utils/hooks/useAuth';
 import { taskApi } from '@/utils/openApi';
 import { Tooltip } from '@mantine/core';
 import { IconMessageChatbot, IconQuestionMark } from '@tabler/icons-react';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 
 const DefaultChat: Chat[] = [
   {
@@ -25,7 +25,7 @@ export const ChatView = () => {
   });
   // ChatListに渡すchatlist.onSendで更新される
   // TODO: chat履歴APIから、初期値を取得する
-  const { chats, isLoading } = useChat({ userId: user?.user_id });
+  const { chats, isLoading, refetchChat } = useChat({ userId: user?.user_id });
 
   const chatHistories = useMemo(() => {
     return chats ?? DefaultChat;
@@ -35,6 +35,7 @@ export const ChatView = () => {
     useASRInput({
       target: 'chatbot',
     });
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const onSend = async () => {
     if (user == undefined) {
@@ -42,9 +43,10 @@ export const ChatView = () => {
     }
     const input_value = inputValue;
     setInputValue('');
+    setIsProcessing(true);
 
     // chatにユーザーの入力を追加
-    chats?.push({
+    chatHistories.push({
       from: 'user',
       message: input_value,
       sentAt: new Date(),
@@ -54,8 +56,10 @@ export const ChatView = () => {
       user_id: user.user_id,
       text: input_value,
     });
-
     await refetchTasks();
+    await refetchChat();
+
+    setIsProcessing(false);
   };
 
   if (isLoading) {
@@ -85,6 +89,7 @@ export const ChatView = () => {
       </div>
       <div className="flex-grow overflow-auto px-4 py-4">
         <ChatList chat={chatHistories} />
+        {isProcessing && <span className="loading-dots">処理中</span>}
       </div>
       <div className="bg-slate-100 px-4 py-6">
         <ChatInput

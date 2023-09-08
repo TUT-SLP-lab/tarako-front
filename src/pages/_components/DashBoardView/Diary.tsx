@@ -7,32 +7,6 @@ type Props = {
   analysis: string;
 };
 
-// export const Diary = ({ timeline, details, analysis }: Props) => {
-// export const Diary = ({ details, analysis }: Props) => {
-//     return (
-//       <div className="rounded-md border border-gray-200 p-4">
-//         <h1 className="text-2xl font-bold">日報</h1>
-//         <div className="mt-2 space-y-4">
-//           {/* <div>
-//             <h4 className="text-sm font-bold">タイムライン</h4>
-//             <p className="word-break-break-all whitespace-pre-line break-words text-sm">{timeline}</p>
-//           </div> */}
-//           <div>
-//             {/* <h2 className="text-sm font-bold">概要</h2> */}
-//             {/* <p className="word-break-break-all whitespace-pre-line break-words text-sm">{details}</p> */}
-//             <ReactMarkdown className="markdown">
-//                 {details}
-//             </ReactMarkdown>
-//           </div>
-//           <div className="markdown">
-//             <h2 className="mt-2 font-bol">AI分析</h2>
-//             <p className="word-break-break-all whitespace-pre-line break-words">{analysis}</p>
-//           </div>
-//         </div>
-//       </div>
-//     );
-//   };
-
 export const Diary = ({ details, analysis }: Props) => {
   const [isOpen, setIsOpen] = useState(true);
 
