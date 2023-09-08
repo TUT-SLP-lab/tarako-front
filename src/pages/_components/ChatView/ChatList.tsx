@@ -1,11 +1,7 @@
-// import type { Chat as interface_Chat } from '@/generated/typescript-axios/api';
-
-// export type Chat = interface_Chat;
-
 export type Chat = {
   from: 'bot' | 'user';
   message: string;
-  sentAt: string;
+  sentAt: Date;
 };
 
 type Props = {
@@ -18,7 +14,7 @@ export const ChatList = ({ chat }: Props) => {
       {chat.map((log) => {
         return (
           <div
-            key={log.sentAt}
+            key={log.sentAt.getTime()}
             className={`flex ${
               log.from === 'bot' ? 'justify-start pr-16' : 'justify-end pl-16'
             }`}

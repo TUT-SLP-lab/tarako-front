@@ -1,3 +1,6 @@
+import type { Chat } from '@/pages/_components/ChatView/ChatList';
+
+import { type Chat as axiosChat } from '@/generated/typescript-axios';
 import { chatApi } from '@/utils/openApi';
 import useSWR from 'swr';
 
@@ -6,8 +9,9 @@ export const useChat = ({ userId }: FetcherArgs) => {
     userId !== undefined ? { url: '/chat/[userId]', userId } : null,
     ({ userId }) => fetcher({ userId }),
   );
+
   return {
-    chat: data,
+    chat: data?.map((c) => transformChat(c)),
     refetchTask: mutate,
     isLoading,
   };
@@ -25,3 +29,12 @@ const fetcher = async ({ userId }: FetcherArgs) => {
   const response = await chatApi.getSingleUserChatHistory(userId);
   return response.data;
 };
+
+// chatApiのChat型を、ChatListのChat型に変換する
+export function transformChat(c: axiosChat): Chat {
+  return {
+    from: c.from === 'user' ? 'user' : 'bot',
+    message: c.message,
+    sentAt: new Date(c.timestamp),
+  };
+}
