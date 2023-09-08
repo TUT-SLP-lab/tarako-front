@@ -7,7 +7,7 @@ import { useAuth } from '@/utils/hooks/useAuth';
 import { taskApi } from '@/utils/openApi';
 import { Tooltip } from '@mantine/core';
 import { IconMessageChatbot, IconQuestionMark } from '@tabler/icons-react';
-import { useEffect, useState } from 'react';
+import { useMemo } from 'react';
 
 const DefaultChat: Chat[] = [
   {
@@ -25,8 +25,12 @@ export const ChatView = () => {
   });
   // ChatListに渡すchatlist.onSendで更新される
   // TODO: chat履歴APIから、初期値を取得する
-  const { chat } = useChat({ userId: user?.user_id });
-  const [chats, setChat] = useState<Chat[]>(DefaultChat);
+  const { chats, isLoading } = useChat({ userId: user?.user_id });
+
+  const chatHistories = useMemo(() => {
+    return chats ?? DefaultChat;
+  }, [chats]);
+
   const { inputValue, setInputValue, toggleRecording, transcript, recording } =
     useASRInput({
       target: 'chatbot',
@@ -40,42 +44,23 @@ export const ChatView = () => {
     setInputValue('');
 
     // chatにユーザーの入力を追加
-    setChat((prev) => [
-      ...prev,
-      {
-        from: 'user',
-        message: input_value,
-        sentAt: new Date(),
-      },
-    ]);
+    chats?.push({
+      from: 'user',
+      message: input_value,
+      sentAt: new Date(),
+    });
 
-    const res = await taskApi.postTask({
+    await taskApi.postTask({
       user_id: user.user_id,
       text: input_value,
     });
 
-    // chatにチャットボットの返答を追加
-    // ただし、statusCodeが201の場合のみ
-    if (res.status === 201) {
-      setChat((prev) => [
-        ...prev,
-        {
-          from: 'bot',
-          message: res.data.message ?? '',
-          sentAt: new Date(),
-        },
-      ]);
-    }
-
     await refetchTasks();
   };
 
-  // chatを一度だけ取得し、setChatする
-  useEffect(() => {
-    if (chat !== undefined) {
-      setChat(chat);
-    }
-  }, [chat]);
+  if (isLoading) {
+    return null;
+  }
 
   return (
     <div className="flex h-full flex-col divide-y divide-gray-200 bg-slate-50">
@@ -100,7 +85,7 @@ export const ChatView = () => {
         </div>
       </div>
       <div className="flex-grow overflow-auto px-4 py-4">
-        <ChatList chat={chats} />
+        <ChatList chat={chatHistories} />
       </div>
       <div className="bg-slate-100 px-4 py-6">
         <ChatInput

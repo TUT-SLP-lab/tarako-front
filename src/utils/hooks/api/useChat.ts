@@ -11,7 +11,7 @@ export const useChat = ({ userId }: FetcherArgs) => {
   );
 
   return {
-    chat: data?.map((c) => transformChat(c)),
+    chats: data?.map((c) => transformChat(c)),
     refetchTask: mutate,
     isLoading,
   };
