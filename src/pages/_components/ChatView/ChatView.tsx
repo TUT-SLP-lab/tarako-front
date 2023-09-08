@@ -1,39 +1,28 @@
-import type { Chat } from './ChatList';
-
 import { ChatInput } from './ChatInput';
-import { ChatList } from './ChatList';
 import { useTasks } from '@/utils/hooks/api/useTasks';
 import { useASRInput } from '@/utils/hooks/useASRInput';
 import { useAuth } from '@/utils/hooks/useAuth';
-import { taskApi } from '@/utils/openApi';
 import { Tooltip } from '@mantine/core';
 import { IconMessageChatbot, IconQuestionMark } from '@tabler/icons-react';
 
-const MOCK_CHAT: Chat[] = [
-  {
-    from: 'bot',
-    message: 'こんにちは！',
-    sentAt: new Date(),
-  },
-  {
-    from: 'user',
-    message:
-      'こんにちは！こんにちは！こんにちは！こんにちは！こんにちは！こんにちは！こんにちは！こんにちは！こんにちは！こんにちは！',
-    sentAt: new Date(),
-  },
-  {
-    from: 'bot',
-    message:
-      'こんにちは！こんにちは！こんにちは！こんにちは！こんにちは！こんにちは！こんにちは！こんにちは！こんにちは！こんにちは！',
-    sentAt: new Date(),
-  },
-];
+// const DefaultChat: Chat[] = [
+//   {
+//     from: 'bot',
+//     message:
+//       'こんにちは！今日やった仕事や今の気分をチャット欄に入力してください。',
+//     sentAt: new Date(),
+//   },
+// ];
 
 export const ChatView = () => {
   const { user } = useAuth();
   const { refetchTasks } = useTasks({
     userIds: user?.user_id !== undefined ? [user.user_id] : undefined,
   });
+  // ChatListに渡すchatlist.onSendで更新される
+  // TODO: chat履歴APIから、初期値を取得する
+  // const { chat } = useChat({ userId: user?.user_id });
+  // const [chats, setChat] = useState<Chat[] | undefined>(chat);
   const { inputValue, setInputValue, toggleRecording, transcript, recording } =
     useASRInput({
       target: 'chatbot',
@@ -44,10 +33,33 @@ export const ChatView = () => {
       return;
     }
 
-    await taskApi.postTask({
-      user_id: user.user_id,
-      text: inputValue,
-    });
+    // chatにユーザーの入力を追加
+    // setChat((prev) => [
+    //   ...prev,
+    //   {
+    //     from: 'user',
+    //     message: inputValue,
+    //     sentAt: new Date(),
+    //   },
+    // ]);
+
+    // const res = await taskApi.postTask({
+    //   user_id: user.user_id,
+    //   text: inputValue,
+    // });
+
+    // chatにチャットボットの返答を追加
+    // ただし、statusCodeが201の場合のみ
+    // if (res.status === 201) {
+    //   setChat((prev) => [
+    //     ...prev,
+    //     {
+    //       from: 'bot',
+    //       message: res.data.message ?? '',
+    //       sentAt: new Date(),
+    //     },
+    //   ]);
+    // }
 
     setInputValue('');
 
@@ -77,7 +89,7 @@ export const ChatView = () => {
         </div>
       </div>
       <div className="flex-grow overflow-auto px-4 py-4">
-        <ChatList chat={MOCK_CHAT} />
+        {/* <ChatList chat={chats} /> */}
       </div>
       <div className="bg-slate-100 px-4 py-6">
         <ChatInput
